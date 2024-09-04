@@ -1,15 +1,16 @@
-package com.mart.boot.product.store;
+package com.mart.boot.product.model.service;
 
 import java.util.List;
 
 import com.mart.boot.product.model.vo.ProductVO;
 
-public interface ProductStore {
+public interface ProductService {
 
 	/**
-	 * 전체 상품 조회 Store
+	 * 전체 상품 조회 Service
 	 * @return List<ProductVO>
 	 */
 	List<ProductVO> selectList();
+	
 
 }

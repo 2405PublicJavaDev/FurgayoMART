@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.apache.ibatis.type.Alias;
 
-@Alias("ProductVO")
 public class ProductVO {
 	private String pName;
 	private int pPrice;
