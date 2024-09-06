@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+</head>
+<body>
+    <div class="login-container">
+        <h1>로그인</h1>
+        <form id="loginForm" th:action="@{/member/login}" method="post">
+            <div th:if="${error}" class="alert alert-danger" th:text="${error}">
+                Error message here.
+            </div>
+            <div class="input-group">
+                <label for="memberPhone">ID를 입력하세요</label>
+                <input type="tel" id="memberPhone" name="memberPhone" placeholder="휴대폰 번호" required>
+            </div>
+            <div class="input-group">
+                <label for="memberPw">PW를 입력하세요</label>
+                <input type="password" id="memberPw" name="memberPw" placeholder="비밀번호" required>
+            </div>
+            <div class="checkbox-group">
+                <input type="checkbox" id="rememberMe" name="remember-me">
+                <label for="rememberMe">로그인상태유지</label>
+            </div>
+            <button type="submit" class="login-btn">확인</button>
+        </form>
+        <div class="links">
+            <a th:href="@{/member/find-id}">아이디 찾기</a>
+            <a th:href="@{/member/find-password}">비밀번호 찾기</a>
+            <a th:href="@{/member/register}">회원가입</a>
+        </div>
+    </div>
+    <script th:src="@{/js/login.js}"></script>
+</body>
+</html>
