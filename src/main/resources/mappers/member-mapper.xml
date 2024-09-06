@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.mart.boot.member.model.mapper.MemberMapper">
+	<resultMap type="MemberVO" id="memberResultMap">
+		<id property="memberNo" column="MEMBER_NO" />
+		<result property="memberPhone" column="MEMBER_PHONE" />
+		<result property="memberPw" column="MEMBER_PW" />
+		<result property="memberName" column="MEMBER_NAME" />
+		<result property="memberEmail" column="MEMBER_EMAIL" />
+		<result property="adminYn" column="ADMIN_YN" />
+	</resultMap>
+	<insert id="insertMember">
+		INSERT INTO MEMBER (MEMBER_PHONE, MEMBER_PW, MEMBER_NAME, MEMBER_EMAIL,
+		ADMIN_YN)
+		VALUES (#{memberPhone}, #{memberPw}, #{memberName}, #{memberEmail},
+		#{adminYn})
+	</insert>
+	<update id="updateMember">
+		UPDATE MEMBER
+		SET MEMBER_PW = #{memberPw}, MEMBER_NAME
+		= #{memberName}, MEMBER_EMAIL = #{memberEmail}
+		WHERE MEMBER_PHONE =
+		#{memberPhone}
+	</update>
+	<delete id="deleteMember">
+		DELETE FROM MEMBER WHERE MEMBER_PHONE =
+		#{memberPhone}
+	</delete>
+	<select id="checkMemberLogin" resultMap="memberResultMap">
+		SELECT * FROM MEMBER
+		WHERE MEMBER_PHONE = #{memberPhone} AND MEMBER_PW = #{memberPw}
+	</select>
+	<select id="selectOneByPhone" resultMap="memberResultMap">
+		SELECT * FROM MEMBER
+		WHERE MEMBER_PHONE = #{memberPhone}
+	</select>
+	<select id="selectMemberByEmailAndName" resultType="MemberVO">
+		SELECT * FROM MEMBER
+		WHERE MEMBER_EMAIL = #{memberEmail} AND MEMBER_NAME = #{memberName}
+	</select>
+	<!-- <select id="countByMemberPhone" parameterType="string" -->
+	<!-- resultType="int"> -->
+	<!-- SELECT COUNT(*) FROM MEMBER WHERE MEMBER_PHONE = #{memberPhone} -->
+	<!-- </select> -->
+</mapper>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>마이페이지</title>
+    <link rel="stylesheet" th:href="@{/css/mypage.css}">
+</head>
+<body>
+    <!-- <header th:replace="fragments/header :: header"></header> -->
+    <main>
+        <div class="mypage-header">
+            <h1>마이페이지</h1>
+            <div class="profile-image">
+                <!-- 프로필 이미지 기능이 구현되면 아래 주석을 해제하세요 -->
+                <!-- <img th:src="${member.profileImageUrl}" alt="프로필 이미지" id="profileImage"> -->
+            </div>
+        </div>
+
+        <section class="mypage-content">
+            <div class="section-1">
+                <h2>1. 기본회원정보</h2>
+                <div class="member-info">
+                    <p><strong>아이디(휴대폰 번호):</strong> <span th:text="${member.memberPhone}"></span></p>
+                    <p><strong>이름:</strong> <span th:text="${member.memberName}"></span></p>
+                    <p><strong>이메일:</strong> <span th:text="${member.memberEmail}"></span></p>
+                    <p><strong>관리자 여부:</strong> <span th:text="${member.adminYn == 'Y' ? '관리자' : '일반 회원'}"></span></p>
+                </div>
+            </div>
+
+            <div class="section-2">
+                <h2>2. 추가 정보</h2>
+                <div class="grid-container">
+                    <div class="grid-item">
+                        <h3>회원 정보 수정</h3>
+                        <a th:href="@{/member/update}" class="btn btn-primary">정보 수정하기</a>
+                    </div>
+                    <div class="grid-item">
+                        <h3>장바구니</h3>
+<!--                         <a th:href="@{/cart}" class="btn btn-secondary">장바구니 보기</a> -->
+                    </div>
+                    <div class="grid-item">
+                        <h3>나의 구매내역</h3>
+<!--                         <a th:href="@{/orders}" class="btn btn-secondary">구매내역 보기</a> -->
+                    </div>
+                    <div class="grid-item">
+                        <h3>나의 리뷰내역</h3>
+<!--                         <a th:href="@{/reviews}" class="btn btn-secondary">리뷰내역 보기</a> -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- <footer th:replace="fragments/footer :: footer"></footer> -->
+
+    <script th:src="@{/js/mypage.js}"></script>
+</body>
+</html>
