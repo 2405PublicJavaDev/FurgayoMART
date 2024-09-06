@@ -1,2 +1,5 @@
-package com.mart.boot.notice.store;public interface NoticeStore {
+package com.mart.boot.notice.store;
+
+public interface NoticeStore {
+
 }

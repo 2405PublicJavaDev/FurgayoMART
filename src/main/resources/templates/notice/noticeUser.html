@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>공지사항 게시판</title>
+    <link rel="stylesheet" href="/css/common.css">
+    <link rel="stylesheet" href="/css/noticeUser.css">
+</head>
+<body>
+<div id="scaler">
+    <div class="container">
+        <header>
+            <nav>
+                <a href="#" class="logo">로고</a>
+                <ul class="menu-items">
+                    <li><a href="#">리뷰</a></li>
+                    <li><a href="#">홈</a></li>
+                    <li><a href="#">공지사항</a></li>
+                    <li><a href="#">문의하기</a></li>
+                    <li><a href="#">로그아웃</a></li>
+                </ul>
+            </nav>
+        </header>
+        <main>
+            <section class="hero">
+                <h1>공지사항 게시판에 오신걸 환영합니다.</h1>
+                <p>공지사항을 항상 확인해 주세요</p>
+                <div class="search-container">
+                    <div class="select-wrapper">
+                        <select id="search-type">
+                            <option value="title">제목</option>
+                            <option value="author">작성자</option>
+                        </select>
+                    </div>
+                    <input id="search-input" class="search-category" type="text" placeholder="검색할 내용을 입력 해주세요">
+                    <button id="search-button">공지사항 검색</button>
+                </div>
+            </section>
+            <section class="content">
+                <div class="recent-notices">
+                    <h2>최근 공지사항</h2>
+                    <ul id="recent-notices-list">
+                        <!-- 최근 공지사항이 여기에 동적으로 추가됩니다 -->
+                    </ul>
+                    <button id="view-all-button" class="view-all">모든 공지 보기</button>
+                </div>
+                <div class="notice-list">
+                    <div class="accordion" id="notice-accordion">
+                        <!-- 공지사항이 여기에 동적으로 추가됩니다 -->
+                    </div>
+                </div>
+            </section>
+            <section class="all-notices">
+                <div id="notices-container" class="notices-container">
+                    <p>공지사항 전체 목록 or 검색된 공지사항 표시</p>
+                </div>
+            </section>
+        </main>
+        <footer>
+            <nav>
+                <ul class="footer-text">
+                    <li><a href="#">회사 소개</a></li>
+                    <li><a href="#">공지사항</a></li>
+                    <li><a href="#">문의하기</a></li>
+                    <li><a href="#">운영 정책</a></li>
+                </ul>
+            </nav>
+        </footer>
+    </div>
+</div>
+<script src="/js/noticeUser.js"></script>
+</body>
+</html>

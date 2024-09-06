@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>관리자 페이지</title>
+    <link rel="stylesheet" href="/css/reviewAdmin.css">
+</head>
+<body>
+<div class="header">
+    <a href="#"><h2>관리자 페이지</h2></a>
+    <div class="header-menu">
+        <a href="#">관리자님</a>
+        <button>로그아웃</button>
+    </div>
+</div>
+<div class="container">
+    <ul class="sidebar">
+        <li>
+            <a href="#">공지사항 관리</a>
+        </li>
+        <li>
+            <a href="#" class="active">리뷰 관리</a>
+        </li>
+        <li>
+            <a href="#">회원 관리</a>
+        </li>
+        <li>
+            <a href="#">상품 관리</a>
+        </li>
+    </ul>
+    <div class="main-content">
+        <h2>리뷰 관리</h2>
+        <table class="review-table">
+            <thead>
+            <tr>
+                <th><input type="checkbox" id="select-all-checkbox"></th>
+                <th>제목</th>
+                <th>내용</th>
+                <th>작성자</th>
+                <th>등록 일자</th>
+                <th>상품명</th>
+                <th>관리</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><input type="checkbox" class="review-checkbox"></td>
+                <td>신선한 재료</td>
+                <td>재료가 정말 신선해서 놀랐어요. 조리도 쉽고 맛도 훌륭했습니다.</td>
+                <td>chef_kim</td>
+                <td>2024.08.15</td>
+                <td>소고기 스테이크</td>
+                <td>
+                    <button class="btn-reply" onclick="toggleReplyPanel(this)">답글</button>
+                    <button class="btn-delete">삭제</button>
+                </td>
+            </tr>
+            <tr class="reply-panel" style="display: none;">
+                <td colspan="7">
+                    <div class="reply-content">
+                        <h4>리뷰 답글 등록 화면</h4>
+                        <p><strong>신선한 재료</strong></p>
+                        <p>chef_kim | 2024.08.15</p>
+                        <p>재료가 정말 신선해서 놀랐어요. 조리도 쉽고 맛도 훌륭했습니다.</p>
+                        <textarea placeholder="답글을 입력하세요..."></textarea>
+                        <button class="btn-submit-reply">답글 등록</button>
+                    </div>
+                </td>
+            </tr>
+            <!-- 추가 리뷰 항목들... -->
+            </tbody>
+        </table>
+
+        <div class="pagination">
+            <span>&lt;&lt;</span>
+            <span>1</span>
+            <span>2</span>
+            <span>3</span>
+            <span>4</span>
+            <span>5</span>
+            <span>6</span>
+            <span>&gt;&gt;</span>
+        </div>
+
+        <div class="search-bar">
+            <select>
+                <option>제목</option>
+                <option>내용</option>
+                <option>작성자</option>
+            </select>
+            <input type="text" placeholder="검색할 내용을 입력 해주세요">
+            <button class="btn-search">검색</button>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <ul class="footer-text">
+        <li><a href="#">회사 소개</a></li>
+        <li><a href="#">공지사항</a></li>
+        <li><a href="#">문의하기</a></li>
+        <li><a href="#">운영 정책</a></li>
+    </ul>
+</footer>
+
+<script src="/js/reviewAdmin.js"></script>
+</body>
+</html>

@@ -1,2 +1,6 @@
-package com.mart.boot.notice.controller;public class NoticeController {
+package com.mart.boot.notice.controller;
+
+public class NoticeController {
+    public NoticeController() {}
+
 }

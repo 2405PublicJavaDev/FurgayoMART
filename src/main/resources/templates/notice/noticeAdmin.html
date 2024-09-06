@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관리자 페이지 - 공지사항 관리</title>
+    <link rel="stylesheet" href="/css/commonAdmin.css"> <!-- 공용 CSS -->
+    <link rel="stylesheet" href="/css/noticeAdmin.css"> <!-- 공지사항 관리 페이지 전용 CSS -->
+</head>
+<body>
+<!-- 헤더 -->
+<div class="header">
+    <a href="#"><h2>관리자 페이지</h2></a>
+    <div class="header-menu">
+        <a href="#">홈</a>
+        <a href="#">리뷰</a>
+        <a href="#">공지사항</a>
+        <a href="#">문의하기</a>
+        <span class="user-info">관리자님</span>
+        <button style="color: red;">로그아웃</button>
+    </div>
+</div>
+
+<div class="container">
+    <!-- 사이드바 -->
+    <ul class="sidebar">
+        <li><a href="#" class="active">공지사항 관리</a></li>
+        <li><a href="#">리뷰 관리</a></li>
+        <li><a href="#">회원 관리</a></li>
+        <li><a href="#">상품 관리</a></li>
+    </ul>
+
+    <!-- 메인 영역 -->
+    <main class="main-content">
+        <section class="page-header">
+            <h2>공지사항 관리</h2>
+        </section>
+
+        <!-- 공지사항 등록 폼 -->
+        <section class="notice-form" style="margin-bottom: 20px;"> <!-- 여백 추가 -->
+            <h3>공지사항 등록</h3>
+            <form>
+                <div class="form-group">
+                    <label for="notice-title">제목</label>
+                    <input type="text" id="notice-title" placeholder="제목을 입력하여 주세요">
+                </div>
+                <div class="form-group">
+                    <label for="notice-content">내용</label>
+                    <textarea id="notice-content" placeholder="내용 작성"></textarea>
+                </div>
+                <button type="submit" class="btn-primary">등록</button>
+            </form>
+        </section>
+
+        <!-- 보기 개수 선택 -->
+        <div class="pagination-settings" style="margin-bottom: 10px;"> <!-- '관리' 열 위로 이동 -->
+            <label for="items-per-page"></label>
+            <select id="items-per-page">
+                <option value="6">기본 보기</option>
+                <option value="10">10개씩 보기</option>
+                <option value="20">20개씩 보기</option>
+            </select>
+        </div>
+
+        <!-- 공지사항 목록 -->
+        <section class="notice-list">
+            <table>
+                <thead>
+                <tr>
+                    <th><input type="checkbox" id="select-all-checkbox"></th>
+                    <th>번호</th>
+                    <th>제목</th>
+                    <th>내용</th>
+                    <th>작성자</th>
+                    <th>등록 일자</th>
+                    <th>관리</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- 공지사항 항목 -->
+                </tbody>
+            </table>
+        </section>
+
+        <!-- 페이징 -->
+        <div class="pagination">
+            <span>&lt;&lt;</span>
+            <span class="page-number" data-page="1">1</span>
+            <span class="page-number" data-page="2">2</span>
+            <span class="page-number" data-page="3">3</span>
+            <span>&gt;&gt;</span>
+        </div>
+
+        <div class="search-bar">
+            <select>
+                <option value="제목">제목</option>
+                <option value="내용">내용</option>
+                <option value="작성자">작성자</option>
+            </select>
+            <input type="text" placeholder="검색할 내용을 입력 해주세요">
+            <button class="btn-primary btn-search">검색</button>
+        </div>
+    </main>
+</div>
+
+<!-- 푸터 -->
+<footer>
+    <ul class="footer-text">
+        <li><a href="#">회사 소개</a></li>
+        <li><a href="#">공지사항</a></li>
+        <li><a href="#">고객센터</a></li>
+        <li><a href="#">운영 정책</a></li>
+    </ul>
+</footer>
+
+<script src="/js/noticeAdmin.js"></script> <!-- 공지사항 관리 전용 JS -->
+</body>
+</html>

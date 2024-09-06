@@ -1,2 +1,4 @@
-package com.mart.boot.notice.service;public interface NoticeService {
+package com.mart.boot.notice.service;
+
+public interface NoticeService {
 }

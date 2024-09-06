@@ -1,0 +1,118 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
+    width: 100%;
+    min-height: 100vh;
+}
+
+body {
+    overflow-x: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+#scaler {
+    width: 1440px;
+    transform-origin: top center;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+@media screen and (max-width: 1440px) {
+    #scaler {
+        transform: translateX(-50%) scale(calc(100vw / 1440));
+        height: calc(2403px * (100vw / 1440));
+    }
+}
+
+header {
+    background-color: #fff;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+    height: 60px;
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+    margin-top: 10px;
+}
+
+.logo {
+    font-weight: bold;
+    text-decoration: none;
+    color: #333;
+    font-size: 24px;
+    margin-left: 20px;
+}
+
+.menu-items {
+    margin-top: 40px;
+    display: flex;
+    list-style-type: none;
+    margin-right: 20px;
+}
+
+.menu-items li {
+    margin-left: 30px;
+}
+
+.menu-items li a {
+    text-decoration: none;
+    color: #333;
+    font-size: 18px;
+}
+
+main {
+    padding-top: 80px;
+}
+
+.hero {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 100px 0;
+}
+
+.hero h1 {
+    font-size: 48px;
+    margin: 0;
+}
+
+footer {
+    background-color: #f0f0f0;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70px;
+    margin-top: 100px;
+}
+
+footer ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+    margin: 0;
+}
+
+footer ul li a {
+    text-decoration: none;
+    color: #333;
+    font-size: 18px;
+}
+
+.footer-text {
+    margin-top: 20px;
+}

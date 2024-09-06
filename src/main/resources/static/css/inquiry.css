@@ -1,0 +1,99 @@
+.hero {
+    background-color: rgba(0, 0, 0, 0.6);
+    padding: 60px 0;
+}
+
+.hero h1 {
+    font-size: 64px;
+    color: white;
+}
+
+.inquiry-container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 60px 40px;
+}
+
+.inquiry-form {
+    width: 50%;
+}
+
+h2 {
+    font-size: 80px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.description {
+    font-size: 35px;
+    margin-bottom: 40px;
+    color: rgba(0, 0, 0, 0.7);
+}
+
+.form-group {
+    margin-bottom: 30px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 43px;
+    margin-bottom: 10px;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+}
+
+.form-group textarea {
+    height: 200px;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.image-placeholder {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+}
+
+.image-placeholder.right {
+    width: 45%;
+    height: 500px;
+}
+
+.image-placeholder.wide {
+    width: 100%;
+    height: 300px;
+    margin-top: 60px;
+}
+
+@media screen and (max-width: 1440px) {
+    .inquiry-container {
+        flex-direction: column;
+    }
+
+    .inquiry-form,
+    .image-placeholder.right {
+        width: 100%;
+    }
+
+    .image-placeholder.right {
+        margin-top: 40px;
+        height: 300px;
+    }
+}
