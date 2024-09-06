@@ -14,4 +14,11 @@ public interface ProductMapper {
 	 * @return List<ProductVO>
 	 */
 	List<ProductVO> selectList();
+
+	/**
+	 * 상품 상세 조회 Mapper
+	 * @param pNo
+	 * @return ProductVO
+	 */
+	ProductVO selectOne(int pNo);
 }

@@ -6,106 +6,139 @@ import java.util.List;
 import org.apache.ibatis.type.Alias;
 
 public class ProductVO {
-	private String pName;
-	private int pPrice;
-	private Date regDate;
-	private boolean Manager;
-	private List<ProductImageVO> productList;
-	private int productNo;
-	private String imageUrl;
-	private String component;
-	private String content;
-	private String categoryName;
+	private int pNo; 							// 상품번호
+	private String pName;							// 상품명
+	private String pInput;							// 입고량
+	private String pOutput;							// 출고량
+	private String Expiration;						// 유통기한
+	private Date regDate;							// 등록일자
+	private int categoryNo;							// 상품 유형 번호
+	private int Sale;								// 세일
+	private int pPrice;								// 정가
+	private String imageUrl;						// 이미지
+	private List<ProductImageVO> productList;		// 이미지 리스트
 	
-	public ProductVO() {}
 	
-//	public updateDetail() {}
+	public ProductVO () {}
+
+
+	public int getpNo() {
+		return pNo;
+	}
+
+
+	public void setpNo(int pNo) {
+		this.pNo = pNo;
+	}
+
 
 	public String getpName() {
 		return pName;
 	}
 
+
 	public void setpName(String pName) {
 		this.pName = pName;
 	}
 
-	public int getpPrice() {
-		return pPrice;
+
+	public String getpInput() {
+		return pInput;
 	}
 
-	public void setpPrice(int pPrice) {
-		this.pPrice = pPrice;
+
+	public void setpInput(String pInput) {
+		this.pInput = pInput;
 	}
+
+
+	public String getpOutput() {
+		return pOutput;
+	}
+
+
+	public void setpOutput(String pOutput) {
+		this.pOutput = pOutput;
+	}
+
+
+	public String getExpiration() {
+		return Expiration;
+	}
+
+
+	public void setExpiration(String expiration) {
+		Expiration = expiration;
+	}
+
 
 	public Date getRegDate() {
 		return regDate;
 	}
 
+
 	public void setRegDate(Date regDate) {
 		this.regDate = regDate;
 	}
 
-	public boolean isManager() {
-		return Manager;
+
+	public int getCategoryNo() {
+		return categoryNo;
 	}
 
-	public void setManager(boolean manager) {
-		Manager = manager;
+
+	public void setCategoryNo(int categoryNo) {
+		this.categoryNo = categoryNo;
 	}
 
-	public List<ProductImageVO> getProductList() {
-		return productList;
+
+	public int getSale() {
+		return Sale;
 	}
 
-	public void setProductList(List<ProductImageVO> productList) {
-		this.productList = productList;
+
+	public void setSale(int sale) {
+		Sale = sale;
 	}
 
-	public int getProductNo() {
-		return productNo;
+
+	public int getpPrice() {
+		return pPrice;
 	}
 
-	public void setProductNo(int productNo) {
-		this.productNo = productNo;
+
+	public void setpPrice(int pPrice) {
+		this.pPrice = pPrice;
 	}
+
 
 	public String getImageUrl() {
 		return imageUrl;
 	}
 
+
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
 	}
 
-	public String getComponent() {
-		return component;
+
+	public List<ProductImageVO> getProductList() {
+		return productList;
 	}
 
-	public void setComponent(String component) {
-		this.component = component;
+
+	public void setProductList(List<ProductImageVO> productList) {
+		this.productList = productList;
 	}
 
-	public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
-	}
-
-	public String getCategoryName() {
-		return categoryName;
-	}
-
-	public void setCategoryName(String categoryName) {
-		this.categoryName = categoryName;
-	}
 
 	@Override
 	public String toString() {
-		return "ProductVO [pName=" + pName + ", pPrice=" + pPrice + ", regDate=" + regDate + ", Manager=" + Manager
-				+ ", productList=" + productList + ", productNo=" + productNo + ", imageUrl=" + imageUrl
-				+ ", component=" + component + ", content=" + content + ", categoryName=" + categoryName + "]";
+		return "ProductVO [pNo=" + pNo + ", pName=" + pName + ", pInput=" + pInput + ", pOutput=" + pOutput
+				+ ", Expiration=" + Expiration + ", regDate=" + regDate + ", categoryNo=" + categoryNo + ", Sale="
+				+ Sale + ", pPrice=" + pPrice + ", imageUrl=" + imageUrl + ", productList=" + productList + "]";
 	}
+	
+	
 	
 }

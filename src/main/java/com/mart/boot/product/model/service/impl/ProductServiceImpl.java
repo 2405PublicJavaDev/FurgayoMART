@@ -23,4 +23,10 @@ public class ProductServiceImpl implements ProductService {
 		return pList;
 	}
 
+	@Override
+	public ProductVO selectOne(int pNo) {
+		ProductVO product = pMapper.selectOne(pNo);
+		return product;
+	}
+
 }

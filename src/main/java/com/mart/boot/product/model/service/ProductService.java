@@ -11,6 +11,13 @@ public interface ProductService {
 	 * @return List<ProductVO>
 	 */
 	List<ProductVO> selectList();
+
+	/**
+	 * 상품 상세 페이지 
+	 * @param pNo
+	 * @return
+	 */
+	ProductVO selectOne(int pNo);
 	
 
 }

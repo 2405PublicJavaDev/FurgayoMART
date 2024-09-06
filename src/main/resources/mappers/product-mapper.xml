@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
 <mapper namespace="com.mart.boot.product.model.mapper.ProductMapper">
+
     <select id="selectList" resultType="com.mart.boot.product.model.vo.ProductVO">
         SELECT * FROM PRODUCT ORDER BY REG_DATE DESC
+    </select>
+    <select id="selectOne" resultType="ProductVO">
+    	SELECT * FROM PRODUCT WHERE P_NO =#{pNo}
     </select>
 </mapper>
