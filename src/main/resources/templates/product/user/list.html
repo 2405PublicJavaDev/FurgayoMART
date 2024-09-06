@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>유통기한 임박 상품 sale off</title>
+    <link rel="stylesheet" href="/css/header-footer.css">
+    <link rel="stylesheet" href="/css/productpage.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="./mainpage.html"><h1 class="logo">Fugayo's Mart</h1></a>
+                <nav>
+                    <ul>
+                        <li><a href="/">홈</a></li>
+                        <li><a href="/productpage/list">상품</a></li>
+                        <li><a href="#">공지사항</a></li>
+                        <li><a href="#">리뷰</a></li>
+                        
+                    </ul>
+                </nav>
+                <div class="user-actions">
+                    <span>****님</span>
+                    <span>로그인</span>
+                    <span>🛒</span>
+                    <span>QR</span>
+                </div>
+            </div>
+        </div>
+    </header>
+</header>
+<div class="container">
+        <div class="main-content">
+            <div class="departments">
+                <button onclick="toggleDepartments()" class="departments-btn">상품목록 ▼</button>
+                <div id="departmentsDropdown" class="departments-content">
+                    <a href="#">신규상품</a>
+                    <a href="./popularproducts.html">인기상품</a>
+                    <a href="./koreanfood.html">한식</a>
+                    <a href="./chinesefood.html">중식</a>
+                    <a href="./japanesefood.html">양식</a>
+                    <a href="/productpage/list">유통기한 임박 상품</a>
+                </div>
+            </div>
+            
+        </div>
+
+        <main>
+            <h2>유통기한 임박 상품 sale off</h2>
+            
+            <div class="new-products product-grid">
+                <a href="/detailList.html"><div class="product-item">
+                    <div class="product-image">상품 이미지</div>
+                    <h3>막국수</h3>
+                    <p class="price">12,300원</p>
+                </div></a>
+                <div class="product-item">
+                    <div class="product-image">상품 이미지</div>
+                    <h3>떡볶이</h3>
+                    <p class="price">11,900원</p>
+                </div>
+                <div class="product-item">
+                    <div class="product-image">상품 이미지</div>
+                    <h3>떡볶이</h3>
+                    <p class="price">9,900원</p>
+                </div>
+            </div>
+   
+            <h2>전체 상품</h2>
+           <div class="product-grid" th:if="${not #lists.isEmpty(pList)}">
+               <div class="product-item" th:each="product : ${pList}">
+                     <a th:href="@{/productpage/detailList/{pNo}(pNo=${product.pNo})}" class="product-href"> 
+                     <div class="product-image">
+                    	<img th:src="${product.imageUrl}" th:alt="${product.pName}"/>
+                   	</div> 
+	                    <h3 th:text="${product.pName}"><!-- 상품 이름  --></h3>
+	                    <p class="price" th:text="${#numbers.formatDecimal(product.pPrice, 0, 'COMMA', 0, 'POINT') + '원'}"></p>
+	                    <p th:text="${product.categoryNo == 1 ? '한식' : 
+				                     product.categoryNo == 2 ? '중식' : 
+				                     product.categoryNo == 3 ? '일식' : '기타'}"></p> </a>
+                </div>
+            </div>
+           
+        </main>
+    </div>
+    <footer>
+        <hr>
+        <div class="footerclass">
+            회사소개
+            공지사항
+            문의하기
+            운영정책
+        </div>
+    </footer>
+    <script>
+    function toggleDepartments() {
+        document.getElementById("departmentsDropdown").classList.toggle("show");
+    }
+
+    // Close the dropdown if the user clicks outside of it
+    window.onclick = function(event) {
+        if (!event.target.matches('.departments-btn')) {
+            var dropdowns = document.getElementsByClassName("departments-content");
+            for (var i = 0; i < dropdowns.length; i++) {
+                var openDropdown = dropdowns[i];
+                if (openDropdown.classList.contains('show')) {
+                    openDropdown.classList.remove('show');
+                }
+            }
+        }
+    }
+       /*  function toggleDropdown() {
+            var dropdownContent = document.getElementById("myDropdown");
+            dropdownContent.classList.toggle("show");
+        }
+
+        // 드롭다운 외부 클릭 시 닫기
+        window.onclick = function(event) {
+            if (!event.target.matches('.dropdown-btn')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                for (var i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
+            }
+        } */
+        
+    </script>
+</body>
+</html>
