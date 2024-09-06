@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>상품 조회</title>
-    <link rel="stylesheet" href="/css/productList.css">
+    <link rel="stylesheet" href="/css/product/admin/list.css">
 </head>
 <body>
     <div class="header">
@@ -31,10 +31,10 @@
                 <a href="#">상품 관리</a>
                 <ul>
                     <li>
-                        <a href="#">상품 등록</a>
+                        <a href="/admin/product/register">상품 등록</a>
                     </li>
                     <li>
-                        <a href="#">상품 조회</a>
+                        <a href="/admin/product/list">상품 조회</a>
                     </li>
                 </ul>
             </li>
@@ -53,9 +53,9 @@
                         <label>상품 유형</label>
                         <select>
                             <option>전체</option>
-                            <option>한식</option>
-                            <option>일식</option>
-                            <option>양식</option>
+                            <option value="1">한식</option>
+                            <option value="2">일식</option>
+                            <option value="3">양식</option>
                         </select>
                         <label>남은 기간</label>
                         <input type="text">
@@ -67,7 +67,7 @@
                     </div>
                 </div>
             </div>
-            <div>
+            <div class="resultAndButtons">
                 <span>0개가 검색되었습니다.</span>
                 <button class="button">전체 선택</button>
                 <button class="button">삭제</button>
@@ -87,28 +87,44 @@
                 </thead>
                 <tbody>
 				    <tr th:each="productVO : ${pList}">
-				        <td><input type="checkbox"></td>
-				        <td th:text="${productVO.categoryName}"></td>
-				        <td th:text="${productVO.pName}"></td>
-				        <td th:text="${productVO.pPrice + '원'}"></td>
-				        <td th:text="${productVO.regDate}"></td>
-				        <td>7일</td>
-				        <td><button class="button">수정</button></td>
-				        <td><button class="button">삭제</button></td>
-				    </tr>
+					    <td><input type="checkbox"></td>
+					    <td th:text="${productVO.categoryNo}"></td>
+					    <td th:text="${productVO.pName}"></td>
+					    <td th:text="${productVO.pPrice + '원'}"></td>
+					    <td th:text="${productVO.regDate}"></td>
+					    <!-- 남은 기한 -->
+    					<td th:if="${productVO.remainingDays > 0}" th:text="${productVO.remainingDays + ' 일'}"></td>
+    					<td th:if="${productVO.remainingDays <= 0}" th:text="X"></td>
+
+					    <td><button class="button" th:onclick="showModify([[${productVO.pNo}]])">수정</button></td>
+					    <td><button class="button" th:onclick="deleteProduct([[${productVO.pNo}]]);">삭제</button></td>
+					</tr>
+					
 				</tbody>
             </table>
             <div class="pagination">
-                <a href="#">&lt;&lt;</a>
                 <a href="#">1</a>
                 <a href="#">2</a>
-                <a href="#">3</a>
-                <a href="#">4</a>
-                <a href="#">5</a>
-                <a href="#">6</a>
-                <a href="#">&gt;&gt;</a>
             </div>
         </div>
     </div>
+	<script th:inline="javascript">
+		/* 메시지가 있을 경우 alert로 표시 */
+		if(/*[[${message != null}]]*/ false){
+			alert(/*[[${message}]]*/'');
+		}
+		
+		function showModify(pNo){
+			location.href = '/admin/product/modify/' + pNo;
+		}
+	
+		// 상품 삭제하기
+		function deleteProduct(pNo){
+			if(confirm("삭제하시겠습니까?")){
+				location.href = '/admin/product/delete/' + pNo;
+			}
+		}
+	</script>
+
 </body>
 </html>

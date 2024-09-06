@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>상품 등록</title>
+<link rel="stylesheet" href="/css/product/admin/register.css">
+</head>
+<body>
+<div class="header">
+        <a href="#"><h2>관리자 페이지</h2></a>
+        <div class="header-menu">
+            <a href="#">관리자님</a>
+            <button>로그아웃</button>
+        </div>
+    </div>
+    <div class="container">
+            <ul class="sidebar">
+                <li>
+                    <a href="#">공지사항 관리</a>
+                </li>
+                <li>
+                    <a href="#">리뷰 관리</a>
+                </li>
+                <li>
+                    <a href="#">회원 관리</a>
+                </li>
+                <li>
+                    <a href="#">상품 관리</a>
+                    <ul>
+                        <li>
+                            <a href="/admin/product/register">상품 등록</a>
+                        </li>
+                        <li>
+                            <a href="/admin/product/list">상품 조회</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>        
+        <div class="content">
+            <h2>상품 등록하기</h2>
+            <form action="/admin/product/register" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <div class="form-top">
+                        <div class="form-left">
+                            <ul>
+                                <li>
+                                    <label for="name">상품명</label>
+                                    <input type="text" id="name" name="pName" required>
+                                </li>
+                                <li>
+                                    <label for="name">상품 유형</label>
+                                    <select id="categoryNo" name="categoryNo" required>
+                                        <option value="">선택하세요</option>
+                                        <option value=1>한식</option>
+                                        <option value=2>중식</option>
+                                        <option value=3>일식</option>
+                                    </select>
+                                </li>
+                                <li>
+                                    <label for="price">상품 가격</label>
+                                    <input type="number" id="pPrice" name="pPrice" required>
+                                </li>
+                                <li>
+                                    <label for="starDate">유통 기한</label>
+                                    <input type="date" id="expiration" name="expiration">
+                                </li>
+                                <li>
+                                    <label for="inventory">입고량</label>
+                                    <input type="number" id="pInput" name="pInput" required>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="form-right">
+                            <ul>
+                                <li>
+                                    <div class="image-upload">
+                                        <input type="file" id="imgMain" name="imgMain" accept="image/*" required onchange="readURL(this, 'mainPreview')">
+                                    </div>
+                                     <img id="mainPreview" src="#" alt="Main Image Preview" style="display: none; width: 130px; height: 130px;">
+                                </li>
+                                <li>
+                                    <p>
+                                        대표 이미지 <br>
+                                        포맷 : JPG, PNG <br>
+                                        해상도 : 1300x1300px 이하 <br>
+                                    </p>
+                                </li>
+                                <li>
+                                    <label for="inventory">출고량</label>
+                                    <input type="number" id="pOutput" name="pOutput" required>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="form-bottom">
+                        <ul>
+                            <li>
+                                <label for="name">상품설명</label>
+                            </li>
+                            <li>
+                                <label>조리된 사진</label>
+                                <div class="image-upload">
+                                    <input type="file" id="imgCook" name="imgCook" accept="image/*" required onchange="readURL(this, 'cookPreview')">
+                                </div>
+                                <img id="cookPreview" src="#" alt="Cook Image Preview" style="display: none; width: 130px; height: 130px;">
+                            </li>
+                            <li>
+                                <label>상품 구성 사진</label>
+                                <div class="image-upload">
+                                	<input type="file" id="imgComponent" name="imgComponent" accept="image/*" required onchange="readURL(this, 'componentPreview')">
+                                </div>
+                                <img id="componentPreview" src="#" alt="Component Image Preview" style="display: none; width: 130px; height: 130px;">
+                            </li>
+                            <li>
+                                <label>상품 구성</label>
+                                <input type="text" id="pComponent" name="pComponent" required>
+                            </li>
+                            <li>
+                                <label>조리법</label>
+                                <input type="text" id="cook" name="cook">
+                            </li>
+                            <li>
+                                <label>추가 정보</label>
+                                <input type="text" id="content" name="content">
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="form-bottom">
+                    <div class="buttons">
+                        <button type="reset">초기화</button>
+                        <button type="submit">등록</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+	    function readURL(input, previewId) {
+	        if (input.files && input.files[0]) {
+	            var reader = new FileReader();
+	            reader.onload = function(e) {
+	                document.getElementById(previewId).src = e.target.result;
+	            }
+	            reader.readAsDataURL(input.files[0]);
+	        }
+	    }
+    </script>
+</body>
+</html>
