@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>상품 수정하기</title>
+<link rel="stylesheet" href="/css/product/admin/modify.css">
+</head>
+<body>
+	<div class="header">
+        <h2>관리자 페이지</h2>
+        <div class="header-menu">
+            <a href="#">관리자님</a>
+            <button>로그아웃</button>
+        </div>
+    </div>
+    <div class="container">
+            <ul class="sidebar">
+                <li>
+                    <a href="#">공지사항 관리</a>
+                </li>
+                <li>
+                    <a href="#">리뷰 관리</a>
+                </li>
+                <li>
+                    <a href="#">회원 관리</a>
+                </li>
+                <li>
+                    <a href="#">상품 관리</a>
+                    <ul>
+                        <li>
+                            <a href="/admin/product/register">상품 등록</a>
+                        </li>
+                        <li>
+                            <a href="/admin/product/list">상품 조회</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>        
+        <div class="content">
+            <h2>상품 수정하기</h2>
+            <form action="/admin/product/modify" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <div class="form-top">
+                        <div class="form-left">
+                            <ul>
+                                <li>
+                                    <label for="pName">상품명</label>
+                                    <input type="text" id="pName" name="pName" th:field="${product.pName}" required>
+                                </li>
+                                <li>
+                                    <label for="category">상품 유형</label>
+                                    <select id="category" name="categoryNo" required>
+                                        <option value="">선택하세요</option>
+                                        <option value="1" th:selected="${product.categoryNo == 1}">한식</option>
+                                        <option value="2" th:selected="${product.categoryNo == 2}">중식</option>
+                                        <option value="3" th:selected="${product.categoryNo == 3}">일식</option>
+                                    </select>
+                                </li>
+                                <li>
+                                    <label for="pPrice">상품 가격</label>
+                                    <input type="number" id="pPrice" name="pPrice" th:field="${product.pPrice}" required>
+                                </li>
+                                <li>
+                                    <label for="starDate">유통 기한</label>
+                                    <input type="date" id="expiration" name="expiration" th:field="${product.expiration}">
+                                </li>
+                                <li>
+                                    <label for="inventory">입고량</label>
+                                    <input type="number" id="pInput" name="pInput" th:field="${product.pInput}" required>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="form-right">
+                            <ul>
+                                <li>
+                                    <div class="image-upload">
+                                        <input type="file" id="imgMain" name="imgMain" required>
+                                    	<img th:src="@{/images/product/main/{imgMain}(imgMain=${product.productDetail.imgMain})}" alt="Main Image"/>
+                                    </div>
+                                </li>
+                                <li>
+                                    <p>
+                                        대표 이미지<br>
+                                        포맷 : JPG, PNG <br>
+                                        해상도 : 1300x1300px 이하 <br>
+                                    </p>
+                                </li>
+                                <li>
+                                    <label for="inventory">출고량</label>
+                                    <input type="number" id="pOutput" name="pOutput" th:field="${product.pOutput}" required>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="form-bottom">
+                        <ul>
+                            <li>
+                                <label for="name">상품설명</label>
+                            </li>
+                            <li>
+                                <label>조리된 사진</label>
+                                <div class="image-upload">
+                                    <input type="file" id="imgCook" name="imgCook" required>
+                                	<img th:src="@{/images/product/cook/{imgCook}(imgCook=${product.productDetail.imgCook})}" alt="Cook Image"/>
+                                </div>
+                            </li>
+                            <li>
+                                <label>상품 구성 사진</label>
+                                <div class="image-upload">
+                                    <input type="file" id="imgComponent" name="imgComponent" required>
+                                	<img th:src="@{/images/product/component/{imgComponent}(imgComponent=${product.productDetail.imgComponent})}" alt="Component Image"/>
+                                </div>
+                            </li>
+                            <li>
+                                <label>상품 구성</label>
+                                <input type="text" id="pComponent" th:field="${product.productDetail.pComponent}">
+                            </li>
+                            <li>
+                                <label>조리법</label>
+                                <input type="text" id="cook" th:field="${product.productDetail.cook}">
+                            </li>
+                            <li>
+                                <label>추가 정보</label>
+                                <input type="text" id="content" th:field="${product.content}">
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="form-bottom">
+                    <div class="buttons">
+                        <button type="reset">초기화</button>
+                        <button type="submit">등록</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

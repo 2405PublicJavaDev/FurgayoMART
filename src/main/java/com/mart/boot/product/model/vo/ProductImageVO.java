@@ -1,12 +1,13 @@
 package com.mart.boot.product.model.vo;
 
 public class ProductImageVO {
-	private int imageId;
-	private String fileName;
-	private String fileRename;
-	private String filePath;
-	private String fileSize;
-	private int productNo;
+	private int imageId;		// 이미지ID
+	private String fileName;	// 원본 파일명
+	private String fileRename;	// 변경된 파일명
+	private String filePath;	// 파일 위치
+	private String fileSize;	// 파일 크기
+	private int pNo;			// 상품 번호
+	private String imageType;	// 이미지 타입(메인, 조리, 상품 구성)
 	
 	public ProductImageVO() {}
 
@@ -50,18 +51,26 @@ public class ProductImageVO {
 		this.fileSize = fileSize;
 	}
 
-	public int getProductNo() {
-		return productNo;
+	public int getpNo() {
+		return pNo;
 	}
 
-	public void setProductNo(int productNo) {
-		this.productNo = productNo;
+	public void setpNo(int pNo) {
+		this.pNo = pNo;
+	}
+
+	public String getImageType() {
+		return imageType;
+	}
+
+	public void setImageType(String imageType) {
+		this.imageType = imageType;
 	}
 
 	@Override
 	public String toString() {
 		return "ProductImageVO [imageId=" + imageId + ", fileName=" + fileName + ", fileRename=" + fileRename
-				+ ", filePath=" + filePath + ", fileSize=" + fileSize + ", productNo=" + productNo + "]";
+				+ ", filePath=" + filePath + ", fileSize=" + fileSize + ", pNo=" + pNo + ", imageType="
+				+ imageType + "]";
 	}
-	
 }
