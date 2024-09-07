@@ -1,6 +1,7 @@
 package com.mart.boot.product.model.mapper;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -11,6 +12,26 @@ import com.mart.boot.product.model.vo.ProductVO;
 @Mapper
 public interface ProductMapper {
 
+	/**
+	 * 관리자_상품 전체 개수 조회 Mapper
+	 * @param pList
+	 * @return
+	 */
+	int getAllCount(List<ProductVO> pList);
+
+	/**
+	 * 관리자_상품 개수 조회 Mapper
+	 * @param searMap
+	 * @return int
+	 */
+	int getTotalCount(Map<String, Object> searMap);
+
+	/**
+	 * 관리자_상품 조건 검색 Mapper
+	 * @return
+	 */
+	List<ProductVO> searchProducts(Map<String, Object> searMap);
+	
 	/**
 	 * 관리자_전체 상품 조회 Mapper
 	 * @param
@@ -70,8 +91,19 @@ public interface ProductMapper {
 	 */
 	int deleteProductImage(Integer pNo);
 
+	/**
+	 * 관리자_상품 상세 정보 삭제 Mapper
+	 * @param pNo
+	 * @return int
+	 */
+	int deleteProductDetail(Integer pNo);
 
-
+	/**
+	 * 관리자_선택 상품 삭제 Mapper
+	 * @param pNo
+	 * @return int
+	 */
+	int selectDelete(Integer pNo);
 
 
 }

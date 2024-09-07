@@ -2,6 +2,7 @@ package com.mart.boot.product.model.vo;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
@@ -31,15 +32,12 @@ public class ProductVO {
 	// 남은 일수를 계산
 	public long getRemainingDays() {
 		try {
-	        // expiration이 숫자인 경우 (예: '7')
-	        int expirationDays = Integer.parseInt(expiration);
-	        LocalDate regLocalDate = regDate.toLocalDate();  // 등록일자를 LocalDate로 변환
-	        LocalDate expirationDate = regLocalDate.plusDays(expirationDays);  // 등록일로부터 유통기한 추가
-	        return ChronoUnit.DAYS.between(LocalDate.now(), expirationDate);  // 현재 날짜와 유통기한까지 남은 일 수 계산
-	    } catch (NumberFormatException e) {
-	        // expiration이 숫자가 아닌 경우 (날짜 문자열인 경우)
-	        LocalDate expirationDate = LocalDate.parse(expiration);  // 문자열을 LocalDate로 변환
-	        return ChronoUnit.DAYS.between(LocalDate.now(), expirationDate);  // 현재 날짜와 유통기한까지 남은 일 수 계산
+	        // expiration이 날짜 문자열인 경우 처리
+	        LocalDate expirationDate = LocalDate.parse(expiration.trim()); // 공백 제거 후 LocalDate로 변환
+	        return ChronoUnit.DAYS.between(LocalDate.now(), expirationDate); // 현재 날짜와 유통기한 사이의 남은 일 수 계산
+	    } catch (DateTimeParseException dtpe) {
+	        // expiration이 잘못된 날짜 형식일 경우 예외 처리
+	        return -1;
 	    }
 	}
 	

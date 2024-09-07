@@ -2,6 +2,7 @@ package com.mart.boot.product.model.service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -9,6 +10,27 @@ import com.mart.boot.product.model.vo.ProductDetailVO;
 import com.mart.boot.product.model.vo.ProductVO;
 
 public interface ProductService {
+
+	/**
+	 * 관리자_상품 개수 조회 Service
+	 * @param searMap
+	 * @return int
+	 */
+	int getTotalCount(Map<String, Object> searMap);
+
+	/**
+	 * 관리자_상품 전체 개수 조회 Service
+	 * @param pList
+	 * @return int
+	 */
+	int getAllCount(List<ProductVO> pList);
+	
+	/**
+	 * 관리자_상품 조건 검색 Service
+	 * @param searchMap
+	 * @return List<ProductVO>
+	 */
+	List<ProductVO> searchProducts(Map<String, Object> searchMap);
 
 	/**
 	 * 관리자_전체 상품 조회 Service
@@ -56,5 +78,6 @@ public interface ProductService {
 	 * @return ProductVO
 	 */
 	int deleteProduct(Integer pNo);
+
 
 }

@@ -4,8 +4,46 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mart.boot.product.model.mapper.ProductMapper">
 	
-	<!-- 관지라_전체 상품 조회 -->
-    <select id="selectList" resultType="com.mart.boot.product.model.vo.ProductVO">
+	<!-- 관리자_상품 전체 개수 조회 -->
+	<select id="getAllCount" resultType="int">
+		SELECT COUNT(*) FROM PRODUCT
+	</select>
+	<!-- 관리자_상품 개수 조회 -->
+	<select id="getTotalCount" resultType="int">
+		SELECT COUNT(*) FROM PRODUCT
+		WHERE 1=1
+		<if test="startDate != null and endDate != null">
+			AND REG_DATE BETWEEN TO_DATE(#{startDate}, 'YYYY-MM-DD') AND TO_DATE(#{endDate}, 'YYYY-MM-DD')
+		</if>
+		<if test="categoryNo != null and categoryNo != 999">
+			AND CATEGORY_NO = #{categoryNo}
+		</if>
+		<if test="remainingDays != null">
+			AND #{remainingDays} >= (TO_DATE(expiration, 'YYYY-MM-DD') - SYSDATE)
+		</if>
+		<if test="pName != null and pName != ''">
+			AND P_NAME LIKE '%' || #{pName} || '%'
+		</if>
+	</select>
+	<!-- 관리자_상품 조건 검색 -->
+	<select id="searchProducts" parameterType="map" resultType="ProductVO">
+		SELECT * FROM PRODUCT
+		WHERE 1=1
+		<if test="startDate != null and endDate != null">
+			AND REG_DATE BETWEEN TO_DATE(#{startDate}, 'YYYY-MM-DD') AND TO_DATE(#{endDate}, 'YYYY-MM-DD')
+		</if>
+		<if test="categoryNo != null and categoryNo != 999">
+			AND CATEGORY_NO = #{categoryNo}
+		</if>
+		<if test="remainingDays != null">
+			AND #{remainingDays} >= (TO_DATE(expiration, 'YYYY-MM-DD') - SYSDATE)
+		</if>
+		<if test="pName != null and pName != ''">
+			AND P_NAME LIKE '%' || #{pName} || '%'
+		</if>
+	</select>
+	<!-- 관리자_전체 상품 조회 -->
+    <select id="selectList" resultType="ProductVO">
         SELECT * FROM PRODUCT ORDER BY REG_DATE DESC
     </select>
     
@@ -21,8 +59,8 @@
 	</insert>
     <!-- 관리자_상품 이미지 등록 -->
     <insert id="addProductFile" parameterType="ProductImageVO">
-	    INSERT INTO PRODUCT_IMAGE (IMAGE_ID, FILE_NAME, FILE_RENAME, FILE_PATH, P_NO)
-	    VALUES (PRODUCT_IMAGE_SEQ.NEXTVAL, #{fileName}, #{fileRename}, #{filePath}, #{pNo})
+	    INSERT INTO PRODUCT_IMAGE (IMAGE_ID, FILE_NAME, FILE_RENAME, FILE_PATH, P_NO, IMAGE_TYPE)
+	    VALUES (PRODUCT_IMAGE_SEQ.NEXTVAL, #{fileName}, #{fileRename}, #{filePath}, #{pNo}, #{imageType})
 	</insert>
 	
 	<!-- 관리자_상품 기본 및 상세 정보 -->
@@ -53,8 +91,12 @@
 	<delete id="deleteProductImage">
 	    DELETE FROM PRODUCT_IMAGE WHERE P_NO = #{pNo}
 	</delete>
+	<!-- 관리자_상품 상세 정보 삭제 -->
+	<delete id="deleteProductDetail">
+		DELETE FROM PRODUCT_DETAIL WHERE P_NO = #{pNo}
+	</delete>
 	<!-- 관리자_상품 삭제 -->
-	<delete id="deleteProduct">
+	<delete id="deleteProduct" parameterType="int">
 	    DELETE FROM PRODUCT WHERE P_NO = #{pNo}
 	</delete>
 

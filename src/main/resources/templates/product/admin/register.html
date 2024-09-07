@@ -38,7 +38,7 @@
             </ul>        
         <div class="content">
             <h2>상품 등록하기</h2>
-            <form action="/admin/product/register" method="post" enctype="multipart/form-data">
+            <form action="@{/admin/product/register}" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <div class="form-top">
                         <div class="form-left">
@@ -65,29 +65,31 @@
                                     <input type="date" id="expiration" name="expiration">
                                 </li>
                                 <li>
-                                    <label for="inventory">입고량</label>
-                                    <input type="number" id="pInput" name="pInput" required>
+                                    <label for="sale">할인율</label>
+                                    <input type="number" id="sale" name="sale" min="0" max="100" value="0">
                                 </li>
                             </ul>
                         </div>
                         <div class="form-right">
                             <ul>
                                 <li>
+                                    <label for="imgMain">대표 이미지</label>
                                     <div class="image-upload">
                                         <input type="file" id="imgMain" name="imgMain" accept="image/*" required onchange="readURL(this, 'mainPreview')">
+                                        <img id="mainPreview" 
+                                            th:src="${productDetailVO != null && productDetailVO.imgMain != null 
+                                                    ? '/images/product/main/' + productDetailVO.imgMain 
+                                                    : '/images/no-image.png'}" 
+                                            alt="포맷 : JPG, PNG 해상도 : 1300x1300px 이하">
                                     </div>
-                                     <img id="mainPreview" src="#" alt="Main Image Preview" style="display: none; width: 130px; height: 130px;">
                                 </li>
                                 <li>
-                                    <p>
-                                        대표 이미지 <br>
-                                        포맷 : JPG, PNG <br>
-                                        해상도 : 1300x1300px 이하 <br>
-                                    </p>
+                                    <label for="inventory">입고량</label>
+                                    <input type="number" id="pInput" name="pInput" required>
                                 </li>
                                 <li>
                                     <label for="inventory">출고량</label>
-                                    <input type="number" id="pOutput" name="pOutput" required>
+                                    <input type="number" id="pOutput" name="pOutput">
                                 </li>
                             </ul>
                         </div>
@@ -100,16 +102,24 @@
                             <li>
                                 <label>조리된 사진</label>
                                 <div class="image-upload">
-                                    <input type="file" id="imgCook" name="imgCook" accept="image/*" required onchange="readURL(this, 'cookPreview')">
+                                    <input type="file" id="imgCook" name="imgCook" accept="image/*" onchange="readURL(this, 'cookPreview')">
+	                                <img id="cookPreview" 
+	                                th:src="${productDetailVO != null && productDetailVO.imgCook != null 
+										     ? '/images/product/cook/' + productDetailVO.imgCook 
+										     : '/images/no-image.png'}"
+								     alt="조리된 이미지">
                                 </div>
-                                <img id="cookPreview" src="#" alt="Cook Image Preview" style="display: none; width: 130px; height: 130px;">
                             </li>
                             <li>
                                 <label>상품 구성 사진</label>
                                 <div class="image-upload">
-                                	<input type="file" id="imgComponent" name="imgComponent" accept="image/*" required onchange="readURL(this, 'componentPreview')">
+                                	<input type="file" id="imgComponent" name="imgComponent" accept="image/*" onchange="readURL(this, 'componentPreview')">
+	                                <img id="componentPreview" 
+	                                	th:src="${productDetailVO != null && productDetailVO.imgComponent != null 
+											     ? '/images/product/component/' + productDetailVO.imgComponent 
+											     : '/images/no-image.png'}" 
+	                                	alt="컴포넌트 이미지">
                                 </div>
-                                <img id="componentPreview" src="#" alt="Component Image Preview" style="display: none; width: 130px; height: 130px;">
                             </li>
                             <li>
                                 <label>상품 구성</label>
@@ -140,7 +150,12 @@
 	        if (input.files && input.files[0]) {
 	            var reader = new FileReader();
 	            reader.onload = function(e) {
-	                document.getElementById(previewId).src = e.target.result;
+	                var preview = document.getElementById(previewId);
+	                var uploadBox = preview.parentElement;
+	                
+	                preview.src = e.target.result; 
+	                preview.style.display = 'block';
+	                uploadBox.style.border = 'none';
 	            }
 	            reader.readAsDataURL(input.files[0]);
 	        }
