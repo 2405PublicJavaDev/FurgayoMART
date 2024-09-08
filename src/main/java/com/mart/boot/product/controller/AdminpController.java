@@ -66,7 +66,8 @@ public class AdminpController {
 			, @RequestParam("imgCook") MultipartFile imgCook
 			, @RequestParam("imgComponent") MultipartFile imgComponent
 			) throws IllegalStateException, IOException {
-		
+		 // 파일을 저장하고 경로만 VO에 설정
+
 		int productUpdateResult = pService.updateProduct(product);
 		int productDetailUpdateResult = pService.updateProductDetail(productDetail, imgMain, imgCook, imgComponent);
 		

@@ -115,26 +115,6 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public int updateProductDetail(ProductDetailVO productDetail, MultipartFile imgMain, MultipartFile imgCook, MultipartFile imgComponent) throws IllegalStateException, IOException {
 		ProductDetailVO existDetail = pMapper.selectImageById(productDetail.getpNo());
-		if(imgMain != null && !imgMain.isEmpty()) {
-			processProductImg(imgMain, productDetail.getpNo(), FILE_PATH, "/images/", "MAIN");
-			productDetail.setImgMain(imgMain.getOriginalFilename());
-		} else {
-			productDetail.setImgMain(existDetail.getImgMain());
-		}
-		
-		if(imgCook != null && !imgCook.isEmpty()) {
-			processProductImg(imgCook, productDetail.getpNo(), FILE_PATH, "/images/", "COOK");
-			productDetail.setImgCook(imgCook.getOriginalFilename());
-		} else {
-			productDetail.setImgCook(existDetail.getImgCook());
-		}
-		
-		if(imgComponent != null && !imgComponent.isEmpty()) {
-			processProductImg(imgComponent, productDetail.getpNo(), FILE_PATH, "/images/", "COMPONENT");
-			productDetail.setImgComponent(imgComponent.getOriginalFilename());
-		} else {
-			productDetail.setImgComponent(existDetail.getImgComponent());
-		}
 		return pMapper.updateProductDetail(productDetail);
 	}
 
