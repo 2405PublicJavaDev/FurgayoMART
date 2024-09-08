@@ -33,15 +33,14 @@ public class ProductServiceImpl implements ProductService {
 
 	// 관리자_상품 개수
 	@Override
-	public int getTotalCount(Map<String, Object> searMap) {
-		return pMapper.getTotalCount(searMap);
+	public int getTotalCount(Map<String, Object> searchMap) {
+		return pMapper.getTotalCount(searchMap);
 	}
 	
 	// 관리자_상품 조건 검색
 	@Override
 	public List<ProductVO> searchProducts(Map<String, Object> searchMap) {
 		List<ProductVO> pSearchList = pMapper.searchProducts(searchMap);
-		System.out.println("검색 결과: " + pSearchList.size());
 		return pSearchList;
 	}
 
@@ -73,15 +72,15 @@ public class ProductServiceImpl implements ProductService {
 	    int detailResult = pMapper.addProductDetail(productDetail);
 	    
 		if(imgMain != null && !imgMain.isEmpty()) {
-			processProductImg(imgMain, product.getpNo(), FILE_PATH, "/images/product/main", "MAIN");
+			processProductImg(imgMain, product.getpNo(), FILE_PATH, "/images/", "MAIN");
 		}
 		
 		if(imgCook != null && !imgCook.isEmpty()) {
-			processProductImg(imgCook, product.getpNo(), FILE_PATH, "/images/product/cook", "COOK");
+			processProductImg(imgCook, product.getpNo(), FILE_PATH, "/images/", "COOK");
 		}
 		
 		if(imgCook != null && !imgComponent.isEmpty()) {
-			processProductImg(imgComponent, product.getpNo(), FILE_PATH, "/images/product/component", "COMPONENT");
+			processProductImg(imgComponent, product.getpNo(), FILE_PATH, "/images/", "COMPONENT");
 		}
 		return result;
 	}
@@ -101,36 +100,44 @@ public class ProductServiceImpl implements ProductService {
 		pMapper.addProductFile(productImg);	
 	}
 
-	// 관리자_상품 기본 및 상세 정보
+	// 관리자_상품 기본 정보
 	@Override
-	public ProductVO selectOneWithDetail(Integer pNo) {
-		return pMapper.selectOneWithDetail(pNo);
+	public ProductVO selectById(Integer pNo) {
+		return pMapper.selectById(pNo);
 	}
-	// 관리자_상품 정보 수정
+
+	// 관리자_상품 기본 정보 수정
 	@Override
-	public int updateProduct(ProductVO product, ProductDetailVO productDetail , MultipartFile imgMain, MultipartFile imgCook, MultipartFile imgComponent) throws IllegalStateException, IOException {
-		int result = pMapper.updateProduct(product);
-
-	    // 이미지 업데이트 처리
-	    if (imgMain != null && !imgMain.isEmpty()) {
-	        processProductImg(imgMain, product.getpNo(), FILE_PATH, "/images/", FILE_PATH);
-	    }
-	    if (imgCook != null && !imgCook.isEmpty()) {
-	        processProductImg(imgCook, product.getpNo(), FILE_PATH, "/images/", FILE_PATH);
-	    }
-	    if (imgComponent != null && !imgComponent.isEmpty()) {
-	        processProductImg(imgComponent, product.getpNo(), FILE_PATH, "/images/", FILE_PATH);
-	    }
-
-	    // 상품 상세 정보 업데이트
-	    productDetail.setpNo(product.getpNo());
-	    int detailResult = pMapper.updateDetail(productDetail);
-
-	    // 둘 다 성공하면 반환
-	    return (result > 0 && detailResult > 0) ? 1 : 0;
+	public int updateProduct(ProductVO product) {
+		return pMapper.updateProduct(product);
 	}
-	
-	
+	// 관리자_상품 상세 정보 수정
+	@Override
+	public int updateProductDetail(ProductDetailVO productDetail, MultipartFile imgMain, MultipartFile imgCook, MultipartFile imgComponent) throws IllegalStateException, IOException {
+		ProductDetailVO existDetail = pMapper.selectImageById(productDetail.getpNo());
+		if(imgMain != null && !imgMain.isEmpty()) {
+			processProductImg(imgMain, productDetail.getpNo(), FILE_PATH, "/images/", "MAIN");
+			productDetail.setImgMain(imgMain.getOriginalFilename());
+		} else {
+			productDetail.setImgMain(existDetail.getImgMain());
+		}
+		
+		if(imgCook != null && !imgCook.isEmpty()) {
+			processProductImg(imgCook, productDetail.getpNo(), FILE_PATH, "/images/", "COOK");
+			productDetail.setImgCook(imgCook.getOriginalFilename());
+		} else {
+			productDetail.setImgCook(existDetail.getImgCook());
+		}
+		
+		if(imgComponent != null && !imgComponent.isEmpty()) {
+			processProductImg(imgComponent, productDetail.getpNo(), FILE_PATH, "/images/", "COMPONENT");
+			productDetail.setImgComponent(imgComponent.getOriginalFilename());
+		} else {
+			productDetail.setImgComponent(existDetail.getImgComponent());
+		}
+		return pMapper.updateProductDetail(productDetail);
+	}
+
 	// 관리자_상품 삭제
 	@Override
 	public int deleteProduct(Integer pNo) {

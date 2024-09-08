@@ -41,48 +41,52 @@
             <form th:action="@{/admin/product/search}" method="get">
 	            <div class="search-container">
 	                <div class="search-form">
-	                    <div>
-	                        <label>등록 기간</label>
-	                        <input type="date" name="startDate" value="2024-08-24">
-	                        <span>-</span>
-	                        <input type="date" name="endDate" value="2024-09-11">
+	                    <div class="date-range">
+	                        <label><b>등록 기간</b></label>
+	                        <input type="date" name="startDate">
+	                        <span style="margin: 0 5px;">-</span>
+	                        <input type="date" name="endDate">
 	                    </div>
-	                    <div>
-	                        <label>상품 유형</label>
+	                    <div class="category-range">
+	                        <label><b>상품 유형</b></label>
 	                        <select name="categoryNo">
 	                            <option value="999">전체</option>
 	                            <option value="1">한식</option>
 	                            <option value="2">중식</option>
 	                            <option value="3">일식</option>
 	                        </select>
-	                        <label>남은 유통기한</label>
-	                        <input type="text" name="remainingDays">
-	                    </div>
-	                    <div>
-	                        <label>상품명</label>
+						</div>
+						<div class="remainingDays-range">
+							<label><b>남은 유통기한</b></label>
+							<input type="text" name="remainingDays">
+							<p>일 이하</p>
+						</div>
+	                    <div class="productName-range">
+	                        <label><b>상품명</b></label>
 	                        <input type="text" name="pName" placeholder="상품명을 입력하세요.">
-	                    </div>
-	                    <button class="button" type="submit">검색</button>
-	                </div>
-	            </div>
-            </form>
-            <form th:action="@{/admin/product/delete/check}" method="post">
-	            <div class="resultAndButtons">
-	                <span th:text="${totalCount} + '개가 검색되었습니다.'"></span>
-	                <input type=button class="button" onclick="selectAll(true);" value="전체 선택"/>
-	                <input type=button class="button" onclick="selectAll(false);" value="전체 해제"/>
-	                <button type="submit" class="button">삭제</button>
-	            </div>
-            
+						</div>
+	                    <div style="display: flex; align-items: center;">
+							<button class="button" type="submit">검색</button>
+						</div>
+					</div>
+				</div>
+			</form>
+			<form th:action="@{/admin/product/delete/check}" method="post">
+				<div class="resultAndButtons">
+					<span th:text="${totalCount != null ? totalCount + '개가 검색되었습니다.' : '상품이 없습니다.'}"></span>
+					<input type=button class="button" onclick="selectAll(true);" value="전체 선택"/>
+					<input type=button class="button" onclick="selectAll(false);" value="전체 해제"/>
+					<button type="submit" class="button" onclick="confirmMultipleDelete();">삭제</button>
+				</div>
 	            <table>
 	                <thead>
-	                    <tr>
+	                    <tr style="height: 50px;">
 	                        <th></th>
-	                        <th>상품 유형</th>
-	                        <th>상품명</th>
+	                        <th style="width: 100px;">상품 유형</th>
+	                        <th style="width: 400px;">상품명</th>
 	                        <th>상품 가격</th>
 	                        <th>등록 일자</th>
-	                        <th>남은 기간</th>
+	                        <th style="width: 120px;">남은 유통기한</th>
 	                        <th></th>
 	                        <th></th>
 	                    </tr>
@@ -110,8 +114,8 @@
 	    					<td th:if="${productVO.remainingDays != null and productVO.remainingDays > 0}" th:text="${productVO.remainingDays + ' 일'}"></td>
 							<td th:if="${productVO.remainingDays == null or productVO.remainingDays <= 0}" th:text="'X'"></td>
 	
-						    <td><button class="button" th:onclick="showModify([[${productVO.pNo}]]);">수정</button></td>
-						    <td><button class="button" th:onclick="deleteProduct([[${productVO.pNo}]]);">삭제</button></td>
+						    <td><button class="button" type="button" th:onclick="showModify([[${productVO.pNo}]]); return false;">수정</button></td>
+						    <td><button class="button" th:onclick="deleteProduct([[${productVO.pNo}]]); return false;">삭제</button></td>
 						</tr>
 					</tbody>
 	            </table>
@@ -130,14 +134,28 @@
 		
 		// 상품 수정하기
 		function showModify(pNo){
-			location.href = '/admin/product/modify/' + pNo;
+			location.href = '/admin/product/' + pNo + '/modify';
 		}
 	
-		// 상품 삭제하기
+		// 상품 개별 삭제하기
 		function deleteProduct(pNo){
-			if(confirm("삭제하시겠습니까?")){
+			if(confirm("삭제하시겠습니까?")) {
 				location.href = '/admin/product/delete/' + pNo;
 			}
+		}
+		
+		// 다중 선택 삭제
+		function confirmMultipleDelete() {
+		    const checkboxes = document.querySelectorAll('.product-checkbox:checked');
+		    
+		    if (checkboxes.length === 0) {
+		        alert("삭제할 상품을 선택하세요.");
+		        return false;
+		    }
+
+		    if (confirm("선택한 상품들을 삭제하시겠습니까?")) {
+		        document.getElementById("deleteForm").submit();
+		    }
 		}
 		
 		// 상품 전체 선택/해제하기

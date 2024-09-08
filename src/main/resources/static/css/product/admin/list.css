@@ -41,6 +41,8 @@ body {
     background-color: #f1f1f1;
     width: 200px;
     padding: 20px;
+    box-sizing: border-box;
+    flex-shrink: 0;
 }
 
 .sidebar li {
@@ -67,20 +69,86 @@ body {
 .search-form {
     padding: 20px;
     border: 1px solid #ccc;
-    flex-grow: 1;
     display: flex;
-    margin-right: 10px;
+    justify-items: space-between;
+    justify-content: space-between;
 }
 
+.search-form label {
+    margin: 0 10px;
+}
 .search-form input, .search-form select {
     padding: 5px;
+    justify-items: center;
+    font-size: 15px;
+}
+/* 등록 일자 */
+.date-range {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.date-range input {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    width: 130px;
+    text-align: center;
 }
 
+/* 상품 유형 */
+.category-range{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.category-range select {
+    display: flex;
+    width: 90px;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    text-align: center;
+}
+.category-range option {
+    text-align: center;
+    padding: 0;
+    font-size: 15px;
+}
+
+/* 남은 유통기한 */
+.remainingDays-range {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.remainingDays-range input {
+    width: 50px;
+    margin-right: 3px;
+}
+
+/* 상품명 */
+.productName-range {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.productName-range input {
+    width: 200px;
+}
+
+/* 버튼, 검색 결과 문구 */
 .resultAndButtons {
-    padding: 10px;
-    justify-content: right;
+    padding: 10px 0 10px 10px;
+    margin: 10px 0;
+    float: right;
+}
+.resultAndButtons .button {
+    margin-left: 5px;
 }
 
+/* 리스트 */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -94,11 +162,15 @@ th {
     background-color: #f2f2f2;
 }
 .button {
-    background-color: #000;
+    background-color: #333;
     color: white;
     padding: 10px 15px;
     border: none;
     cursor: pointer;
+    height: 40px;
+}
+.button:hover {
+    background-color: #252525;
 }
 .pagination {
     margin-top: 20px;

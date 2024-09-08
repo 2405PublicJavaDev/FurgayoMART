@@ -32,6 +32,7 @@ body {
 /* 컨테이너 */
 .container {
     display: flex;
+    flex-grow: 1;
 }
 
 /* 사이드바 */
@@ -39,6 +40,8 @@ body {
     background-color: #f1f1f1;
     width: 200px;
     padding: 20px;
+    box-sizing: border-box;
+    flex-shrink: 0;
 }
 
 .sidebar li {

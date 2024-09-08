@@ -20,7 +20,7 @@ public interface ProductMapper {
 	int getAllCount(List<ProductVO> pList);
 
 	/**
-	 * 관리자_상품 개수 조회 Mapper
+	 * 관리자_상품 조건 개수 조회 Mapper
 	 * @param searMap
 	 * @return int
 	 */
@@ -63,7 +63,7 @@ public interface ProductMapper {
 	 * @param pNo
 	 * @return ProductVO
 	 */
-	ProductVO selectOneWithDetail(Integer pNo);
+	ProductVO selectById(Integer pNo);
 	/**
 	 * 관리자_상품 기본 정보 수정 Mapper
 	 * @param product
@@ -75,8 +75,15 @@ public interface ProductMapper {
 	 * @param productDetail
 	 * @return int
 	 */
-	int updateDetail(ProductDetailVO productDetail);
+	int updateProductDetail(ProductDetailVO productDetail);
 	
+	/**
+	 * 관리자_상품 정보 이미지 Mapper
+	 * @param getpNo
+	 * @return ProductDetailVO
+	 */
+	ProductDetailVO selectImageById(int getpNo);
+
 	/**
 	 * 관리자_상품 삭제 Mapper
 	 * @param pNo
@@ -104,6 +111,5 @@ public interface ProductMapper {
 	 * @return int
 	 */
 	int selectDelete(Integer pNo);
-
 
 }

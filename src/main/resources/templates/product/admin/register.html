@@ -48,7 +48,7 @@
                                     <input type="text" id="name" name="pName" required>
                                 </li>
                                 <li>
-                                    <label for="name">상품 유형</label>
+                                    <label for="category">상품 유형</label>
                                     <select id="categoryNo" name="categoryNo" required>
                                         <option value="">선택하세요</option>
                                         <option value=1>한식</option>
@@ -78,18 +78,18 @@
                                         <input type="file" id="imgMain" name="imgMain" accept="image/*" required onchange="readURL(this, 'mainPreview')">
                                         <img id="mainPreview" 
                                             th:src="${productDetailVO != null && productDetailVO.imgMain != null 
-                                                    ? '/images/product/main/' + productDetailVO.imgMain 
+                                                    ? '/images/' + productDetailVO.imgMain 
                                                     : '/images/no-image.png'}" 
                                             alt="포맷 : JPG, PNG 해상도 : 1300x1300px 이하">
                                     </div>
                                 </li>
                                 <li>
                                     <label for="inventory">입고량</label>
-                                    <input type="number" id="pInput" name="pInput" required>
+                                    <input type="number" id="pInput" name="pInput" min="0" required>
                                 </li>
                                 <li>
                                     <label for="inventory">출고량</label>
-                                    <input type="number" id="pOutput" name="pOutput">
+                                    <input type="number" id="pOutput" name="pOutput" min="0">
                                 </li>
                             </ul>
                         </div>
@@ -105,7 +105,7 @@
                                     <input type="file" id="imgCook" name="imgCook" accept="image/*" onchange="readURL(this, 'cookPreview')">
 	                                <img id="cookPreview" 
 	                                th:src="${productDetailVO != null && productDetailVO.imgCook != null 
-										     ? '/images/product/cook/' + productDetailVO.imgCook 
+										     ? '/images/' + productDetailVO.imgCook 
 										     : '/images/no-image.png'}"
 								     alt="조리된 이미지">
                                 </div>
@@ -116,7 +116,7 @@
                                 	<input type="file" id="imgComponent" name="imgComponent" accept="image/*" onchange="readURL(this, 'componentPreview')">
 	                                <img id="componentPreview" 
 	                                	th:src="${productDetailVO != null && productDetailVO.imgComponent != null 
-											     ? '/images/product/component/' + productDetailVO.imgComponent 
+											     ? '/images/' + productDetailVO.imgComponent 
 											     : '/images/no-image.png'}" 
 	                                	alt="컴포넌트 이미지">
                                 </div>
@@ -146,6 +146,7 @@
         </div>
     </div>
     <script>
+        // 이미지 미리보기
 	    function readURL(input, previewId) {
 	        if (input.files && input.files[0]) {
 	            var reader = new FileReader();
@@ -160,6 +161,33 @@
 	            reader.readAsDataURL(input.files[0]);
 	        }
 	    }
+
+        // 입고량, 출고량
+        const pInput = document.getElementById('pInput');
+        const pOutput = document.getElementById('pOutput');
+        const form = document.querySelector('form'); 
+
+        function validateOutput() {
+            const inputVal = parseInt(pInput.value);
+            const outputVal = parseInt(pOutput.value);
+
+            if (outputVal > inputVal) {
+                alert("출고량은 입고량보다 많을 수 없습니다.");
+                pOutput.value = "";
+            }
+        }
+        pOutput.addEventListener('input', validateOutput);
+        pInput.addEventListener('input', validateInput);
+
+        form.addEventListener('submit', function(event) {
+            const inputVal = parseInt(pInput.value);
+            const outputVal = parseInt(pOutput.value);
+
+            if (outputVal > inputVal) {
+                alert("출고량은 입고량보다 많을 수 없습니다.");
+                event.preventDefault(); 
+            }
+        });
     </script>
 </body>
 </html>
