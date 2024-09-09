@@ -21,43 +21,39 @@ public class UserpController {
 
 	@Autowired
 	private ProductService pService;
-	
+
 	@GetMapping("/detailList/{pNo}")
 	public String showProductDetail(@PathVariable("pNo") int pNo, Model model) {
-		ProductVO product = pService.selectOne(pNo);
-	    // imageUrl이 이미 설정되어 있다고 가정합니다.
-	    // 만약 설정되어 있지 않다면, 여기서 설정할 수 있습니다.
-//	    if (product.getImageUrl() == null || product.getImageUrl().isEmpty()) {
-//	        product.setImageUrl("/images/" + product.getImageUrl() + ".jpg");
-//	    }
-		product.setImageUrl("/images/product_" + product.getpNo() + ".jpg");
-	    model.addAttribute("product", product);
-	    return "product/user/detailList";
-	    
+		// selectOne 메서드를 사용하지 않고 임시 데이터를 생성합니다.
+		ProductVO product = new ProductVO();
+		product.setpNo(pNo);
+		product.setImageUrl("/images/product_" + pNo + ".jpg");
+		// 필요한 다른 속성들도 설정해주세요.
+
+		model.addAttribute("product", product);
+		return "product/user/detailList";
 	}
 
-	// 상품 페이지 
 	@GetMapping("/list")
 	public String showProductListpage(Model model) {
-	    List<ProductVO> pList = pService.selectList();
-	    
-	    for (ProductVO product : pList) {
-	        if (product.getImageUrl() != null && !product.getImageUrl().isEmpty()) {
-	            product.setImageUrl("/images/" + product.getImageUrl());
-	        } else {
-	            String imageName = "product_" + product.getpNo() + ".jpg";
-	            Path imagePath = Paths.get("src/main/resources/static/images/" + imageName);
-	            if (Files.exists(imagePath)) {
-	                product.setImageUrl("/images/" + imageName);
-	            } else {
-	                product.setImageUrl("/images/noimage.jpg");
-	            }
-	        }
-	    }
-	    model.addAttribute("pList", pList);
-	    model.addAttribute("totalProducts", pList.size());
-	    model.addAttribute("pageTitle", "전체 상품 목록");
-	    return "product/user/list";
+		List<ProductVO> pList = pService.selectList();
+
+		for (ProductVO product : pList) {
+			if (product.getImageUrl() == null || product.getImageUrl().isEmpty()) {
+				String imageName = "product_" + product.getpNo() + ".jpg";
+				Path imagePath = Paths.get("src/main/resources/static/images/" + imageName);
+				if (Files.exists(imagePath)) {
+					product.setImageUrl("/images/" + imageName);
+				} else {
+					product.setImageUrl("/images/noimage.jpg");
+				}
+			} else {
+				product.setImageUrl("/images/" + product.getImageUrl());
+			}
+		}
+		model.addAttribute("pList", pList);
+		model.addAttribute("totalProducts", pList.size());
+		model.addAttribute("pageTitle", "전체 상품 목록");
+		return "product/user/list";
 	}
-	
 }

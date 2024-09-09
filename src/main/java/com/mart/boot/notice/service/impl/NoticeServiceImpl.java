@@ -5,54 +5,61 @@ import com.mart.boot.notice.store.NoticeStore;
 import com.mart.boot.notice.service.NoticeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
+@Transactional
 public class NoticeServiceImpl implements NoticeService {
+
+    private static final Logger logger = LoggerFactory.getLogger(NoticeServiceImpl.class);
 
     @Autowired
     private NoticeStore noticeStore;
 
-    // 공지사항 전체 조회
     @Override
     public List<NoticeVO> selectAllNotices() {
         return noticeStore.selectAllNotices();
     }
 
-    // 공지사항 등록
     @Override
-    public int insertNotice(NoticeVO noticeVO) {
-        return noticeStore.insertNotice(noticeVO);
+    public List<NoticeVO> selectAllNotices(String searchType, String searchKeyword) {
+        return noticeStore.selectNotices(searchType, searchKeyword);
     }
 
-    // 공지사항 수정
-    @Override
-    public int updateNotice(NoticeVO noticeVO) {
-        return noticeStore.updateNotice(noticeVO);
-    }
-
-    // 공지사항 삭제
-    @Override
-    public int deleteNotice(int noticeNo) {
-        return noticeStore.deleteNotice(noticeNo);
-    }
-
-    // 공지사항 ID로 조회
     @Override
     public NoticeVO selectNoticeById(int noticeNo) {
         return noticeStore.selectNoticeById(noticeNo);
     }
 
-    // 페이징 처리된 공지사항 목록 조회
     @Override
-    public List<NoticeVO> selectNoticesWithPaging(int page, int size) {
-        return noticeStore.selectNoticesWithPaging(page, size);
+    public int insertNotice(NoticeVO noticeVO) {
+        logger.info("Inserting notice in service layer: {}", noticeVO);
+        int result = noticeStore.insertNotice(noticeVO);
+        logger.info("Insert result from store: {}", result);
+        return result;
     }
 
-    // 공지사항 총 개수 조회
+    @Override
+    public int updateNotice(NoticeVO noticeVO) {
+        return noticeStore.updateNotice(noticeVO);
+    }
+
+    @Override
+    public int deleteNotice(int noticeNo) {
+        return noticeStore.deleteNotice(noticeNo);
+    }
+
     @Override
     public int getTotalNoticeCount() {
         return noticeStore.getTotalNoticeCount();
+    }
+
+    @Override
+    public int getTotalNoticeCount(String searchType, String searchKeyword) {
+        return noticeStore.countNotices(searchType, searchKeyword);
     }
 }

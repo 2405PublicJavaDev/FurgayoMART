@@ -13,9 +13,11 @@ import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/notice")
+@CrossOrigin(origins = "*")
 public class NoticeController {
 
     private static final Logger logger = LoggerFactory.getLogger(NoticeController.class);
@@ -23,21 +25,33 @@ public class NoticeController {
     @Autowired
     private NoticeService noticeService;
 
-    // 공지사항 목록 가져오기 (페이징 처리 추가)
+    // 공지사항 목록 조회 (검색 기능 추가)
     @GetMapping("/list")
     public ResponseEntity<Map<String, Object>> getNoticeList(
             @RequestParam(defaultValue = "1") int page,
-            @RequestParam(defaultValue = "6") int size) {
+            @RequestParam(defaultValue = "6") int size,
+            @RequestParam(required = false) String searchType,  // 검색 유형
+            @RequestParam(required = false) String searchKeyword) { // 검색 키워드
         try {
-            List<NoticeVO> notices = noticeService.selectNoticesWithPaging(page, size);
-            int total = noticeService.getTotalNoticeCount();
-            int totalPages = (int) Math.ceil((double) total / size);
+            logger.info("Fetching notice list for page {} with size {}", page, size);
 
+            // 검색 또는 전체 공지사항 수 조회
+            int totalNotices = noticeService.getTotalNoticeCount(searchType, searchKeyword);
+            List<NoticeVO> allNotices = noticeService.selectAllNotices(searchType, searchKeyword); // 검색 조건에 맞춘 공지사항 목록 조회
+
+            // 페이징 처리
+            int offset = (page - 1) * size;
+            List<NoticeVO> pagedNotices = allNotices.stream()
+                    .skip(offset)
+                    .limit(size)
+                    .collect(Collectors.toList());
+
+            // 응답 데이터 구성
             Map<String, Object> response = new HashMap<>();
-            response.put("notices", notices);
+            response.put("notices", pagedNotices);
             response.put("currentPage", page);
-            response.put("totalItems", total);
-            response.put("totalPages", totalPages);
+            response.put("totalPages", (int) Math.ceil((double) totalNotices / size));
+            response.put("totalNotices", totalNotices);
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
@@ -46,26 +60,28 @@ public class NoticeController {
         }
     }
 
-
     // 공지사항 등록
     @PostMapping("/create")
     public ResponseEntity<String> createNotice(@RequestBody NoticeVO noticeVO) {
         try {
-            logger.info("Received notice: {}", noticeVO);
+            logger.info("Received notice for creation: {}", noticeVO);
 
             if (noticeVO.getNoticeWriter() == null || noticeVO.getNoticeWriter().isEmpty()) {
                 noticeVO.setNoticeWriter("임시관리자");
             }
-            noticeVO.setUserId("admin");
+            noticeVO.setUserId("admin");  // 관리자 ID 설정
             noticeVO.setNoticeDate(new Timestamp(System.currentTimeMillis()));
             noticeVO.setNoticeModify(new Timestamp(System.currentTimeMillis()));
             noticeVO.setNoticePinned(0);
 
+            logger.info("Prepared notice for insertion: {}", noticeVO);
+
             int result = noticeService.insertNotice(noticeVO);
+            logger.info("Insert result: {}", result);
+
             if (result > 0) {
                 return new ResponseEntity<>("공지사항이 성공적으로 등록되었습니다.", HttpStatus.CREATED);
             } else {
-                logger.warn("Notice insertion failed");
                 return new ResponseEntity<>("공지사항 등록에 실패했습니다.", HttpStatus.BAD_REQUEST);
             }
         } catch (Exception e) {
@@ -78,19 +94,19 @@ public class NoticeController {
     @PutMapping("/update/{noticeNo}")
     public ResponseEntity<String> updateNotice(@PathVariable("noticeNo") Integer noticeNo, @RequestBody NoticeVO noticeVO) {
         try {
+            logger.info("Updating notice with ID: {}", noticeNo);
             NoticeVO existingNotice = noticeService.selectNoticeById(noticeNo);
             if (existingNotice == null) {
                 return new ResponseEntity<>("해당 공지사항을 찾을 수 없습니다.", HttpStatus.NOT_FOUND);
             }
 
+            // 제목 및 내용 업데이트
             if (noticeVO.getNoticeTitle() != null && !noticeVO.getNoticeTitle().isEmpty()) {
                 existingNotice.setNoticeTitle(noticeVO.getNoticeTitle());
             }
-
             if (noticeVO.getNoticeContent() != null && !noticeVO.getNoticeContent().isEmpty()) {
                 existingNotice.setNoticeContent(noticeVO.getNoticeContent());
             }
-
             existingNotice.setNoticeModify(new Timestamp(System.currentTimeMillis()));
 
             int result = noticeService.updateNotice(existingNotice);
@@ -109,6 +125,7 @@ public class NoticeController {
     @DeleteMapping("/delete/{noticeNo}")
     public ResponseEntity<String> deleteNotice(@PathVariable("noticeNo") Integer noticeNo) {
         try {
+            logger.info("Deleting notice with ID: {}", noticeNo);
             int result = noticeService.deleteNotice(noticeNo);
             if (result > 0) {
                 return new ResponseEntity<>("공지사항이 성공적으로 삭제되었습니다.", HttpStatus.OK);
