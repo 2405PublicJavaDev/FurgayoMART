@@ -18,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mart.boot.product.model.service.ProductService;
 import com.mart.boot.product.model.vo.ProductDetailVO;
+import com.mart.boot.product.model.vo.ProductImageVO;
 import com.mart.boot.product.model.vo.ProductVO;
 
 @Controller
@@ -54,16 +55,17 @@ public class AdminpController {
 	@GetMapping("/{pNo}/modify")
 	public String showUpdateForm(@PathVariable Integer pNo, Model model) {
 		ProductVO product = pService.selectById(pNo);
-		model.addAttribute("product", product);
-		return "product/admin/modify";
+	    model.addAttribute("product", product);
+	    return "product/admin/modify";
 	}
 	// 관리자_상품 수정
 	@PostMapping("/{pNo}/modify")
 	public String updateProduct(RedirectAttributes redirectAttributes
-			, ProductVO product
+			, ProductVO product, Model model
 			, @ModelAttribute ProductDetailVO productDetail
+			, @ModelAttribute ProductImageVO productImage
 			) throws IllegalStateException, IOException {
-		 int productUpdateResult = pService.updateProduct(product);
+		int productUpdateResult = pService.updateProduct(product);
 	    int productDetailUpdateResult = pService.updateProductDetail(productDetail);
 
 	    if (productUpdateResult > 0 && productDetailUpdateResult > 0) {
@@ -71,6 +73,7 @@ public class AdminpController {
 	    } else {
 	        redirectAttributes.addFlashAttribute("message", "수정에 실패했습니다.");
 	    }
+	    
 		return "redirect:/admin/product/list";
 	}
 

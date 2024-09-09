@@ -1,5 +1,6 @@
 package com.mart.boot.product.model.service.impl;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,7 @@ import com.mart.boot.common.utility.ProductUtil;
 import com.mart.boot.product.model.mapper.ProductMapper;
 import com.mart.boot.product.model.service.ProductService;
 import com.mart.boot.product.model.vo.ProductDetailVO;
+import com.mart.boot.product.model.vo.ProductImageVO;
 import com.mart.boot.product.model.vo.ProductVO;
 
 
@@ -18,15 +20,21 @@ import com.mart.boot.product.model.vo.ProductVO;
 public class ProductServiceImpl implements ProductService {
 	
 	private final ProductMapper pMapper;
-	private final String FILE_PATH_MAIN = "C:/Users/KDY/Desktop/backend/bootworkspace/FurgayoMART/src/main/resources/static/images/main/";
-	private final String FILE_PATH_COOK = "C:/Users/KDY/Desktop/backend/bootworkspace/FurgayoMART/src/main/resources/static/images/cook/";
-	private final String FILE_PATH_COMPONENT = "C:/Users/KDY/Desktop/backend/bootworkspace/FurgayoMART/src/main/resources/static/images/component/";
+	private final String FILE_PATH_MAIN = "C:/bootworkspace/FurgayoMART/src/main/resources/static/images/main/";
+	private final String FILE_PATH_COOK = "C:/bootworkspace/FurgayoMART/src/main/resources/static/images/cook/";
+	private final String FILE_PATH_COMPONENT = "C:/bootworkspace/FurgayoMART/src/main/resources/static/images/component/";
 	
 	
 	public ProductServiceImpl(ProductMapper pMapper) {
 		this.pMapper = pMapper;
 	}
-	
+
+	// 관리자_상품 이미지 타입
+	@Override
+	public List<ProductImageVO> selectProductImageList(Integer pNo) {
+		return pMapper.selectProductImageList(pNo);
+	}
+
 	// 관리자_상품 전체 개수
 	@Override
 	public int getAllCount(List<ProductVO> pList) {
@@ -91,48 +99,76 @@ public class ProductServiceImpl implements ProductService {
 	// 관리자_상품 기본 정보
 	@Override
 	public ProductVO selectById(Integer pNo) {
-		return pMapper.selectById(pNo);
+		ProductVO product = pMapper.selectById(pNo);
+		
+		List<ProductImageVO> imageList = pMapper.selectProductImageList(pNo);
+	    // 각 이미지의 타입에 맞게 URL을 설정
+	    for (ProductImageVO image : imageList) {
+	        switch (image.getImageType()) {
+	            case "MAIN":
+	                product.setImgMainUrl(image.getFilePath());
+	                break;
+	            case "COOK":
+	                product.setImgCookUrl(image.getFilePath());
+	                break;
+	            case "COMPONENT":
+	                product.setImgComponentUrl(image.getFilePath());
+	                break;
+	        }
+	    }
+		return product;
 	}
 
 	// 관리자_상품 기본 정보 수정
 	@Override
 	public int updateProduct(ProductVO product) {
-		
 		return pMapper.updateProduct(product);
 	}
 	// 관리자_상품 상세 정보 수정
 	@Override
 	public int updateProductDetail(ProductDetailVO productDetail) throws IllegalStateException, IOException {
-		ProductDetailVO existDetail = pMapper.selectImageById(productDetail.getpNo());
+	    List<ProductImageVO> existImageList = pMapper.selectProductImageList(productDetail.getpNo());
 
 	    // imgMainFile 처리
 	    if (productDetail.getImgMainFile() != null && !productDetail.getImgMainFile().isEmpty()) {
-	        String imgMainFilename = ProductUtil.processProductImg(productDetail.getImgMainFile(), productDetail.getpNo(), FILE_PATH_MAIN, "MAIN", pMapper);
-	        productDetail.setImgMain(imgMainFilename);  // DB에 저장할 파일명 설정
+	        String newImgMainFilename = ProductUtil.processProductImg(productDetail.getImgMainFile(), productDetail.getpNo(), FILE_PATH_MAIN, "MAIN", pMapper);
+	        productDetail.setImgMain(newImgMainFilename);
 	    } else {
-	        productDetail.setImgMain(existDetail.getImgMain());
+	        // 기존 이미지 유지
+	        productDetail.setImgMain(findExistingImagePath(existImageList, "MAIN"));
 	    }
 
 	    // imgCookFile 처리
 	    if (productDetail.getImgCookFile() != null && !productDetail.getImgCookFile().isEmpty()) {
-	        String imgCookFilename = ProductUtil.processProductImg(productDetail.getImgCookFile(), productDetail.getpNo(), FILE_PATH_COOK, "COOK", pMapper);
-	        productDetail.setImgCook(imgCookFilename);  // DB에 저장할 파일명 설정
+	        String newImgCookFilename = ProductUtil.processProductImg(productDetail.getImgCookFile(), productDetail.getpNo(), FILE_PATH_COOK, "COOK", pMapper);
+	        productDetail.setImgCook(newImgCookFilename);
 	    } else {
-	        productDetail.setImgCook(existDetail.getImgCook());
+	        // 기존 이미지 유지
+	        productDetail.setImgCook(findExistingImagePath(existImageList, "COOK"));
 	    }
 
 	    // imgComponentFile 처리
 	    if (productDetail.getImgComponentFile() != null && !productDetail.getImgComponentFile().isEmpty()) {
-	        String imgComponentFilename = ProductUtil.processProductImg(productDetail.getImgComponentFile(), productDetail.getpNo(), FILE_PATH_COMPONENT, "COMPONENT", pMapper);
-	        productDetail.setImgComponent(imgComponentFilename);  // DB에 저장할 파일명 설정
+	        // 새로운 이미지 파일을 저장하고 기존 이미지를 삭제
+	        String newImgComponentFilename = ProductUtil.processProductImg(productDetail.getImgComponentFile(), productDetail.getpNo(), FILE_PATH_COMPONENT, "COMPONENT", pMapper);
+	        productDetail.setImgComponent(newImgComponentFilename);
 	    } else {
-	        productDetail.setImgComponent(existDetail.getImgComponent());
+	        // 기존 이미지 유지
+	        productDetail.setImgComponent(findExistingImagePath(existImageList, "COMPONENT"));
 	    }
-	    
+
 	    return pMapper.updateProductDetail(productDetail);
 	}
 
-
+	private String findExistingImagePath(List<ProductImageVO> existingImages, String imageType) {
+	    for (ProductImageVO image : existingImages) {
+	        if (image.getImageType().equals(imageType)) {
+	            return image.getFilePath();
+	        }
+	    }
+	    return null; 
+	}
+	
 	// 관리자_상품 삭제
 	@Override
 	public int deleteProduct(Integer pNo) {
@@ -176,3 +212,4 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 }
+

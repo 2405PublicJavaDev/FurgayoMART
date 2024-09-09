@@ -1,5 +1,7 @@
 package com.mart.boot.product.model.vo;
 
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 
 public class ProductDetailVO {
@@ -15,6 +17,8 @@ public class ProductDetailVO {
     private MultipartFile imgMainFile;
     private MultipartFile imgCookFile;
     private MultipartFile imgComponentFile;
+    // 이미지 리스트(Maim, Cook, Component) 필드 추가
+    private List<ProductImageVO> productImages;
     
     public ProductDetailVO() {}
     
@@ -85,6 +89,14 @@ public class ProductDetailVO {
 		this.imgComponentFile = imgComponentFile;
 	}
 	
+	public List<ProductImageVO> getProductImages() {
+		return productImages;
+	}
+	
+	public void setProductImages(List<ProductImageVO> productImages) {
+		this.productImages = productImages;
+	}
+	
 	@Override
 	public String toString() {
 		return "ProductDetailVO [pNo=" + pNo + ", imgMain=" + imgMain + ", imgCook=" + imgCook + ", imgComponent="
@@ -92,4 +104,5 @@ public class ProductDetailVO {
 				+ ", categoryNo=" + categoryNo + ", imgMainFile=" + imgMainFile + ", imgCookFile=" + imgCookFile
 				+ ", imgComponentFile=" + imgComponentFile + "]";
 	}
+
 }

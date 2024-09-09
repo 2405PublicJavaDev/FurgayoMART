@@ -24,6 +24,10 @@ public class ProductVO {
 	private MultipartFile imgMainFile;
     private MultipartFile imgCookFile;
     private MultipartFile imgComponentFile;
+    // 타입별 이미지 URL 추가
+    private String imgMainUrl; 
+    private String imgCookUrl; 
+    private String imgComponentUrl;
 
     private ProductDetailVO productDetail;
     private ProductImageVO productImage;
@@ -40,6 +44,30 @@ public class ProductVO {
 	        // expiration이 잘못된 날짜 형식일 경우 예외 처리
 	        return -1;
 	    }
+	}
+
+	public String getImgMainUrl() {
+		return imgMainUrl;
+	}
+
+	public void setImgMainUrl(String imgMainUrl) {
+		this.imgMainUrl = imgMainUrl;
+	}
+
+	public String getImgCookUrl() {
+		return imgCookUrl;
+	}
+
+	public void setImgCookUrl(String imgCookUrl) {
+		this.imgCookUrl = imgCookUrl;
+	}
+
+	public String getImgComponentUrl() {
+		return imgComponentUrl;
+	}
+
+	public void setImgComponentUrl(String imgComponentUrl) {
+		this.imgComponentUrl = imgComponentUrl;
 	}
 
 	public int getpNo() {
@@ -176,7 +204,7 @@ public class ProductVO {
 				+ ", expiration=" + expiration + ", regDate=" + regDate + ", categoryNo=" + categoryNo + ", sale="
 				+ sale + ", pPrice=" + pPrice + ", imageUrl=" + imageUrl + ", productList=" + productList
 				+ ", imgMainFile=" + imgMainFile + ", imgCookFile=" + imgCookFile + ", imgComponentFile="
-				+ imgComponentFile + ", productDetail=" + productDetail + "]";
+				+ imgComponentFile + ", imgMainUrl=" + imgMainUrl + ", imgCookUrl=" + imgCookUrl + ", imgComponentUrl="
+				+ imgComponentUrl + ", productDetail=" + productDetail + ", productImage=" + productImage + "]";
 	}
-	
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mart.boot.product.model.mapper.ProductMapper">
-	<!-- 관지라_전체 상품 조회 -->
+	<!-- 관리자_전체 상품 조회 -->
 	<resultMap id="ProductWithDetailMap" type="ProductVO">
-	    <!-- ProductVO -->
+    <!-- ProductVO -->
 	    <id property="pNo" column="P_NO"/>
 	    <result property="pName" column="P_NAME"/>
 	    <result property="pInput" column="P_INPUT"/>
@@ -22,7 +22,19 @@
 	        <result property="cook" column="COOK"/>
 	        <result property="content" column="CONTENT"/>
 	    </association>
+	    <!-- ProductImageVO -->
+	    <association property="productImage" javaType="ProductImageVO">
+	        <result property="filePath" column="imgFilePath"/>
+	        <result property="imageType" column="imgType"/>
+	    </association>
 	</resultMap>
+
+	<!-- 관리자_상품 이미지 조회 -->
+	<select id="selectProductImageList" resultType="ProductImageVO">
+    	SELECT IMAGE_ID, FILE_NAME, FILE_RENAME, FILE_PATH, P_NO, IMAGE_TYPE
+	    FROM PRODUCT_IMAGE
+	    WHERE P_NO = #{pNo}
+	</select>
 	<!-- 관리자_상품 전체 개수 조회 -->
 	<select id="getAllCount" resultType="int">
 		SELECT COUNT(*) FROM PRODUCT
@@ -85,11 +97,20 @@
 	<!-- 관리자_상품 기본 및 상세 정보 -->
 	<select id="selectById" resultMap="ProductWithDetailMap">
 		SELECT 
-        p.P_NO, p.P_NAME, p.P_INPUT, p.P_OUTPUT, p.EXPIRATION, p.REG_DATE, p.CATEGORY_NO, p.SALE, p.P_PRICE,
-        pd.IMG_MAIN, pd.IMG_COOK, pd.IMG_COMPONENT, pd.P_COMPONENT, pd.COOK, pd.CONTENT
-    	FROM PRODUCT p
+	        p.P_NO, p.P_NAME, p.P_INPUT, p.P_OUTPUT, p.EXPIRATION, p.REG_DATE, p.CATEGORY_NO, p.SALE, p.P_PRICE,
+	        pd.IMG_MAIN, pd.IMG_COOK, pd.IMG_COMPONENT, pd.P_COMPONENT, pd.COOK, pd.CONTENT,
+	        pi.FILE_PATH as imgFilePath, pi.IMAGE_TYPE as imgType  
+	    FROM PRODUCT p
 	    LEFT JOIN PRODUCT_DETAIL pd ON p.P_NO = pd.P_NO
+	    LEFT JOIN PRODUCT_IMAGE pi ON p.P_NO = pi.P_NO 
 	    WHERE p.P_NO = #{pNo}
+	</select>
+	<!-- 관리자_상품 이미지 정보 -->
+	<select id="selectProductImageType" resultType="ProductImageVO">
+		SELECT FILE_PATH, IMAGE_TYPE
+		FROM PRODUCT_IMAGE
+		WHERE P_NO = #{pNo}
+		AND IMAGE_TYPE = #{imageType}
 	</select>
 	<!-- 관리자_상품 기본 정보 수정 -->
 	<update id="updateProduct">
@@ -114,10 +135,6 @@
 		    CONTENT = #{content}
 		WHERE P_NO = #{pNo}
 	</update>
-	<!-- 관리자_상품 이미지 정보 조회 -->
-	<select id="selectImageById">
-		SELECT IMG_MAIN, IMG_COOK, IMG_COMPONENT FROM PRODUCT_DETAIL WHERE P_NO = #{pNo}
-	</select>
 	<!-- 관리자_상품 이미지 삭제 -->
 	<delete id="deleteProductImage">
 	    DELETE FROM PRODUCT_IMAGE WHERE P_NO = #{pNo}

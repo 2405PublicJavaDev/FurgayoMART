@@ -12,6 +12,13 @@ import com.mart.boot.product.model.vo.ProductVO;
 @Mapper
 public interface ProductMapper {
 
+	/** 
+	 * 관리자_상품 이미지 타입 Mapper
+	 * @param pNo
+	 * @return List<ProductImageVO>
+	 */
+	List<ProductImageVO> selectProductImageList(Integer pNo);
+
 	/**
 	 * 관리자_상품 전체 개수 조회 Mapper
 	 * @param pList
