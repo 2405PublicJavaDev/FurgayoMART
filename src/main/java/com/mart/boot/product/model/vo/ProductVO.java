@@ -21,13 +21,14 @@ public class ProductVO {
 	private String imageUrl;					// 이미지
 	private List<ProductImageVO> productList;	// 이미지 리스트
 	// 파일 업로드를 위한 필드 추가
-    private MultipartFile imgMain;
-    private MultipartFile imgCook;
-    private MultipartFile imgComponent;
+	private MultipartFile imgMainFile;
+    private MultipartFile imgCookFile;
+    private MultipartFile imgComponentFile;
 
-	public ProductVO() {}
-	
-	public ProductDetailVO productDetail;
+    private ProductDetailVO productDetail;
+    private ProductImageVO productImage;
+    
+    public ProductVO() {}
 	
 	// 남은 일수를 계산
 	public long getRemainingDays() {
@@ -40,7 +41,7 @@ public class ProductVO {
 	        return -1;
 	    }
 	}
-	
+
 	public int getpNo() {
 		return pNo;
 	}
@@ -128,38 +129,54 @@ public class ProductVO {
 	public void setProductList(List<ProductImageVO> productList) {
 		this.productList = productList;
 	}
+
+	public MultipartFile getImgMainFile() {
+		return imgMainFile;
+	}
+
+	public void setImgMainFile(MultipartFile imgMainFile) {
+		this.imgMainFile = imgMainFile;
+	}
+
+	public MultipartFile getImgCookFile() {
+		return imgCookFile;
+	}
+
+	public void setImgCookFile(MultipartFile imgCookFile) {
+		this.imgCookFile = imgCookFile;
+	}
+
+	public MultipartFile getImgComponentFile() {
+		return imgComponentFile;
+	}
+
+	public void setImgComponentFile(MultipartFile imgComponentFile) {
+		this.imgComponentFile = imgComponentFile;
+	}
+
+	public ProductDetailVO getProductDetail() {
+		return productDetail;
+	}
+
+	public void setProductDetail(ProductDetailVO productDetail) {
+		this.productDetail = productDetail;
+	}
 	
-
-	public MultipartFile getImgMain() {
-		return imgMain;
+	public ProductImageVO getProductImage() {
+		return productImage;
 	}
 
-	public void setImgMain(MultipartFile imgMain) {
-		this.imgMain = imgMain;
-	}
-
-	public MultipartFile getImgCook() {
-		return imgCook;
-	}
-
-	public void setImgCook(MultipartFile imgCook) {
-		this.imgCook = imgCook;
-	}
-
-	public MultipartFile getImgComponent() {
-		return imgComponent;
-	}
-
-	public void setImgComponent(MultipartFile imgComponent) {
-		this.imgComponent = imgComponent;
+	public void setProductImage(ProductImageVO productImage) {
+		this.productImage = productImage;
 	}
 
 	@Override
 	public String toString() {
 		return "ProductVO [pNo=" + pNo + ", pName=" + pName + ", pInput=" + pInput + ", pOutput=" + pOutput
 				+ ", expiration=" + expiration + ", regDate=" + regDate + ", categoryNo=" + categoryNo + ", sale="
-				+ sale + ", pPrice=" + pPrice + ", imageUrl=" + imageUrl + ", productList=" + productList + ", imgMain="
-				+ imgMain + ", imgCook=" + imgCook + ", imgComponent=" + imgComponent + "]";
+				+ sale + ", pPrice=" + pPrice + ", imageUrl=" + imageUrl + ", productList=" + productList
+				+ ", imgMainFile=" + imgMainFile + ", imgCookFile=" + imgCookFile + ", imgComponentFile="
+				+ imgComponentFile + ", productDetail=" + productDetail + "]";
 	}
-
+	
 }

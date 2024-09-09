@@ -1,5 +1,7 @@
 package com.mart.boot.product.model.vo;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class ProductImageVO {
 	private int imageId;		// 이미지ID
 	private String fileName;	// 원본 파일명
@@ -8,6 +10,10 @@ public class ProductImageVO {
 	private String fileSize;	// 파일 크기
 	private int pNo;			// 상품 번호
 	private String imageType;	// 이미지 타입(메인, 조리, 상품 구성)
+	// 파일 업로드를 위한 필드 추가
+	private MultipartFile imgMainFile;
+    private MultipartFile imgCookFile;
+    private MultipartFile imgComponentFile;
 	
 	public ProductImageVO() {}
 
@@ -67,10 +73,35 @@ public class ProductImageVO {
 		this.imageType = imageType;
 	}
 
+	public MultipartFile getImgMainFile() {
+		return imgMainFile;
+	}
+
+	public void setImgMainFile(MultipartFile imgMainFile) {
+		this.imgMainFile = imgMainFile;
+	}
+
+	public MultipartFile getImgCookFile() {
+		return imgCookFile;
+	}
+
+	public void setImgCookFile(MultipartFile imgCookFile) {
+		this.imgCookFile = imgCookFile;
+	}
+
+	public MultipartFile getImgComponentFile() {
+		return imgComponentFile;
+	}
+
+	public void setImgComponentFile(MultipartFile imgComponentFile) {
+		this.imgComponentFile = imgComponentFile;
+	}
+
 	@Override
 	public String toString() {
 		return "ProductImageVO [imageId=" + imageId + ", fileName=" + fileName + ", fileRename=" + fileRename
-				+ ", filePath=" + filePath + ", fileSize=" + fileSize + ", pNo=" + pNo + ", imageType="
-				+ imageType + "]";
+				+ ", filePath=" + filePath + ", fileSize=" + fileSize + ", pNo=" + pNo + ", imageType=" + imageType
+				+ ", imgMainFile=" + imgMainFile + ", imgCookFile=" + imgCookFile + ", imgComponentFile="
+				+ imgComponentFile + "]";
 	}
 }

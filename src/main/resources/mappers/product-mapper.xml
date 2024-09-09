@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mart.boot.product.model.mapper.ProductMapper">
+	<!-- 관지라_전체 상품 조회 -->
 	<resultMap id="ProductWithDetailMap" type="ProductVO">
 	    <!-- ProductVO -->
 	    <id property="pNo" column="P_NO"/>
@@ -65,7 +66,6 @@
     <select id="selectList" resultType="ProductVO">
         SELECT * FROM PRODUCT ORDER BY REG_DATE DESC -->
     </select>
-    
     <!-- 관리자_상품 기본 정보 등록 -->
     <insert id="addProduct" useGeneratedKeys="true" keyProperty="pNo" keyColumn="P_NO">
 	    INSERT INTO PRODUCT (P_NO, P_NAME, P_INPUT, P_OUTPUT, EXPIRATION, REG_DATE, CATEGORY_NO, SALE, P_PRICE)
@@ -101,7 +101,7 @@
 		    SALE = #{sale}, 
 		    P_INPUT = #{pInput}, 
 		    P_OUTPUT = #{pOutput}
-		WHERE P_NO = #{pNo};
+		WHERE P_NO = #{pNo}
 	</update>
 	<!-- 관리자_상품 상세 정보 수정 -->
 	<update id="updateProductDetail">
@@ -112,7 +112,7 @@
 		    P_COMPONENT = #{pComponent}, 
 		    COOK = #{cook}, 
 		    CONTENT = #{content}
-		WHERE P_NO = #{pNo};
+		WHERE P_NO = #{pNo}
 	</update>
 	<!-- 관리자_상품 이미지 정보 조회 -->
 	<select id="selectImageById">
