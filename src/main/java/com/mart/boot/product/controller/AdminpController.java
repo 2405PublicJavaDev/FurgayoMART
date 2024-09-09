@@ -18,7 +18,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mart.boot.product.model.service.ProductService;
 import com.mart.boot.product.model.vo.ProductDetailVO;
-import com.mart.boot.product.model.vo.ProductImageVO;
 import com.mart.boot.product.model.vo.ProductVO;
 
 @Controller
