@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/css/find-id-result.css}">
+    <title>아이디 찾기 결과</title>
+</head>
+<body>
+   <h1>아이디(휴대폰 번호) 찾기 결과</h1>
+    <div th:if="${message}" th:text="${message}" style="color: green;"></div>
+    <div th:if="${error}" th:text="${error}" style="color: red;"></div>
+    <a href="/member/login">로그인 페이지로 이동</a>
+</body>
+</html>

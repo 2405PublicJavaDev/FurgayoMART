@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.mart.boot.member.emailconfig.EmailConfig;
+import com.mart.boot.member.emailconfig.EmailService;
 //import com.mart.boot.member.emailconfig.EmailService;
 import com.mart.boot.member.model.service.MemberService;
 import com.mart.boot.member.model.vo.MemberVO;
@@ -26,6 +28,9 @@ public class MemberController {
 
     @Autowired
     private MemberService mService;
+    
+    @Autowired
+    private EmailService emailService;
 
     // 회원가입 페이지
     @GetMapping("/register")
@@ -87,6 +92,7 @@ public class MemberController {
     		if(member != null) {
     			session.setAttribute("memberPhone", member.getMemberPhone());
     			session.setAttribute("memberName", member.getMemberName());
+    			session.setAttribute("memberNo", member.getMemberNo());
     			return "redirect:/";
     		} else {
     			model.addAttribute("error", "로그인이 완료되지 않았습니다.");
@@ -244,30 +250,44 @@ public class MemberController {
         try {
             String foundId = mService.findIdByEmailAndName(email, name);
             if (foundId != null) {
-                model.addAttribute("foundId", foundId);
-                return "member/id-result";
+            	emailService.sendIdRecoveryEmail(email, foundId);
+                model.addAttribute("message", "아이디가 이메일로 전송되었습니다.");
+                return "member/find-id-result";
             } else {
                 model.addAttribute("error", "일치하는 회원 정보를 찾을 수 없습니다.");
             }
         } catch (Exception e) {
-            model.addAttribute("error", "아이디 찾기 중 오류가 발생했습니다.");
+            model.addAttribute("error", "아이디 찾기 중 오류가 발생했습니다." + e.getMessage());
         }
-        return "member/find-id";
+        return "member/find-id-result";
+    }
+    
+ // 비밀번호 찾기 페이지
+    @GetMapping("/find-pw")
+    public String showFindPwForm() {
+    	return "member/find-pw";
+    }
+    
+ // 비밀번호 찾기 로직 수행
+    @PostMapping("/find-pw")
+    public String findPw(@RequestParam String name,
+    					 @RequestParam String phone,
+                         @RequestParam String email,
+                         Model model) {
+        try {
+//        	String foundPw = mService.findIdByEmailAndName(email, name);
+            String foundPw = mService.findPwByEmailAndPhoneAndName(email, phone, name);
+            if (foundPw != null) {
+            	emailService.sendPasswordResetEmail(email, foundPw);
+                model.addAttribute("message", "임시 비밀번호가 이메일로 전송되었습니다.");
+                return "member/find-pw-result";
+            } else {
+                model.addAttribute("error", "일치하는 회원 정보를 찾을 수 없습니다.");
+            }
+        } catch (Exception e) {
+        	logger.error("error occur", e);
+            model.addAttribute("error", "비밀번호 찾기 중 오류가 발생했습니다." +e.getMessage());
+        }
+        return "member/find-pw-result";
     }
 }
-//	// 이메일 인증코드 발송
-//	@PostMapping("/send-verification")
-//	@ResponseBody
-//	public String sendVerificationEmail(@RequestParam String email) {
-//		emailService.sendVerificationEmail(email);
-//		return "인증 이메일이 발송되었습니다.";
-//	}
-//	
-//	// 이메일 인증코드 유효성 검사
-//	@PostMapping("/verify-email")
-//	@ResponseBody
-//	public String verifyEmail(@RequestParam String email, @RequestParam String code) {
-//		boolean isVerified = emailService.verifyEmail(email, code);
-//		return isVerified ? "이메일이 성공적으로 인증되었습니다." : "인증 코드가 올바르지 않습니다.";
-//	}
-//}

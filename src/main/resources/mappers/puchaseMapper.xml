@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mart.boot.purchase.model.mapper.PurchaseMapper">
+
+    <resultMap type="ProductVO" id="productResultMap">
+        <id property="pNo" column="P_NO"/>
+        <result property="pName" column="P_NAME"/>
+        <result property="pInput" column="P_INPUT"/>
+        <result property="pOutput" column="P_OUTPUT"/>
+        <result property="expiration" column="EXPIRATION"/>
+        <result property="regDate" column="REG_DATE"/>
+        <result property="categoryNo" column="CATEGORY_NO"/>
+        <result property="sale" column="SALE"/>
+        <result property="pPrice" column="P_PRICE"/>
+    </resultMap>
+
+    <resultMap type="PurchaseVO" id="purchaseResultMap">
+        <id property="purchaseNo" column="PURCHASE_NO"/>
+        <result property="pNo" column="P_NO"/>
+        <result property="memberNo" column="MEMBER_NO"/>
+        <result property="quantity" column="QUANTITY"/>
+        <result property="totalAmount" column="TOTAL_AMOUNT"/>
+        <result property="paymentMethod" column="PAYMENT_METHOD"/>
+        <result property="purchaseStatus" column="PURCHASE_STATUS"/>
+        <result property="purchaseDate" column="PURCHASE_DATE"/>
+    </resultMap>
+
+    <select id="selectProductByPNo" resultMap="productResultMap">
+        SELECT * FROM PRODUCT WHERE P_NO = #{pNo}
+    </select>
+
+<insert id="insertPurchase" parameterType="PurchaseVO">
+    INSERT INTO PURCHASE (P_NO, MEMBER_NO, QUANTITY, TOTAL_AMOUNT, PAYMENT_METHOD, PURCHASE_STATUS, PURCHASE_DATE)
+    VALUES (#{pNo}, #{memberNo}, #{quantity}, #{totalAmount}, #{paymentMethod}, #{purchaseStatus}, #{purchaseDate})
+</insert>
+</mapper>

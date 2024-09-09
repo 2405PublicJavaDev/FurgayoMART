@@ -1,6 +1,7 @@
 package com.mart.boot.member.model.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.mart.boot.member.model.vo.MemberVO;
 
@@ -17,7 +18,11 @@ public interface MemberMapper {
 
 	int deleteMember(String memberPhone);
 
-	MemberVO selectMemberByEmailAndName(String email, String name);
+	MemberVO selectMemberByEmailAndName(@Param("memberEmail") String memberEmail, @Param("memberName") String memberName);
+
+	MemberVO selectPwMemberByEmailAndPhoneAndName(String email, String phone, String name);
+
+	void updateMemberPassword(MemberVO member);
 	
 //	int countByUsername(String memberPhone);
 }

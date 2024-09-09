@@ -1,13 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
-  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mart.boot.product.model.mapper.ProductMapper">
-	<!-- 관지라_전체 상품 조회 -->
-    <select id="selectList" resultType="com.mart.boot.product.model.vo.ProductVO">
-        SELECT * FROM PRODUCT ORDER BY REG_DATE DESC
-    </select>
-    
     <!-- 관리자_상품 기본 정보 등록 -->
     <insert id="addProduct" useGeneratedKeys="true" keyProperty="pNo" keyColumn="P_NO">
 	    INSERT INTO PRODUCT (P_NO, P_NAME, P_INPUT, P_OUTPUT, EXPIRATION, REG_DATE, CATEGORY_NO, SALE, P_PRICE)

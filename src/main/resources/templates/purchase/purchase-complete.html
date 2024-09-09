@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>구매 완료</title>
+    <link rel="stylesheet" th:href="@{/css/purchase-complete.css}">
+</head>
+<body>
+    <div class="purchase-complete-container">
+        <h1>구매가 완료되었습니다</h1>
+        <div class="purchase-details">
+            <h2>구매 정보</h2>
+            <p>상품명: <span th:text="${product.pName}"></span></p>
+            <p>수량: <span th:text="${purchase.quantity}"></span></p>
+            <p>총 금액: <span th:text="${#numbers.formatDecimal(purchase.totalAmount, 0, 'COMMA', 0, 'POINT')}">0</span>원</p>
+        </div>
+        <div class="bank-info">
+            <h2>무통장입금 정보</h2>
+            <pre th:text="${bankInfo}"></pre>
+        </div>
+        <p class="warning">위 계좌로 입금 기한 내에 입금해 주세요. 입금 확인 후 주문이 완료됩니다.</p>
+        <a href="/" class="btn-home">홈으로 돌아가기</a>
+    </div>
+</body>
+</html>

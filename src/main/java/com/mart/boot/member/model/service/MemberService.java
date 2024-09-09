@@ -45,7 +45,16 @@ public interface MemberService {
 	 * @param name
 	 * @return String
 	 */
-	String findIdByEmailAndName(String email, String name);
+	String findIdByEmailAndName(String email, String name) throws Exception;
+
+	/**
+	 * 비밀번호 찾기
+	 * @param email
+	 * @param phone
+	 * @param name
+	 * @return String
+	 */
+	String findPwByEmailAndPhoneAndName(String email, String phone, String name);
 	
 //	/**
 //	 * 지정된 이메일 주소로 인증 코드를 발송

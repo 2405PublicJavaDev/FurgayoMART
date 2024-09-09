@@ -36,9 +36,17 @@
 		WHERE MEMBER_PHONE = #{memberPhone}
 	</select>
 	<select id="selectMemberByEmailAndName" resultType="MemberVO">
+        SELECT * FROM MEMBER
+        WHERE MEMBER_EMAIL = #{memberEmail} AND MEMBER_NAME = #{memberName}
+    </select>
+	<select id="selectPwMemberByEmailAndPhoneAndName" resultMap="memberResultMap">
 		SELECT * FROM MEMBER
-		WHERE MEMBER_EMAIL = #{memberEmail} AND MEMBER_NAME = #{memberName}
+		WHERE MEMBER_EMAIL = #{email} AND MEMBER_PHONE = #{phone} AND MEMBER_NAME = #{name}
 	</select>
+	 <update id="updateMemberPassword">
+        UPDATE MEMBER SET MEMBER_PW = #{memberPw}
+        WHERE MEMBER_NO = #{memberNo}
+    </update>
 	<!-- <select id="countByMemberPhone" parameterType="string" -->
 	<!-- resultType="int"> -->
 	<!-- SELECT COUNT(*) FROM MEMBER WHERE MEMBER_PHONE = #{memberPhone} -->

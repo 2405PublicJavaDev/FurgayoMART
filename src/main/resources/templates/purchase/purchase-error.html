@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>구매 오류</title>
+</head>
+<body>
+    <div class="error-container">
+        <h1>구매 처리 중 오류가 발생했습니다</h1>
+        <p th:text="${error}">오류 메시지</p>
+        <a href="/" class="btn-home">홈으로 돌아가기</a>
+    </div>
+</body>
+</html>
