@@ -76,11 +76,12 @@
                                 <li>
                                     <div class="image-upload">
                                     	<input type="file" id="imgMain" name="imgMain" accept="image/*" onchange="readURL(this, 'mainPreview')">
-                                   		 <img id="mainPreview"
-									         th:src="${product.imageUrl != null ? product.imageUrl : '/images/no-image.png'}"
-									         data-existing-src="${product.imageUrl != null ? product.imageUrl : '/images/no-image.png'}"
-								 		>
-                                    </div>
+                                   		<!-- 메인 이미지 미리보기 -->
+										<img id="mainPreview"
+									     th:src="${productDetail != null && productDetail.imgMain != null ? '/images/' + productDetail.imgMain : '/images/noimage.jpg'}" 
+									     data-existing-src="${productDetail != null && productDetail.imgMain != null ? '/images/' + productDetail.imgMain : '/images/noimage.png'}" />
+							     		/>
+									</div>
                                 </li>
                                 <li>
                                     <label for="inventory">입고량</label>
@@ -100,18 +101,20 @@
                             </li>
                             <li>
                                 <label>조리된 사진</label>
+                                <div class="image-upload">
                                 <img id="cookPreview" 
-								     th:src="${productDetailVO != null && productDetailVO.imgCook != null ? '/images/' + productDetailVO.imgCook : '/images/no-image.png'}"
-								     data-existing-src="${productDetailVO != null && productDetailVO.imgCook != null ? '/images/' + productDetailVO.imgCook : '/images/no-image.png'}"
-								>
-                            </li>
+								     th:src="${productDetail != null && productDetail.imgCook != null ? '/images/' + productDetail.imgCook : '/images/noimage.png'}" 
+								     data-existing-src="${productDetail != null && productDetail.imgCook != null ? '/images/' + productDetail.imgCook : '/images/noimage.png'}" 
+								     />
+							     </div>
+							</li>
                             <li>
                                 <label>상품 구성 사진</label>
                                 <div class="image-upload">
                                      <input type="file" id="imgComponent" name="imgComponent" accept="image/*" onchange="readURL(this, 'componentPreview')">
 	                                 <img id="componentPreview" 
-									      th:src="${productDetailVO != null && productDetailVO.imgComponent != null ? '/images/' + productDetailVO.imgComponent : '/images/no-image.png'}"
-									      data-existing-src="${productDetailVO != null && productDetailVO.imgComponent != null ? '/images/' + productDetailVO.imgComponent : '/images/no-image.png'}"
+								      th:src="${productDetail != null && productDetail.imgComponent != null ? '/images/' + productDetail.imgComponent : '/images/noimage.png'}"
+								      data-existing-src="${productDetail != null && productDetail,imgComponent != null ? '/images/' + productDetail.imgComponent : '/images/noimage.png'}"
 									 >
                                 </div>
                             </li>

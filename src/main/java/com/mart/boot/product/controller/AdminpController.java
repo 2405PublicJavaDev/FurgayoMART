@@ -18,6 +18,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mart.boot.product.model.service.ProductService;
 import com.mart.boot.product.model.vo.ProductDetailVO;
+import com.mart.boot.product.model.vo.ProductImageVO;
 import com.mart.boot.product.model.vo.ProductVO;
 
 @Controller
@@ -61,22 +62,17 @@ public class AdminpController {
 	@PostMapping("/{pNo}/modify")
 	public String updateProduct(RedirectAttributes redirectAttributes
 			, ProductVO product
-			, ProductDetailVO productDetail
-			, @RequestParam("imgMain") MultipartFile imgMain
-			, @RequestParam("imgCook") MultipartFile imgCook
-			, @RequestParam("imgComponent") MultipartFile imgComponent
+			, @ModelAttribute ProductDetailVO productDetail
 			) throws IllegalStateException, IOException {
 		 // 파일을 저장하고 경로만 VO에 설정
-
 		int productUpdateResult = pService.updateProduct(product);
-		int productDetailUpdateResult = pService.updateProductDetail(productDetail, imgMain, imgCook, imgComponent);
+		int productDetailUpdateResult = pService.updateProductDetail(productDetail);
 		
 		if (productUpdateResult > 0 && productDetailUpdateResult > 0) {
 		        redirectAttributes.addFlashAttribute("message", "수정되었습니다.");
 		} else {
 		        redirectAttributes.addFlashAttribute("message", "수정에 실패했습니다.");
 		}
-		    
 		return "redirect:/admin/product/list";
 	}
 

@@ -9,6 +9,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.mart.boot.common.utility.ProductUtil;
 import com.mart.boot.product.model.mapper.ProductMapper;
 import com.mart.boot.product.model.service.ProductService;
 import com.mart.boot.product.model.vo.ProductDetailVO;
@@ -19,7 +20,7 @@ import com.mart.boot.product.model.vo.ProductVO;
 public class ProductServiceImpl implements ProductService {
 	
 	private final ProductMapper pMapper;
-	private final String FILE_PATH = "C:/bootworkspace/FurgayoMART/src/main/resources/static/images/";
+	private final String FILE_PATH = "C:/Users/KDY/Desktop/backend/bootworkspace/FurgayoMART/src/main/resources/static/images/";
 	
 	public ProductServiceImpl(ProductMapper pMapper) {
 		this.pMapper = pMapper;
@@ -63,7 +64,7 @@ public class ProductServiceImpl implements ProductService {
 		productDetail.setImgMain(imgMain != null ? imgMain.getOriginalFilename() : null);
 		productDetail.setImgCook(imgCook != null ? imgCook.getOriginalFilename() : null);
 		productDetail.setImgComponent(imgComponent != null ? imgComponent.getOriginalFilename() : null);
-		productDetail.setPComponent(pComponent != null ? pComponent : ""); // 폼에서 전달된 값을 사용
+		productDetail.setpComponent(pComponent != null ? pComponent : ""); // 폼에서 전달된 값을 사용
 		productDetail.setCook(cook != null ? cook : ""); // 폼에서 전달된 값을 사용
 		productDetail.setContent(content != null ? content : ""); // 폼에서 전달된 값을 사용
 		productDetail.setCategoryNo(categoryNo);
@@ -72,32 +73,17 @@ public class ProductServiceImpl implements ProductService {
 	    int detailResult = pMapper.addProductDetail(productDetail);
 	    
 		if(imgMain != null && !imgMain.isEmpty()) {
-			processProductImg(imgMain, product.getpNo(), FILE_PATH, "/images/", "MAIN");
+			ProductUtil.processProductImg(imgMain, product.getpNo(), FILE_PATH, "file:///images/", "MAIN", pMapper);
 		}
 		
-		if(imgCook != null && !imgCook.isEmpty()) {
-			processProductImg(imgCook, product.getpNo(), FILE_PATH, "/images/", "COOK");
+		if (imgCook != null && !imgCook.isEmpty()) {
+		    ProductUtil.processProductImg(imgCook, product.getpNo(), FILE_PATH, "file:///images/", "COOK", pMapper);
 		}
-		
-		if(imgCook != null && !imgComponent.isEmpty()) {
-			processProductImg(imgComponent, product.getpNo(), FILE_PATH, "/images/", "COMPONENT");
+
+		if (imgComponent != null && !imgComponent.isEmpty()) {
+		    ProductUtil.processProductImg(imgComponent, product.getpNo(), FILE_PATH, "file:///images/", "COMPONENT", pMapper);
 		}
 		return result;
-	}
-	// 관리자_상품 이미지 등록
-	private void processProductImg(MultipartFile imgFile, int pNo, String fileSavePath, String dbFilePath, String imgType) throws IllegalStateException, IOException {
-		String FileName = imgFile.getOriginalFilename();
-		String FileRename = "product" + pNo + ".jpg";
-		imgFile.transferTo(new File(fileSavePath + FileRename));
-		
-		ProductImageVO productImg = new ProductImageVO();
-		productImg.setFileName(FileName);
-		productImg.setFileRename(FileRename);
-		productImg.setFilePath(dbFilePath);
-		productImg.setpNo(pNo);
-		productImg.setImageType(imgType);
-		
-		pMapper.addProductFile(productImg);	
 	}
 
 	// 관리자_상품 기본 정보
@@ -113,10 +99,36 @@ public class ProductServiceImpl implements ProductService {
 	}
 	// 관리자_상품 상세 정보 수정
 	@Override
-	public int updateProductDetail(ProductDetailVO productDetail, MultipartFile imgMain, MultipartFile imgCook, MultipartFile imgComponent) throws IllegalStateException, IOException {
-		ProductDetailVO existDetail = pMapper.selectImageById(productDetail.getpNo());
-		return pMapper.updateProductDetail(productDetail);
+	public int updateProductDetail(ProductDetailVO productDetail) throws IllegalStateException, IOException {
+	    ProductDetailVO existDetail = pMapper.selectImageById(productDetail.getpNo());
+	    // imgMainFile이 있으면 처리
+	    if (productDetail.getImgMainFile() != null && !productDetail.getImgMainFile().isEmpty()) {
+	        String imgMainFilename = productDetail.getImgMainFile().getOriginalFilename();
+	        productDetail.setImgMain(imgMainFilename);
+	    } else {
+	        // 기존 이미지가 있으면 그대로 사용, 없으면 noimage 사용
+	        productDetail.setImgMain(existDetail.getImgMain() != null ? existDetail.getImgMain() : "noimage.jpg");
+	    }
+
+	    // imgCookFile이 있으면 처리
+	    if (productDetail.getImgCookFile() != null && !productDetail.getImgCookFile().isEmpty()) {
+	        String imgCookFilename = productDetail.getImgCookFile().getOriginalFilename();
+	        productDetail.setImgCook(imgCookFilename);
+	    } else {
+	        productDetail.setImgCook(existDetail.getImgCook() != null ? existDetail.getImgCook() : "noimage.jpg");
+	    }
+
+	    // imgComponentFile이 있으면 처리
+	    if (productDetail.getImgComponentFile() != null && !productDetail.getImgComponentFile().isEmpty()) {
+	        String imgComponentFilename = productDetail.getImgComponentFile().getOriginalFilename();
+	        productDetail.setImgComponent(imgComponentFilename);
+	    } else {
+	        productDetail.setImgComponent(existDetail.getImgComponent() != null ? existDetail.getImgComponent() : "noimage.jpg");
+	    }
+
+	    return pMapper.updateProductDetail(productDetail);
 	}
+
 
 	// 관리자_상품 삭제
 	@Override

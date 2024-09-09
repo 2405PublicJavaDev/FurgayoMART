@@ -21,9 +21,9 @@ public class ProductVO {
 	private String imageUrl;					// 이미지
 	private List<ProductImageVO> productList;	// 이미지 리스트
 	// 파일 업로드를 위한 필드 추가
-    private MultipartFile imgMain;
-    private MultipartFile imgCook;
-    private MultipartFile imgComponent;
+	private MultipartFile imgMainFile;
+    private MultipartFile imgCookFile;
+    private MultipartFile imgComponentFile;
 
 	public ProductVO() {}
 	
@@ -130,36 +130,36 @@ public class ProductVO {
 	}
 	
 
-	public MultipartFile getImgMain() {
-		return imgMain;
+	public MultipartFile getimgMainFile() {
+		return imgMainFile;
 	}
 
-	public void setImgMain(MultipartFile imgMain) {
-		this.imgMain = imgMain;
+	public void setimgMainFile(MultipartFile imgMainFile) {
+		this.imgMainFile = imgMainFile;
 	}
 
-	public MultipartFile getImgCook() {
-		return imgCook;
+	public MultipartFile getimgCookFile() {
+		return imgCookFile;
 	}
 
-	public void setImgCook(MultipartFile imgCook) {
-		this.imgCook = imgCook;
+	public void setimgCookFile(MultipartFile imgCookFile) {
+		this.imgCookFile = imgCookFile;
 	}
 
-	public MultipartFile getImgComponent() {
-		return imgComponent;
+	public MultipartFile getimgComponentFile() {
+		return imgComponentFile;
 	}
 
-	public void setImgComponent(MultipartFile imgComponent) {
-		this.imgComponent = imgComponent;
+	public void setimgComponentFile(MultipartFile imgComponentFile) {
+		this.imgComponentFile = imgComponentFile;
 	}
 
 	@Override
 	public String toString() {
 		return "ProductVO [pNo=" + pNo + ", pName=" + pName + ", pInput=" + pInput + ", pOutput=" + pOutput
 				+ ", expiration=" + expiration + ", regDate=" + regDate + ", categoryNo=" + categoryNo + ", sale="
-				+ sale + ", pPrice=" + pPrice + ", imageUrl=" + imageUrl + ", productList=" + productList + ", imgMain="
-				+ imgMain + ", imgCook=" + imgCook + ", imgComponent=" + imgComponent + "]";
+				+ sale + ", pPrice=" + pPrice + ", imageUrl=" + imageUrl + ", productList=" + productList + ", imgMainFile="
+				+ imgMainFile + ", imgCookFile=" + imgCookFile + ", imgComponentFile=" + imgComponentFile + "]";
 	}
 
 }
