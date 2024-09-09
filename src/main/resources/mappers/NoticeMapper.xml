@@ -52,13 +52,13 @@
             <if test="searchKeyword != null and !searchKeyword.isEmpty()">
                 <choose>
                     <when test="searchType == 'title'">
-                        NOTICE_TITLE LIKE CONCAT('%', #{searchKeyword}, '%')
+                        NOTICE_TITLE LIKE '%' || #{searchKeyword} || '%'
                     </when>
                     <when test="searchType == 'content'">
-                        NOTICE_CONTENT LIKE CONCAT('%', #{searchKeyword}, '%')
+                        NOTICE_CONTENT LIKE '%' || #{searchKeyword} || '%'
                     </when>
                     <when test="searchType == 'writer'">
-                        NOTICE_WRITER LIKE CONCAT('%', #{searchKeyword}, '%')
+                        NOTICE_WRITER LIKE '%' || #{searchKeyword} || '%'
                     </when>
                 </choose>
             </if>
@@ -74,13 +74,13 @@
             <if test="searchKeyword != null and !searchKeyword.isEmpty()">
                 <choose>
                     <when test="searchType == 'title'">
-                        NOTICE_TITLE LIKE CONCAT('%', #{searchKeyword}, '%')
+                        NOTICE_TITLE LIKE '%' || #{searchKeyword} || '%'
                     </when>
                     <when test="searchType == 'content'">
-                        NOTICE_CONTENT LIKE CONCAT('%', #{searchKeyword}, '%')
+                        NOTICE_CONTENT LIKE '%' || #{searchKeyword} || '%'
                     </when>
                     <when test="searchType == 'writer'">
-                        NOTICE_WRITER LIKE CONCAT('%', #{searchKeyword}, '%')
+                        NOTICE_WRITER LIKE '%' || #{searchKeyword} || '%'
                     </when>
                 </choose>
             </if>
