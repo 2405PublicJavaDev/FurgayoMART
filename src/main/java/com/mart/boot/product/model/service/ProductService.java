@@ -57,4 +57,38 @@ public interface ProductService {
 	 */
 	int deleteProduct(Integer pNo);
 
+	
+	/**
+	 * 상품 리스트 조회
+	 * @param pNo
+	 * @return ProductVO
+	 */
+	ProductVO selectOne(int pNo);
+
+	/**
+	 * 상품 품목 리스트
+	 * @return List<ProductVO>
+	 */
+	List<ProductVO> selecpagetList();
+
+	/** 
+	 * 사용자 한식 페이지
+	 * @return List<ProductVO>
+	 */
+	List<ProductVO> selectKoreanFood(int categoryNo);
+
+	/**
+	 * 사용자 중식 페이지
+	 * @param categoryNo
+	 * @return
+	 */
+	List<ProductVO> selectChinesesFood(int categoryNo);
+
+	/**
+	 * 사용자 일식 페이지
+	 * @param i
+	 * @return List<ProductVO>
+	 */
+	List<ProductVO> selectJapaneseFood(int categoryNo);
+
 }

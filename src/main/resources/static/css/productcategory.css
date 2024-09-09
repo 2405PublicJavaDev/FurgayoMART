@@ -1,0 +1,94 @@
+@charset "UTF-8";
+ body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .sidebar {
+            width: 200px;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .sidebar li {
+            margin-bottom: 10px;
+        }
+        .main-content {
+            flex: 1;
+            padding: 20px;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .nav ul {
+            list-style-type: none;
+            display: flex;
+            gap: 20px;
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        .product-item {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background-color: #ddd;
+            margin-bottom: 10px;
+        }
+        .product-image > img {
+	width : 260px;
+    max-width: 100%;
+    max-height: 100%;
+   /*  object-fit: contain; */
+    
+}
+.product-href {
+    text-decoration: none; 
+    color: black; 
+}
+
+
+.product-href:hover {
+    color: gray; 
+
+}
+.product-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.product-title {
+    margin: 0;
+}
+ .sort-buttons {
+    display: flex;
+    gap: 10px;
+}
+.sort-button {
+    padding: 5px 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.sort-button:hover {
+    background-color: #e0e0e0;
+}

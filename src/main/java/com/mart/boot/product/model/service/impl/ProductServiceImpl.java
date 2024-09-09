@@ -14,6 +14,7 @@ import com.mart.boot.product.model.vo.ProductDetailVO;
 import com.mart.boot.product.model.vo.ProductImageVO;
 import com.mart.boot.product.model.vo.ProductVO;
 
+
 @Service
 public class ProductServiceImpl implements ProductService {
 	
@@ -113,6 +114,39 @@ public class ProductServiceImpl implements ProductService {
 		pMapper.deleteProductImage(pNo);
 		int result = pMapper.deleteProduct(pNo);
 		return result;
+	}
+
+	// 사용자 상품 상세 페이지 
+	@Override
+	public ProductVO selectOne(int pNo) {
+		ProductVO product = pMapper.selectOne(pNo);
+		return product;
+	}
+
+	// 사용자 상품 페이지
+	@Override
+	public List<ProductVO> selecpagetList() {
+		List<ProductVO> pList = pMapper.selecpagetList();
+		return pList;
+	}
+
+	// 사용자 카테고리별 상품 페이지
+	@Override
+	public List<ProductVO> selectKoreanFood(int categoryNo) {
+	    List<ProductVO> pList = pMapper.selectKoreanFood(categoryNo);
+	    return pList;
+	}
+
+	@Override
+	public List<ProductVO> selectChinesesFood(int categoryNo) {
+		List<ProductVO> pList = pMapper.selectChinesesFood(categoryNo);
+		return pList;
+	}
+
+	@Override
+	public List<ProductVO> selectJapaneseFood(int categoryNo) {
+		List<ProductVO> pList = pMapper.selectJapaneseFood(categoryNo);
+		return pList;
 	}
 
 

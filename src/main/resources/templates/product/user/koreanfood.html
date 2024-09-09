@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>상품 레이아웃</title>
+<link rel="stylesheet" href="/css/productcategory.css">
+
+</head>
+<body>
+<body>
+	<div class="container">
+		<aside class="sidebar">
+			<ul id="categoryList">
+				<li class="active-category">한식</li>
+				<li>중식</li>
+				<li>일식</li>
+				<li>양식</li>
+				<li>분식</li>
+			</ul>
+		</aside>
+		<main class="main-content">
+			<header class="header">
+				<h1>로고</h1>
+				<nav class="nav">
+					<ul>
+						<li>홈</li>
+						<li>신규</li>
+						<li>모아보기</li>
+						<li>판매하기</li>
+						<li>마켓</li>
+					</ul>
+				</nav>
+			</header>
+
+			<div class="product-header">
+				<h2 class="product-title">한식</h2>
+				<div class="sort-buttons">
+					<button class="sort-button" onclick="sortProducts('regDate')">등록일순</button>
+					<button class="sort-button" onclick="sortProducts('pPrice')">가격순</button>
+				</div>
+			</div>
+			<div id="productGrid" class="product-grid">
+				<div th:each="product : ${pList}" class="product-item"
+					th:data-reg-date="${product.regDate}"
+					th:data-price="${product.pPrice}">
+					<div class="product-image">
+						<img th:if="${product.imageUrl}" th:src="${product.imageUrl}"
+							alt="상품 이미지">
+					</div>
+					<h3 th:text="${product.pName}">상품명</h3>
+					<p
+						th:text="${#numbers.formatDecimal(product.pPrice, 0, 'COMMA', 0, 'POINT')} + ' 원'">가격</p>
+					<p th:text="'입고: ' + ${product.pInput}">입고량</p>
+					<p th:text="'출고: ' + ${product.pOutput}">출고량</p>
+					<p th:text="'판매량: ' + ${product.sale}">판매량</p>
+					<p
+						th:text="'등록일: ' + ${#dates.format(product.regDate, 'yyyy-MM-dd')}">등록일</p>
+				</div>
+		</main>
+	</div>
+
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		function sortProducts(sortBy) {
+			var productGrid = document.getElementById('productGrid');
+			var products = Array.from(productGrid.children);
+
+			products.sort(function(a, b) {
+				var valueA, valueB;
+				if (sortBy === 'regDate') {
+					valueA = new Date(a.getAttribute('data-reg-date'));
+					valueB = new Date(b.getAttribute('data-reg-date'));
+				} else if (sortBy === 'pPrice') {
+					valueA = parseInt(a.getAttribute('data-price'));
+					valueB = parseInt(b.getAttribute('data-price'));
+				}
+
+				if (valueA < valueB)
+					return -1;
+				if (valueA > valueB)
+					return 1;
+				return 0;
+			});
+
+			products.forEach(function(product) {
+				productGrid.appendChild(product);
+			});
+		}
+		/*]]>*/
+	</script>
+</body>
+</html>

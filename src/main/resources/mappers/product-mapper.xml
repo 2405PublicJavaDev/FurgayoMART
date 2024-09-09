@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
-  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
 <mapper namespace="com.mart.boot.product.model.mapper.ProductMapper">
 	<!-- 관지라_전체 상품 조회 -->
     <select id="selectList" resultType="com.mart.boot.product.model.vo.ProductVO">
@@ -57,10 +56,20 @@
 	    DELETE FROM PRODUCT WHERE P_NO = #{pNo}
 	</delete>
 
-    <select id="selectList" resultType="com.mart.boot.product.model.vo.ProductVO">
+    <select id="selecpagetList" resultType="com.mart.boot.product.model.vo.ProductVO">
         SELECT * FROM PRODUCT ORDER BY REG_DATE DESC
     </select>
     <select id="selectOne" resultType="ProductVO">
     	SELECT * FROM PRODUCT WHERE P_NO =#{pNo}
     </select>
+     
+    <select id="selectKoreanFood" resultType="com.mart.boot.product.model.vo.ProductVO">
+   		SELECT * FROM PRODUCT WHERE CATEGORY_NO = #{categoryNo} ORDER BY REG_DATE DESC
+	</select>
+	<select id="selectChinesesFood" resultType="com.mart.boot.product.model.vo.ProductVO">
+	    SELECT * FROM PRODUCT WHERE CATEGORY_NO = #{categoryNo} ORDER BY REG_DATE DESC
+	</select>
+	<select id="selectJapaneseFood" resultType="com.mart.boot.product.model.vo.ProductVO">
+   		SELECT * FROM PRODUCT WHERE CATEGORY_NO = #{categoryNo} ORDER BY REG_DATE DESC
+	</select>
 </mapper>

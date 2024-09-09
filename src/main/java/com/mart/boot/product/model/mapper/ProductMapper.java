@@ -70,6 +70,39 @@ public interface ProductMapper {
 	 */
 	int deleteProductImage(Integer pNo);
 
+	/**
+	 * 사용자 상품 페이지
+	 * @return List<ProductVO>
+	 */
+	List<ProductVO> selecpagetList();
+
+	/** 
+	 * 사용자 상품 상세 페이지
+	 * @param pNo
+	 * @return
+	 */
+	ProductVO selectOne(int pNo);
+
+	/**
+	 * 사용자 한식 페이지
+	 * @return
+	 */
+	List<ProductVO> selectKoreanFood(int categoryNo);
+
+	/**
+	 * 사용자 중식 페이지
+	 * @param categoryNo
+	 * @return
+	 */
+	List<ProductVO> selectChinesesFood(int categoryNo);
+
+	/**
+	 * 사용자 일식 페이지
+	 * @param categoryNo
+	 * @return
+	 */
+	List<ProductVO> selectJapaneseFood(int categoryNo);
+
 
 
 
