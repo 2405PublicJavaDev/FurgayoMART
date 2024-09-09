@@ -1,10 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mart.boot.product.model.mapper.ProductMapper">
-	<!-- 관지라_전체 상품 조회 -->
-    <select id="selectList" resultType="com.mart.boot.product.model.vo.ProductVO">
-        SELECT * FROM PRODUCT ORDER BY REG_DATE DESC
+	<resultMap id="ProductWithDetailMap" type="ProductVO">
+	    <!-- ProductVO -->
+	    <id property="pNo" column="P_NO"/>
+	    <result property="pName" column="P_NAME"/>
+	    <result property="pInput" column="P_INPUT"/>
+	    <result property="pOutput" column="P_OUTPUT"/>
+	    <result property="expiration" column="EXPIRATION"/>
+	    <result property="regDate" column="REG_DATE"/>
+	    <result property="categoryNo" column="CATEGORY_NO"/>
+	    <result property="sale" column="SALE"/>
+	    <result property="pPrice" column="P_PRICE"/>
+	    <!-- ProductDetailVO -->
+	    <association property="productDetail" javaType="ProductDetailVO">
+	        <result property="imgMain" column="IMG_MAIN"/>
+	        <result property="imgCook" column="IMG_COOK"/>
+	        <result property="imgComponent" column="IMG_COMPONENT"/>
+	        <result property="pComponent" column="P_COMPONENT"/>
+	        <result property="cook" column="COOK"/>
+	        <result property="content" column="CONTENT"/>
+	    </association>
+	</resultMap>
+	<!-- 관리자_상품 전체 개수 조회 -->
+	<select id="getAllCount" resultType="int">
+		SELECT COUNT(*) FROM PRODUCT
+	</select>
+	<!-- 관리자_상품 개수 조회 -->
+	<select id="getTotalCount" parameterType="map" resultType="int">
+		SELECT COUNT(*) FROM PRODUCT
+		WHERE 1=1
+		<if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+			AND TRUNC(REG_DATE) BETWEEN TO_DATE(#{startDate}, 'YYYY-MM-DD') AND TO_DATE(#{endDate}, 'YYYY-MM-DD')
+		</if>
+		<if test="categoryNo != null and categoryNo != 999">
+			AND CATEGORY_NO = #{categoryNo}
+		</if>
+		<if test="remainingDays != null">
+        	AND (TO_DATE(EXPIRATION, 'YYYY-MM-DD') - SYSDATE) &lt;= #{remainingDays}
+    	</if>
+		<if test="pName != null and pName != ''">
+			AND P_NAME LIKE '%' || #{pName} || '%'
+		</if>
+	</select>
+	<!-- 관리자_상품 조건 검색 -->
+	<select id="searchProducts" parameterType="map" resultType="ProductVO">
+		SELECT * FROM PRODUCT
+		WHERE 1=1
+		<if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+			AND TRUNC(REG_DATE) BETWEEN TO_DATE(#{startDate}, 'YYYY-MM-DD') AND TO_DATE(#{endDate}, 'YYYY-MM-DD')
+		</if>
+		<if test="categoryNo != null and categoryNo != 999">
+			AND CATEGORY_NO = #{categoryNo}
+		</if>
+		<if test="remainingDays != null">
+        	AND (TO_DATE(EXPIRATION, 'YYYY-MM-DD') - SYSDATE) &lt;= #{remainingDays}
+    	</if>
+		<if test="pName != null and pName != ''">
+			AND P_NAME LIKE '%' || #{pName} || '%'
+		</if>
+		ORDER BY REG_DATE DESC
+	</select>
+	<!-- 관리자_전체 상품 조회 -->
+    <select id="selectList" resultType="ProductVO">
+        SELECT * FROM PRODUCT ORDER BY REG_DATE DESC -->
     </select>
     
     <!-- 관리자_상품 기본 정보 등록 -->
@@ -19,12 +78,12 @@
 	</insert>
     <!-- 관리자_상품 이미지 등록 -->
     <insert id="addProductFile" parameterType="ProductImageVO">
-	    INSERT INTO PRODUCT_IMAGE (IMAGE_ID, FILE_NAME, FILE_RENAME, FILE_PATH, P_NO)
-	    VALUES (PRODUCT_IMAGE_SEQ.NEXTVAL, #{fileName}, #{fileRename}, #{filePath}, #{pNo})
+	    INSERT INTO PRODUCT_IMAGE (IMAGE_ID, FILE_NAME, FILE_RENAME, FILE_PATH, P_NO, IMAGE_TYPE)
+	    VALUES (PRODUCT_IMAGE_SEQ.NEXTVAL, #{fileName}, #{fileRename}, #{filePath}, #{pNo}, #{imageType})
 	</insert>
 	
 	<!-- 관리자_상품 기본 및 상세 정보 -->
-	<select id="selectOneWithDetail">
+	<select id="selectById" resultMap="ProductWithDetailMap">
 		SELECT 
         p.P_NO, p.P_NAME, p.P_INPUT, p.P_OUTPUT, p.EXPIRATION, p.REG_DATE, p.CATEGORY_NO, p.SALE, p.P_PRICE,
         pd.IMG_MAIN, pd.IMG_COOK, pd.IMG_COMPONENT, pd.P_COMPONENT, pd.COOK, pd.CONTENT
@@ -34,25 +93,41 @@
 	</select>
 	<!-- 관리자_상품 기본 정보 수정 -->
 	<update id="updateProduct">
-		UPDATE product
-    	SET pName = #{pName}, pInput = #{pInput}, pOutput = #{pOutput}, expiration = #{expiration},
-        	categoryNo = #{categoryNo}, sale = #{sale}, pPrice = #{pPrice}
-    	WHERE pNo = #{pNo}
+		UPDATE PRODUCT
+		SET P_NAME = #{pName}, 
+		    CATEGORY_NO = #{categoryNo}, 
+		    P_PRICE = #{pPrice}, 
+		    EXPIRATION = #{expiration}, 
+		    SALE = #{sale}, 
+		    P_INPUT = #{pInput}, 
+		    P_OUTPUT = #{pOutput}
+		WHERE P_NO = #{pNo};
 	</update>
 	<!-- 관리자_상품 상세 정보 수정 -->
 	<update id="updateProductDetail">
-        UPDATE product_detail
-	    SET imgMain = #{imgMain}, imgCook = #{imgCook}, imgComponent = #{imgComponent}, 
-	     	pComponent = #{pComponent}, cook = #{cook}, content = #{content}
-	    WHERE pNo = #{pNo}
-    </update>
-
+		UPDATE PRODUCT_DETAIL
+		SET IMG_MAIN = #{imgMain}, 
+		    IMG_COOK = #{imgCook}, 
+		    IMG_COMPONENT = #{imgComponent}, 
+		    P_COMPONENT = #{pComponent}, 
+		    COOK = #{cook}, 
+		    CONTENT = #{content}
+		WHERE P_NO = #{pNo};
+	</update>
+	<!-- 관리자_상품 이미지 정보 조회 -->
+	<select id="selectImageById">
+		SELECT IMG_MAIN, IMG_COOK, IMG_COMPONENT FROM PRODUCT_DETAIL WHERE P_NO = #{pNo}
+	</select>
 	<!-- 관리자_상품 이미지 삭제 -->
 	<delete id="deleteProductImage">
 	    DELETE FROM PRODUCT_IMAGE WHERE P_NO = #{pNo}
 	</delete>
+	<!-- 관리자_상품 상세 정보 삭제 -->
+	<delete id="deleteProductDetail">
+		DELETE FROM PRODUCT_DETAIL WHERE P_NO = #{pNo}
+	</delete>
 	<!-- 관리자_상품 삭제 -->
-	<delete id="deleteProduct">
+	<delete id="deleteProduct" parameterType="int">
 	    DELETE FROM PRODUCT WHERE P_NO = #{pNo}
 	</delete>
 

@@ -254,7 +254,6 @@ public class MemberController {
         }
         return "member/find-id";
     }
-}
 //	// 이메일 인증코드 발송
 //	@PostMapping("/send-verification")
 //	@ResponseBody
@@ -271,3 +270,4 @@ public class MemberController {
 //		return isVerified ? "이메일이 성공적으로 인증되었습니다." : "인증 코드가 올바르지 않습니다.";
 //	}
 //}
+}
