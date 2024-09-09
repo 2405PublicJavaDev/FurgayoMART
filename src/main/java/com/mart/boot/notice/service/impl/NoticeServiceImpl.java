@@ -74,4 +74,8 @@ public class NoticeServiceImpl implements NoticeService {
         logger.info("Fetching total notice count with searchType: {}, searchKeyword: {}", searchType, searchKeyword);
         return noticeStore.countNotices(searchType, searchKeyword);
     }
+    @Override
+    public List<NoticeVO> selectPinnedNotices() {
+        return noticeStore.selectPinnedNotices();
+    }
 }

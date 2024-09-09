@@ -92,4 +92,12 @@
         SELECT COUNT(*) FROM NOTICE
     </select>
 
+    <!-- 고정 공지사항 조회 -->
+    <select id="selectPinnedNotices" resultType="com.mart.boot.notice.model.NoticeVO">
+        SELECT NOTICE_NO, NOTICE_TITLE, NOTICE_CONTENT, NOTICE_WRITER, NOTICE_DATE, USER_ID, NOTICE_MODIFY, NOTICE_PINNED
+        FROM NOTICE
+        WHERE NOTICE_PINNED = 1
+        ORDER BY NOTICE_DATE DESC
+    </select>
+
 </mapper>

@@ -32,4 +32,6 @@ public interface NoticeStore {
 
     // 검색 조건에 따른 공지사항 개수 조회
     int countNotices(String searchType, String searchKeyword);
+
+    List<NoticeVO> selectPinnedNotices();
 }

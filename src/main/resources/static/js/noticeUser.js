@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const noticeAccordion = document.getElementById('notice-accordion');
     const noticesContainer = document.getElementById('notices-container');
 
+    let allNotices = []; // 모든 공지사항을 저장할 변수
+
     // Rest API로 공지사항 가져오기
     function fetchNotices() {
         fetch('/api/notice/list')
@@ -17,23 +19,65 @@ document.addEventListener('DOMContentLoaded', function() {
                 return response.json();
             })
             .then(data => {
-                // 최근 공지사항과 모든 공지사항에 데이터 반영
-                displayRecentNotices(data.notices.slice(0, 3)); // 최근 공지사항
-                displayNotices(data.notices, "모든 공지사항"); // 모든 공지사항
+                allNotices = data.notices; // 모든 공지사항 저장
+                updateDisplay(); // 데이터 업데이트 후 표시
             })
             .catch(error => {
                 console.error('Error fetching notices:', error);
             });
     }
 
+    // 데이터 업데이트 및 표시
+    function updateDisplay() {
+        const pinnedNotices = allNotices.filter(notice => notice.noticePinned === 1);
+        const regularNotices = allNotices.filter(notice => notice.noticePinned !== 1);
+
+        displayRecentNotices(regularNotices); // 최근 공지사항
+        displayPinnedNotices(pinnedNotices); // 핀된 공지사항
+        displayNotices(regularNotices, "모든 공지사항", 5); // 기본 페이지에서 5개 공지사항 표시
+    }
+
     // 최근 공지사항 표시
     function displayRecentNotices(notices) {
+        const recentNotices = notices.slice(0, 3); // 최근 공지사항 3개
         recentNoticesList.innerHTML = '';
-        notices.forEach(notice => {
+        recentNotices.forEach(notice => {
             const li = document.createElement('li');
             li.textContent = notice.noticeTitle; // API에 맞게 필드명 수정
             recentNoticesList.appendChild(li);
         });
+    }
+
+    // 핀된 공지사항 표시
+    function displayPinnedNotices(notices) {
+        noticeAccordion.innerHTML = '';
+        notices.forEach(notice => {
+            noticeAccordion.innerHTML += createAccordionItem(notice);
+        });
+        setupAccordion(noticeAccordion);
+    }
+
+    // 공지사항 표시 (모든 공지사항)
+    function displayNotices(notices, title, limit) {
+        noticesContainer.innerHTML = `<h2>${title}</h2>`;
+        const accordionContainer = document.createElement('div');
+        accordionContainer.className = 'accordion';
+
+        // 모든 공지사항 최대 limit 개 표시
+        notices.slice(0, limit).forEach(notice => {
+            accordionContainer.innerHTML += createAccordionItem(notice);
+        });
+
+        noticesContainer.appendChild(accordionContainer);
+        setupAccordion(accordionContainer);
+    }
+
+    // 모든 공지사항 표시
+    function displayAllNotices() {
+        const pinnedNotices = allNotices.filter(notice => notice.noticePinned === 1);
+        const regularNotices = allNotices.filter(notice => notice.noticePinned !== 1);
+        displayPinnedNotices(pinnedNotices); // 핀된 공지사항 표시
+        displayNotices(regularNotices, "모든 공지사항", 5); // 모든 공지사항 표시
     }
 
     // 아코디언 아이템 생성
@@ -71,28 +115,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 return response.json();
             })
             .then(data => {
-                displayNotices(data.notices, "검색 결과"); // 검색된 공지사항 표시
+                const limitedSearchResults = data.notices.slice(0, 5); // 검색 결과 최대 5개
+                displayNotices(limitedSearchResults, "검색 결과", 5); // 검색된 공지사항 표시
             })
             .catch(error => {
                 console.error('Error fetching notices:', error);
             });
-    }
-
-    // 모든 공지사항 표시
-    function displayAllNotices() {
-        fetchNotices(); // 모든 공지사항을 다시 불러옴
-    }
-
-    // 공지사항 표시
-    function displayNotices(noticesToShow, title) {
-        noticesContainer.innerHTML = `<h2>${title}</h2>`;
-        const accordionContainer = document.createElement('div');
-        accordionContainer.className = 'accordion';
-        noticesToShow.forEach(notice => {
-            accordionContainer.innerHTML += createAccordionItem(notice);
-        });
-        noticesContainer.appendChild(accordionContainer);
-        setupAccordion(accordionContainer);
     }
 
     // 아코디언 기능 설정

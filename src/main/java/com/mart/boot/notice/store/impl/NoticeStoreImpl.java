@@ -92,4 +92,7 @@ public class NoticeStoreImpl implements NoticeStore {
             this.searchKeyword = searchKeyword;
         }
     }
+    public List<NoticeVO> selectPinnedNotices() {
+        return sqlSession.selectList(NAMESPACE + "selectPinnedNotices");
+    }
 }

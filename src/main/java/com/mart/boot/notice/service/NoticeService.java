@@ -29,4 +29,6 @@ public interface NoticeService {
 
     // 검색 조건에 따른 공지사항 개수 조회
     int getTotalNoticeCount(String searchType, String searchKeyword);
+
+    List<NoticeVO> selectPinnedNotices();
 }
