@@ -18,50 +18,59 @@
 		</nav>
 	</header>
 	
-	<main>
-		<div class="update-container">
-			<div class="header">
-				<h1>회원정보 수정</h1>
-				<div class="profile-image">
-<!-- 					<img -->
-<!-- 						th:src="${member.profileImageUrl != null ? member.profileImageUrl : '/images/default-profile.png'}" -->
-<!-- 						alt="프로필 이미지"> -->
-				</div>
-			</div>
+<main>
+<div class="update-container">
+    <div class="header">
+        <h1>회원정보 수정</h1>
+        <div class="profile-image">
+            <!-- <img th:src="${member.profileImageUrl != null ? member.profileImageUrl : '/images/default-profile.png'}" alt="프로필 이미지"> -->
+        </div>
+    </div>
 
-			<h2>수정정보 입력</h2>
+    <h2>수정정보 입력</h2>
 
-			<form th:action="@{/member/update}" method="post"
-				th:object="${member}">
-				<div class="form-group">
-					<label for="memberPhone">아이디 (휴대폰 번호)</label> 
-					<input type="text" id="memberPhone" name="memberPhone" th:value="${member.memberPhone}" readonly>
-				</div>
+    <form th:action="@{/member/update}" method="post" th:object="${member}">
+        <div class="form-group">
+            <label for="memberPhone">아이디 (휴대폰 번호)</label>
+            <input type="text" id="memberPhone" name="memberPhone" th:value="*{memberPhone}" readonly>
+        </div>
 
-				<div class="form-group">
-					<label for="memberPw">비밀번호*</label> 
-					<input type="password" id="memberPw" name="memberPw" th:value="${member.memberPw}" required>
-				</div>
+        <div class="form-group">
+            <label for="memberPw">비밀번호*</label>
+            <input type="password" id="memberPw" name="memberPw" th:value="*{memberPw}" required>
+        </div>
 
-				<div class="form-group">
-					<label for="memberName">이름</label> 
-					<input type="text" id="memberName" name="memberName" th:value="${member.memberName}">
-				</div>
+        <div class="form-group">
+            <label for="memberName">이름</label>
+            <input type="text" id="memberName" name="memberName" th:value="*{memberName}">
+        </div>
 
-				<div class="form-group">
-					<label for="memberEmail">이메일</label> 
-					<input type="email" id="memberEmail" name="memberEmail" th:value="${member.memberEmail}">
-				</div>
+        <div class="form-group">
+            <label for="memberEmail">이메일</label>
+            <input type="email" id="memberEmail" name="memberEmail" th:value="*{memberEmail}">
+        </div>
 
-				<div class="button-group">
-					<button type="submit" class="update-btn">확인</button>
-					<button type="button" class="withdraw-btn"
-						onclick="confirmWithdraw()">회원탈퇴</button>
-				</div>
-			</form>
-			<form id="withdrawForm" th:action="@{/member/delete}" method="post" style="display: none;"></form>
-		</div>
-	</main>
+        <!-- 쇼핑정보 수신 동의 섹션 추가 -->
+        <div class="form-group">
+            <h3>쇼핑정보 수신 동의</h3>
+            <div>
+                <input type="checkbox" id="smsAgree" name="smsAgreementYn" th:checked="*{smsAgreementYn}">
+                <label for="smsAgree">SMS 수신 동의</label>
+            </div>
+            <div>
+                <input type="checkbox" id="emailAgree" name="emailAgreementYn" th:checked="*{emailAgreementYn}">
+                <label for="emailAgree">이메일 수신 동의</label>
+            </div>
+        </div>
+
+        <div class="button-group">
+            <button type="submit" class="update-btn">확인</button>
+            <button type="button" class="withdraw-btn" onclick="confirmWithdraw()">회원탈퇴</button>
+        </div>
+    </form>
+    <form id="withdrawForm" th:action="@{/member/delete}" method="post" style="display: none;"></form>
+</div>
+</main>
 	
 	<footer>
 		<button>회원 소개</button>

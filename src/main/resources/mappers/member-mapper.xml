@@ -10,18 +10,28 @@
 		<result property="memberEmail" column="MEMBER_EMAIL" />
 		<result property="adminYn" column="ADMIN_YN" />
 	</resultMap>
-	<insert id="insertMember">
-		INSERT INTO MEMBER (MEMBER_PHONE, MEMBER_PW, MEMBER_NAME, MEMBER_EMAIL,
-		ADMIN_YN)
-		VALUES (#{memberPhone}, #{memberPw}, #{memberName}, #{memberEmail},
-		#{adminYn})
+	<insert id="insertMember"
+		parameterType="com.mart.boot.member.model.vo.MemberVO">
+		INSERT INTO MEMBERS (
+		MEMBER_PHONE, MEMBER_PW, MEMBER_NAME, MEMBER_EMAIL,
+		TERMS_AGREEMENT_YN, PRIVACY_AGREEMENT_YN, SMS_AGREEMENT_YN, EMAIL_AGREEMENT_YN
+		) VALUES (
+		#{memberPhone}, #{memberPw}, #{memberName}, #{memberEmail},
+		#{termsAgreementYn}, #{privacyAgreementYn}, #{smsAgreementYn}, #{emailAgreementYn}
+		)
 	</insert>
-	<update id="updateMember">
-		UPDATE MEMBER
-		SET MEMBER_PW = #{memberPw}, MEMBER_NAME
-		= #{memberName}, MEMBER_EMAIL = #{memberEmail}
-		WHERE MEMBER_PHONE =
-		#{memberPhone}
+	<update id="updateMember"
+		parameterType="com.mart.boot.member.model.vo.MemberVO">
+		UPDATE MEMBERS
+		SET
+		MEMBER_PW = #{memberPw},
+		MEMBER_NAME = #{memberName},
+		MEMBER_EMAIL = #{memberEmail},
+		TERMS_AGREEMENT_YN = #{termsAgreementYn},
+		PRIVACY_AGREEMENT_YN = #{privacyAgreementYn},
+		SMS_AGREEMENT_YN = #{smsAgreementYn},
+		EMAIL_AGREEMENT_YN = #{emailAgreementYn}
+		WHERE MEMBER_PHONE = #{memberPhone}
 	</update>
 	<delete id="deleteMember">
 		DELETE FROM MEMBER WHERE MEMBER_PHONE =
@@ -36,17 +46,19 @@
 		WHERE MEMBER_PHONE = #{memberPhone}
 	</select>
 	<select id="selectMemberByEmailAndName" resultType="MemberVO">
-        SELECT * FROM MEMBER
-        WHERE MEMBER_EMAIL = #{memberEmail} AND MEMBER_NAME = #{memberName}
-    </select>
-	<select id="selectPwMemberByEmailAndPhoneAndName" resultMap="memberResultMap">
 		SELECT * FROM MEMBER
-		WHERE MEMBER_EMAIL = #{email} AND MEMBER_PHONE = #{phone} AND MEMBER_NAME = #{name}
+		WHERE MEMBER_EMAIL = #{memberEmail} AND MEMBER_NAME = #{memberName}
 	</select>
-	 <update id="updateMemberPassword">
-        UPDATE MEMBER SET MEMBER_PW = #{memberPw}
-        WHERE MEMBER_NO = #{memberNo}
-    </update>
+	<select id="selectPwMemberByEmailAndPhoneAndName"
+		resultMap="memberResultMap">
+		SELECT * FROM MEMBER
+		WHERE MEMBER_EMAIL = #{email} AND
+		MEMBER_PHONE = #{phone} AND MEMBER_NAME = #{name}
+	</select>
+	<update id="updateMemberPassword">
+		UPDATE MEMBER SET MEMBER_PW = #{memberPw}
+		WHERE MEMBER_NO = #{memberNo}
+	</update>
 	<!-- <select id="countByMemberPhone" parameterType="string" -->
 	<!-- resultType="int"> -->
 	<!-- SELECT COUNT(*) FROM MEMBER WHERE MEMBER_PHONE = #{memberPhone} -->

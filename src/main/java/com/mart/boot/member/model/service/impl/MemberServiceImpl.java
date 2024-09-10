@@ -29,11 +29,21 @@ public class MemberServiceImpl implements MemberService {
 //	@Autowired
 //	private EmailConfig emailConfig;
 	
-	@Override
-	public int insertMember(MemberVO member) throws Exception {
-		int result = mStore.insertMember(member);
-		return result;
-	}
+    @Override
+    public int insertMember(MemberVO member) throws Exception {
+        // 회원가입 시 필수 동의 항목 검증
+        if (!"Y".equals(member.getTermsAgreementYn()) || !"Y".equals(member.getPrivacyAgreementYn())) {
+            throw new IllegalArgumentException("필수 약관에 동의해야 합니다.");
+        }
+        // SMS와 이메일 수신 동의는 선택사항이므로, 값이 없으면 'N'으로 설정
+        if (member.getSmsAgreementYn() == null) {
+            member.setSmsAgreementYn("N");
+        }
+        if (member.getEmailAgreementYn() == null) {
+            member.setEmailAgreementYn("N");
+        }
+        return mStore.insertMember(member);
+    }
 
 	@Override
 	public MemberVO checkMemberLogin(MemberVO member) {
