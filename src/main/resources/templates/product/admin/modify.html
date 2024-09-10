@@ -74,13 +74,15 @@
                         <div class="form-right">
                             <ul>
                                 <li>
+                                	<label>대표 이미지</label>
                                     <div class="image-upload">
-                                    	<input type="file" id="imgMain" name="imgMain" accept="image/*" onchange="readURL(this, 'mainPreview')">
-                                   		 <img id="mainPreview"
-									         th:src="${product.imageUrl != null ? product.imageUrl : '/images/no-image.png'}"
-									         data-existing-src="${product.imageUrl != null ? product.imageUrl : '/images/no-image.png'}"
-								 		>
-                                    </div>
+                                    	<input type="file" id="imgMain" name="imgMainFile" accept="image/*" onchange="readURL(this, 'mainPreview')">
+                                   		<!-- 대표 이미지 미리보기 -->
+										<img id="mainPreview" 
+											th:src="${product.imgMainUrl != null ? product.imgMainUrl : '/images/noimage.jpg'}" 
+											data-existing-src="${product.imgMainUrl != null ? product.imgMainUrl : '/images/noimage.jpg'}"
+										>
+									</div>
                                 </li>
                                 <li>
                                     <label for="inventory">입고량</label>
@@ -100,19 +102,22 @@
                             </li>
                             <li>
                                 <label>조리된 사진</label>
+                                <div class="image-upload">
+                                <input type="file" id="imgCook" name="imgCookFile" accept="image/*" onchange="readURL(this, 'cookPreview')">
                                 <img id="cookPreview" 
-								     th:src="${productDetailVO != null && productDetailVO.imgCook != null ? '/images/' + productDetailVO.imgCook : '/images/no-image.png'}"
-								     data-existing-src="${productDetailVO != null && productDetailVO.imgCook != null ? '/images/' + productDetailVO.imgCook : '/images/no-image.png'}"
-								>
-                            </li>
+                                	th:src="${product.imgCookUrl != null ? product.imgCookUrl : '/images/noimage.jpg'}" 
+                                	data-existing-src="${product.imgCookUrl != null ? product.imgCookUrl : '/images/noimage.jpg'}"
+                               	>
+							     </div>
+							</li>
                             <li>
                                 <label>상품 구성 사진</label>
                                 <div class="image-upload">
-                                     <input type="file" id="imgComponent" name="imgComponent" accept="image/*" onchange="readURL(this, 'componentPreview')">
+                                     <input type="file" id="imgComponent" name="imgComponentFile" accept="image/*" onchange="readURL(this, 'componentPreview')">
 	                                 <img id="componentPreview" 
-									      th:src="${productDetailVO != null && productDetailVO.imgComponent != null ? '/images/' + productDetailVO.imgComponent : '/images/no-image.png'}"
-									      data-existing-src="${productDetailVO != null && productDetailVO.imgComponent != null ? '/images/' + productDetailVO.imgComponent : '/images/no-image.png'}"
-									 >
+	                                 	th:src="${product.imgComponentUrl != null ? product.imgComponentUrl : '/images/noimage.jpg'}" 
+	                                 	data-existing-src="${product.imgComponentUrl != null ? product.imgComponentUrl : '/images/noimage.jpg'}"
+	                                 >
                                 </div>
                             </li>
                             <li>
@@ -133,33 +138,37 @@
                 <div class="form-bottom">
                     <div class="buttons">
                         <button type="reset">초기화</button>
-                        <button type="submit">등록</button>
+                        <button type="submit" id="modify">수정</button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
     <script>
-	    function readURL(input, previewId){
-	        var preview = document.getElementById(previewId);
-	        if (input.files && input.files[0]) {
-	            var reader = new FileReader();
-	            reader.onload = function(e) {
-	                preview.src = e.target.result;
-	                preview.style.display = 'block';
-	            }
-	            reader.readAsDataURL(input.files[0]);
-	        } else {
-	            preview.src = preview.getAttribute('data-existing-src');
-	        }
-	    }
-    
+    function readURL(input, previewId) {
+        var preview = document.getElementById(previewId);
+
+        if (input.files && input.files[0]) {
+            // 파일이 선택된 경우: 새 이미지로 미리보기 설정
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+            }
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            // 파일이 선택되지 않은 경우: 기존 이미지 유지
+            preview.src = preview.getAttribute('data-existing-src');
+        }
+    }
 
         // 입고량, 출고량
         const pInput = document.getElementById('pInput');
         const pOutput = document.getElementById('pOutput');
         const form = document.querySelector('form'); 
 
+        function validateInput() {
+            const inputVal = parseInt(pInput.value);
+        }
         function validateOutput() {
             const inputVal = parseInt(pInput.value);
             const outputVal = parseInt(pOutput.value);
@@ -169,7 +178,7 @@
                 pOutput.value = "";
             }
         }
-        pOutput.addEventListener('input', validateOutput);
+        pOutput.addEventListener('output', validateOutput);
         pInput.addEventListener('input', validateInput);
 
         form.addEventListener('submit', function(event) {

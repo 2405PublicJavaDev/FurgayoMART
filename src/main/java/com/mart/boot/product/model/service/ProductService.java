@@ -7,10 +7,19 @@ import java.util.Map;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.mart.boot.product.model.vo.ProductDetailVO;
+import com.mart.boot.product.model.vo.ProductImageVO;
 import com.mart.boot.product.model.vo.ProductVO;
 
 public interface ProductService {
 
+	/**
+	 * 관리자_상품 이미지 타입 Service
+	 * @param pNo
+	 * @param string
+	 * @return List<ProductImageVO>
+	 */
+	List<ProductImageVO> selectProductImageList(Integer pNo);
+	
 	/**
 	 * 관리자_상품 개수 조회 Service
 	 * @param searMap
@@ -64,14 +73,11 @@ public interface ProductService {
 	/**
 	 * 관리자_상품 상세 정보 수정 Service
 	 * @param productDetail
-	 * @param imgComponent 
-	 * @param imgCook 
-	 * @param imgMain 
-	 * @return
+	 * @return int
 	 * @throws IOException 
 	 * @throws IllegalStateException 
 	 */
-	int updateProductDetail(ProductDetailVO productDetail, MultipartFile imgMain, MultipartFile imgCook, MultipartFile imgComponent) throws IllegalStateException, IOException;
+	int updateProductDetail(ProductDetailVO productDetail) throws IllegalStateException, IOException;
 	
 	/**
 	 * 관리자_상품 기본 정보 Service
@@ -146,3 +152,5 @@ public interface ProductService {
 	List<ProductVO> mainNewProducts();
 
 }
+
+
