@@ -38,56 +38,59 @@
             </ul>        
         <div class="content">
             <h2>상품 수정하기</h2>
-            <form action="/admin/product/modify" method="post" enctype="multipart/form-data">
+            <form th:action="@{/admin/product/{pNo}/modify(pNo=${product.pNo})}" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <div class="form-top">
                         <div class="form-left">
                             <ul>
                                 <li>
-                                    <label for="pName">상품명</label>
-                                    <input type="text" id="pName" name="pName" th:field="${product.pName}" required>
+                                    <label for="name">상품명</label>
+                                    <input type="text" id="pName" name="pName" th:value="${product.pName}" required>
                                 </li>
                                 <li>
                                     <label for="category">상품 유형</label>
-                                    <select id="category" name="categoryNo" required>
-                                        <option value="">선택하세요</option>
-                                        <option value="1" th:selected="${product.categoryNo == 1}">한식</option>
-                                        <option value="2" th:selected="${product.categoryNo == 2}">중식</option>
-                                        <option value="3" th:selected="${product.categoryNo == 3}">일식</option>
-                                    </select>
+                                    <select id="category" name="categoryNo" th:field="${product.categoryNo}">
+									    <option value="999" th:selected="${product.categoryNo == 999}">전체</option>
+									    <option value="1" th:selected="${product.categoryNo == 1}">한식</option>
+									    <option value="2" th:selected="${product.categoryNo == 2}">중식</option>
+									    <option value="3" th:selected="${product.categoryNo == 3}">일식</option>
+									</select>
                                 </li>
                                 <li>
                                     <label for="pPrice">상품 가격</label>
-                                    <input type="number" id="pPrice" name="pPrice" th:field="${product.pPrice}" required>
+                                    <input type="number" id="pPrice" name="pPrice" th:value="${product.pPrice}" required>
                                 </li>
                                 <li>
                                     <label for="starDate">유통 기한</label>
-                                    <input type="date" id="expiration" name="expiration" th:field="${product.expiration}">
+                                    <input type="date" id="expiration" name="expiration" th:value="${product.expiration}">
                                 </li>
                                 <li>
-                                    <label for="inventory">입고량</label>
-                                    <input type="number" id="pInput" name="pInput" th:field="${product.pInput}" required>
+                                    <label for="sale">할인율</label>
+                                    <input type="number" id="sale" name="sale" min="0" max="100" th:value="${product.sale}">
                                 </li>
+                                
                             </ul>
                         </div>
                         <div class="form-right">
                             <ul>
                                 <li>
+                                	<label>대표 이미지</label>
                                     <div class="image-upload">
-                                        <input type="file" id="imgMain" name="imgMain" required>
-                                    	<img th:src="@{/images/product/main/{imgMain}(imgMain=${product.productDetail.imgMain})}" alt="Main Image"/>
-                                    </div>
+                                    	<input type="file" id="imgMain" name="imgMainFile" accept="image/*" onchange="readURL(this, 'mainPreview')">
+                                   		<!-- 대표 이미지 미리보기 -->
+										<img id="mainPreview" 
+											th:src="${product.imgMainUrl != null ? product.imgMainUrl : '/images/noimage.jpg'}" 
+											data-existing-src="${product.imgMainUrl != null ? product.imgMainUrl : '/images/noimage.jpg'}"
+										>
+									</div>
                                 </li>
                                 <li>
-                                    <p>
-                                        대표 이미지<br>
-                                        포맷 : JPG, PNG <br>
-                                        해상도 : 1300x1300px 이하 <br>
-                                    </p>
+                                    <label for="inventory">입고량</label>
+                                    <input type="number" id="pInput" name="pInput" th:value="${product.pInput}" required>
                                 </li>
                                 <li>
                                     <label for="inventory">출고량</label>
-                                    <input type="number" id="pOutput" name="pOutput" th:field="${product.pOutput}" required>
+                                    <input type="number" id="pOutput" name="pOutput" th:value="${product.pOutput}">
                                 </li>
                             </ul>
                         </div>
@@ -100,28 +103,34 @@
                             <li>
                                 <label>조리된 사진</label>
                                 <div class="image-upload">
-                                    <input type="file" id="imgCook" name="imgCook" required>
-                                	<img th:src="@{/images/product/cook/{imgCook}(imgCook=${product.productDetail.imgCook})}" alt="Cook Image"/>
-                                </div>
-                            </li>
+                                <input type="file" id="imgCook" name="imgCookFile" accept="image/*" onchange="readURL(this, 'cookPreview')">
+                                <img id="cookPreview" 
+                                	th:src="${product.imgCookUrl != null ? product.imgCookUrl : '/images/noimage.jpg'}" 
+                                	data-existing-src="${product.imgCookUrl != null ? product.imgCookUrl : '/images/noimage.jpg'}"
+                               	>
+							     </div>
+							</li>
                             <li>
                                 <label>상품 구성 사진</label>
                                 <div class="image-upload">
-                                    <input type="file" id="imgComponent" name="imgComponent" required>
-                                	<img th:src="@{/images/product/component/{imgComponent}(imgComponent=${product.productDetail.imgComponent})}" alt="Component Image"/>
+                                     <input type="file" id="imgComponent" name="imgComponentFile" accept="image/*" onchange="readURL(this, 'componentPreview')">
+	                                 <img id="componentPreview" 
+	                                 	th:src="${product.imgComponentUrl != null ? product.imgComponentUrl : '/images/noimage.jpg'}" 
+	                                 	data-existing-src="${product.imgComponentUrl != null ? product.imgComponentUrl : '/images/noimage.jpg'}"
+	                                 >
                                 </div>
                             </li>
                             <li>
                                 <label>상품 구성</label>
-                                <input type="text" id="pComponent" th:field="${product.productDetail.pComponent}">
+                                <input type="text" id="pComponent" name="pComponent" th:value="${product.productDetail.pComponent}" required>
                             </li>
                             <li>
                                 <label>조리법</label>
-                                <input type="text" id="cook" th:field="${product.productDetail.cook}">
+                                <input type="text" id="cook" name="cook" th:value="${product.productDetail.cook}">
                             </li>
                             <li>
                                 <label>추가 정보</label>
-                                <input type="text" id="content" th:field="${product.content}">
+                                <input type="text" id="content" name="content" th:value="${product.productDetail.content}">
                             </li>
                         </ul>
                     </div>
@@ -129,11 +138,58 @@
                 <div class="form-bottom">
                     <div class="buttons">
                         <button type="reset">초기화</button>
-                        <button type="submit">등록</button>
+                        <button type="submit" id="modify">수정</button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
+    <script>
+    function readURL(input, previewId) {
+        var preview = document.getElementById(previewId);
+
+        if (input.files && input.files[0]) {
+            // 파일이 선택된 경우: 새 이미지로 미리보기 설정
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+            }
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            // 파일이 선택되지 않은 경우: 기존 이미지 유지
+            preview.src = preview.getAttribute('data-existing-src');
+        }
+    }
+
+        // 입고량, 출고량
+        const pInput = document.getElementById('pInput');
+        const pOutput = document.getElementById('pOutput');
+        const form = document.querySelector('form'); 
+
+        function validateInput() {
+            const inputVal = parseInt(pInput.value);
+        }
+        function validateOutput() {
+            const inputVal = parseInt(pInput.value);
+            const outputVal = parseInt(pOutput.value);
+
+            if (outputVal > inputVal) {
+                alert("출고량은 입고량보다 많을 수 없습니다.");
+                pOutput.value = "";
+            }
+        }
+        pOutput.addEventListener('output', validateOutput);
+        pInput.addEventListener('input', validateInput);
+
+        form.addEventListener('submit', function(event) {
+            const inputVal = parseInt(pInput.value);
+            const outputVal = parseInt(pOutput.value);
+
+            if (outputVal > inputVal) {
+                alert("출고량은 입고량보다 많을 수 없습니다.");
+                event.preventDefault(); 
+            }
+        });
+    </script>
 </body>
 </html>

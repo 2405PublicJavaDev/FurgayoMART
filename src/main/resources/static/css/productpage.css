@@ -57,8 +57,11 @@ main {
     background-color: white;
     padding: 10px;
     text-align: center;
-    width: 270px;
-    height: 290px;
+    width: 100%; 
+    height: auto; 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 .product-image {
     background-color: #eee;
@@ -84,7 +87,6 @@ main {
 
 .product-href:hover {
     color: gray; 
-
 }
 .price {
     font-weight: bold;
@@ -99,7 +101,31 @@ h2 {
 .new-products {
     margin-bottom: 40px;
 }
-
+.product-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.product-title {
+    margin: 0;
+}
+.sort-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+    height : 35px;
+}
+.sort-button {
+    padding: 5px 10px;
+    background-color: rgb(248, 240, 240);
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    cursor: pointer;
+}
+.sort-button:hover {
+    background-color: #e0e0e0;
+}
 /* ============== 사이드바 카테고리 ========================= */
 .dropdown {
     position: relative;
