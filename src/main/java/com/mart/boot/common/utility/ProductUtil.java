@@ -15,10 +15,7 @@ public class ProductUtil {
     public static String processProductImg(MultipartFile imgFile, int pNo, String fileSavePath, String imgType, ProductMapper pMapper) throws IllegalStateException, IOException {
     	if (imgFile != null && !imgFile.isEmpty()) {
     		String FileName = imgFile.getOriginalFilename();
-    		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmm");
-    		String formattedDate = dateFormat.format(new Date());
-    		String FileRename = "product_" + pNo + "_" + formattedDate + ".jpg";
-//    		String FileRename = "product_" + pNo + ".jpg";
+    		String FileRename = "product_" + pNo + ".jpg";
             // 파일을 실제로 저장
             imgFile.transferTo(new File(fileSavePath + FileRename));
             String webPath = "/images/" + imgType.toLowerCase() + "/" + FileRename;

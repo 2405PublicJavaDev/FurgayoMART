@@ -20,9 +20,9 @@ import com.mart.boot.product.model.vo.ProductVO;
 public class ProductServiceImpl implements ProductService {
 	
 	private final ProductMapper pMapper;
-	private final String FILE_PATH_MAIN = "C:/bootworkspace/FurgayoMART/src/main/resources/static/images/main/";
-	private final String FILE_PATH_COOK = "C:/bootworkspace/FurgayoMART/src/main/resources/static/images/cook/";
-	private final String FILE_PATH_COMPONENT = "C:/bootworkspace/FurgayoMART/src/main/resources/static/images/component/";
+	private final String FILE_PATH_MAIN = "C:/Users/KDY/Desktop/backend/bootworkspace/FurgayoMART/src/main/resources/static/images/main/";
+	private final String FILE_PATH_COOK = "C:/Users/KDY/Desktop/backend/bootworkspace/FurgayoMART/src/main/resources/static/images/cook/";
+	private final String FILE_PATH_COMPONENT = "C:/Users/KDY/Desktop/backend/bootworkspace/FurgayoMART/src/main/resources/static/images/component/";
 	
 	
 	public ProductServiceImpl(ProductMapper pMapper) {
