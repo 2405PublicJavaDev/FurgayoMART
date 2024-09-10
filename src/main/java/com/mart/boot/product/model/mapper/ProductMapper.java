@@ -145,4 +145,28 @@ public interface ProductMapper {
 	 */
 	int selectDelete(Integer pNo);
 
+	/** 
+	 * 사용자 인기 페이지
+	 * @return List<ProductVO>
+	 */
+	List<ProductVO> selectPopularList();
+
+	/**
+	 * 사용자 신규상품 페이지
+	 * @return List<ProductVO>
+	 */
+	List<ProductVO> selectNewProducts();
+
+	/** 
+	 * 사용자 유통기한 페이지
+	 * @return List<ProductVO> 
+	 */
+	List<ProductVO> showExpirationList();
+
+	/**
+	 * 메인페이지 상품
+	 * @return
+	 */
+	List<ProductVO> mainNewProducts();
+
 }

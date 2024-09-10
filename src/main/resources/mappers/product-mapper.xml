@@ -130,21 +130,74 @@
 	<delete id="deleteProduct" parameterType="int">
 	    DELETE FROM PRODUCT WHERE P_NO = #{pNo}
 	</delete>
-
+	
+	<!-- 사용자_상품 페이지 -->
     <select id="selecpagetList" resultType="com.mart.boot.product.model.vo.ProductVO">
         SELECT * FROM PRODUCT ORDER BY REG_DATE DESC
     </select>
+    <!-- 사용자_상품 상세 페이지 -->
     <select id="selectOne" resultType="ProductVO">
     	SELECT * FROM PRODUCT WHERE P_NO =#{pNo}
     </select>
-     
+     <!-- 사용자_상품 카테고리 페이지(한식) -->
     <select id="selectKoreanFood" resultType="com.mart.boot.product.model.vo.ProductVO">
    		SELECT * FROM PRODUCT WHERE CATEGORY_NO = #{categoryNo} ORDER BY REG_DATE DESC
 	</select>
+	<!-- 사용자_상품 카테고리 페이지(중식) -->
 	<select id="selectChinesesFood" resultType="com.mart.boot.product.model.vo.ProductVO">
 	    SELECT * FROM PRODUCT WHERE CATEGORY_NO = #{categoryNo} ORDER BY REG_DATE DESC
 	</select>
+	<!-- 사용자_상품 카테고리 페이지(일식) -->
 	<select id="selectJapaneseFood" resultType="com.mart.boot.product.model.vo.ProductVO">
    		SELECT * FROM PRODUCT WHERE CATEGORY_NO = #{categoryNo} ORDER BY REG_DATE DESC
+	</select>
+	<!--  사용자_상품 카테고리 페이지(인기) -->
+	<select id="selectPopularList" resultType="com.mart.boot.product.model.vo.ProductVO">
+     <![CDATA[
+    SELECT * FROM (
+        SELECT 
+            p.*,
+            RANK() OVER (ORDER BY P_OUTPUT DESC, REG_DATE DESC) as rank
+        FROM PRODUCT p
+    )
+    WHERE rank <= 6
+    ]]>
+	</select>
+	<select id="selectNewProducts" resultType="com.mart.boot.product.model.vo.ProductVO">
+	    <![CDATA[
+	    SELECT * FROM (
+	        SELECT 
+	            p.*,
+	            TRUNC(TO_DATE(p.EXPIRATION, 'YYYY-MM-DD')) - TRUNC(SYSDATE) as remainingDays
+	        FROM PRODUCT p
+	        ORDER BY p.REG_DATE DESC
+	    )
+	    WHERE ROWNUM <= 6
+	    ]]>
+	</select>
+	<select id="showExpirationList" resultType="com.mart.boot.product.model.vo.ProductVO">
+	    <![CDATA[
+	    SELECT * FROM (
+	        SELECT 
+	            p.*,
+	            TRUNC(TO_DATE(p.EXPIRATION, 'YYYY-MM-DD')) - TRUNC(SYSDATE) as remainingDays
+	        FROM PRODUCT p
+	        WHERE TRUNC(TO_DATE(p.EXPIRATION, 'YYYY-MM-DD')) > TRUNC(SYSDATE)
+	        ORDER BY remainingDays ASC
+	    )
+	    WHERE ROWNUM <= 6
+	    ]]>
+	</select>
+	<select id="mainNewProducts">
+	 <![CDATA[
+	    SELECT * FROM (
+	        SELECT 
+	            p.*,
+	            TRUNC(TO_DATE(p.EXPIRATION, 'YYYY-MM-DD')) - TRUNC(SYSDATE) as remainingDays
+	        FROM PRODUCT p
+	        ORDER BY p.REG_DATE DESC
+	    )
+	    WHERE ROWNUM <= 6
+	    ]]>
 	</select>
 </mapper>

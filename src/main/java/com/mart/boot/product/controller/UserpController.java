@@ -78,10 +78,9 @@ public class UserpController {
 	    model.addAttribute("pList", filteredProducts);
 	    return "product/user/chinesefood";
 	}
-	
 	// 일식 카테고리 페이지
 		@GetMapping("/japanesefood")
-		public String showJapaneseFood(Model model) {
+	public String showJapaneseFood(Model model) {
 		    List<ProductVO> pList = pService.selectJapaneseFood(3);
 		    List<ProductVO> filteredProducts = pList.stream()
 		            .filter(product -> product.getCategoryNo() == 3)
@@ -106,7 +105,82 @@ public class UserpController {
 		    model.addAttribute("pList", filteredProducts);
 		    return "product/user/japanesefood";
 		}
-	
+	// 인기 카테고리 페이지
+		@GetMapping("/popularlist")
+		public String showPopularList(Model model) {
+		    List<ProductVO> popularList = pService.selectPopularList();
+		    
+		    for (ProductVO product : popularList) {
+		        if (product.getImageUrl() != null && !product.getImageUrl().isEmpty()) {
+		            product.setImageUrl("/images/" + product.getImageUrl());
+		        } else {
+		            String imageName = "product_" + product.getpNo() + ".jpg";
+		            Path imagePath = Paths.get("src/main/resources/static/images/" + imageName);
+		            if (Files.exists(imagePath)) {
+		                product.setImageUrl("/images/" + imageName);
+		            } else {
+		                product.setImageUrl("/images/noimage.jpg");
+		            }
+		        }
+		    }
+		    
+		    model.addAttribute("popularList", popularList);
+		    model.addAttribute("totalProducts", popularList.size());
+		    model.addAttribute("pageTitle", "인기 상품 TOP 5");
+		    return "product/user/popularlist";
+		}
+	// 메인 페이지 
+		@GetMapping("/")
+		public String showMainpage(Model model) {
+		    List<ProductVO> newProducts = pService.mainNewProducts();
+		    
+		    for (ProductVO product : newProducts) {
+		        if (product.getImageUrl() != null && !product.getImageUrl().isEmpty()) {
+		            product.setImageUrl("/images/" + product.getImageUrl());
+		        } else {
+		            String imageName = "product_" + product.getpNo() + ".jpg";
+		            Path imagePath = Paths.get("src/main/resources/static/images/" + imageName);
+		            if (Files.exists(imagePath)) {
+		                product.setImageUrl("/images/" + imageName);
+		            } else {
+		                product.setImageUrl("/images/noimage.jpg");
+		            }
+		        }
+		    }
+		    
+		    model.addAttribute("newProducts", newProducts);
+		    model.addAttribute("totalProducts", newProducts.size());
+		    model.addAttribute("pageTitle", "신규 상품 목록");
+		    
+		    return "index";
+		}
+		// 신규 카테고리 페이지
+		@GetMapping("/newproductlist")
+		public String showNewProducts(Model model) {
+		    List<ProductVO> newProducts = pService.selectNewProducts();
+
+		    for (ProductVO product : newProducts) {
+		        if (product.getImageUrl() != null && !product.getImageUrl().isEmpty()) {
+		            product.setImageUrl("/images/" + product.getImageUrl());
+		        } else {
+		            String imageName = "product_" + product.getpNo() + ".jpg";
+		            Path imagePath = Paths.get("src/main/resources/static/images/" + imageName);
+		            if (Files.exists(imagePath)) {
+		                product.setImageUrl("/images/" + imageName);
+		            } else {
+		                product.setImageUrl("/images/noimage.jpg");
+		            }
+		        }
+		        // remainingDays는 이미 VO에서 계산되므로 여기서 별도로 계산할 필요 없음
+		    }
+
+		    model.addAttribute("newProducts", newProducts);
+		    model.addAttribute("totalProducts", newProducts.size());
+		    model.addAttribute("pageTitle", "신규 상품 목록");
+		    return "product/user/newproductlist";
+		}
+		
+	// 상품 상세 페이지
 	@GetMapping("/detailList/{pNo}")
 	public String showProductDetail(@PathVariable("pNo") int pNo, Model model) {
 		ProductVO product = pService.selectOne(pNo);
@@ -121,21 +195,11 @@ public class UserpController {
 	    
 	}
 
-	// 상품 페이지 
+	// 상품,유통기한 페이지 / 
 	@GetMapping("/list")
 	public String showProductListpage(Model model) {
 	    List<ProductVO> pList = pService.selecpagetList();
-	    
-//	    LocalDate today = LocalDate.now();
-//	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//	    
-//	    List<ProductVO> saleOffProducts = pList.stream()
-//	        .filter(product -> {
-//	            LocalDate expirationDate = LocalDate.parse(product.getExpiration(), formatter);
-//	            long daysUntilExpiration = ChronoUnit.DAYS.between(today, expirationDate);
-//	            return daysUntilExpiration <= 7 && daysUntilExpiration > 0;
-//	        })
-//	        .collect(Collectors.toList());
+	    List<ProductVO> expriationList = pService.showExpirationList();
 	    
 	    for (ProductVO product : pList) {
 	        if (product.getImageUrl() != null && !product.getImageUrl().isEmpty()) {
@@ -150,11 +214,48 @@ public class UserpController {
 	            }
 	        }
 	    }
+	    for (ProductVO product : expriationList) {
+	        if (product.getImageUrl() != null && !product.getImageUrl().isEmpty()) {
+	            product.setImageUrl("/images/" + product.getImageUrl());
+	        } else {
+	            String imageName = "product_" + product.getpNo() + ".jpg";
+	            Path imagePath = Paths.get("src/main/resources/static/images/" + imageName);
+	            if (Files.exists(imagePath)) {
+	                product.setImageUrl("/images/" + imageName);
+	            } else {
+	                product.setImageUrl("/images/noimage.jpg");
+	            }
+	        }
+	    }
+	    model.addAttribute("expriationList", expriationList);
 	    model.addAttribute("pList", pList);
-	    model.addAttribute("totalProducts", pList.size());
-	    model.addAttribute("pageTitle", "전체 상품 목록");
+	    model.addAttribute("pageTitle", "유통기한 임박 상품");
 	    return "product/user/list";
 	}
-	
+	// 유통기한 카테고리 페이지	
+//	@GetMapping("/expiration")
+//	public String showExpirationList(Model model) {
+//		List<ProductVO> pList = pService.selecpagetList();
+//	    List<ProductVO> expriationList = pService.showExpirationList();
+//	    
+//	    for (ProductVO product : expriationList) {
+//	        if (product.getImageUrl() != null && !product.getImageUrl().isEmpty()) {
+//	            product.setImageUrl("/images/" + product.getImageUrl());
+//	        } else {
+//	            String imageName = "product_" + product.getpNo() + ".jpg";
+//	            Path imagePath = Paths.get("src/main/resources/static/images/" + imageName);
+//	            if (Files.exists(imagePath)) {
+//	                product.setImageUrl("/images/" + imageName);
+//	            } else {
+//	                product.setImageUrl("/images/noimage.jpg");
+//	            }
+//	        }
+//	    }
+//	    model.addAttribute("expriationList", expriationList);
+//	    model.addAttribute("pList", pList);
+//	    model.addAttribute("pageTitle", "유통기한 임박 상품");
+//	    return "product/user/list";
+	//}
+
 	
 }

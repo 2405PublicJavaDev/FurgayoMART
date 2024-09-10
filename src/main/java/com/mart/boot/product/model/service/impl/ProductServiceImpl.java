@@ -128,6 +128,7 @@ public class ProductServiceImpl implements ProductService {
 		return result;
 	}
 
+	
 	// 사용자 상품 상세 페이지 
 	@Override
 	public ProductVO selectOne(int pNo) {
@@ -158,6 +159,30 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public List<ProductVO> selectJapaneseFood(int categoryNo) {
 		List<ProductVO> pList = pMapper.selectJapaneseFood(categoryNo);
+		return pList;
+	}
+
+	@Override
+	public List<ProductVO> selectPopularList() {
+		List<ProductVO> pList = pMapper.selectPopularList();
+		return pList;
+	}
+
+	@Override
+	public List<ProductVO> selectNewProducts() {
+		List<ProductVO> pList = pMapper.selectNewProducts();
+		return pList;
+	}
+
+	@Override
+	public List<ProductVO> showExpirationList() {
+		List<ProductVO> pList = pMapper.showExpirationList();
+		return pList;
+	}
+
+	@Override
+	public List<ProductVO> mainNewProducts() {
+		List<ProductVO> pList = pMapper.mainNewProducts();
 		return pList;
 	}
 

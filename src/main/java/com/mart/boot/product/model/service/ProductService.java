@@ -121,4 +121,28 @@ public interface ProductService {
 	 */
 	List<ProductVO> selectJapaneseFood(int categoryNo);
 
+	/**
+	 * 사용자 인기 페이지
+	 * @return List<ProductVO>
+	 */
+	List<ProductVO> selectPopularList();
+
+	/** 
+	 * 사용자 신규 페이지
+	 * @return List<ProductVO>
+	 */
+	List<ProductVO> selectNewProducts();
+
+	/**
+	 * 사용자 유통기한 페이지
+	 * @return
+	 */
+	List<ProductVO> showExpirationList();
+
+	/**
+	 * 메인페이지 신규상품
+	 * @return
+	 */
+	List<ProductVO> mainNewProducts();
+
 }
