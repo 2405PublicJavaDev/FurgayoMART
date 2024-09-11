@@ -7,14 +7,14 @@
 </head>
 <body>
 	<div class="header">
-        <h2>관리자 페이지</h2>
+        <a href="#"><h2>관리자 페이지</h2></a>
         <div class="header-menu">
             <a href="#">관리자님</a>
             <button>로그아웃</button>
         </div>
     </div>
     <div class="container">
-            <ul class="sidebar">
+            <ul class="sidebar" style="font-weight: bold; font-size: 17px;">
                 <li>
                     <a href="#">공지사항 관리</a>
                 </li>
@@ -24,15 +24,11 @@
                 <li>
                     <a href="#">회원 관리</a>
                 </li>
-                <li>
-                    <a href="#">상품 관리</a>
-                    <ul>
-                        <li>
-                            <a href="/admin/product/register">상품 등록</a>
-                        </li>
-                        <li>
-                            <a href="/admin/product/list">상품 조회</a>
-                        </li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">상품 관리 <span class="arrow"></span></a>
+                    <ul class="dropdown-content">
+                        <li><a href="/admin/product/register">상품 등록</a></li>
+                        <li><a href="/admin/product/list">상품 조회</a></li>
                     </ul>
                 </li>
             </ul>        
@@ -44,11 +40,11 @@
                         <div class="form-left">
                             <ul>
                                 <li>
-                                    <label for="name">상품명</label>
+                                    <label for="name">상품명 *</label>
                                     <input type="text" id="pName" name="pName" th:value="${product.pName}" required>
                                 </li>
                                 <li>
-                                    <label for="category">상품 유형</label>
+                                    <label for="category">상품 유형 *</label>
                                     <select id="category" name="categoryNo" th:field="${product.categoryNo}">
 									    <option value="999" th:selected="${product.categoryNo == 999}">전체</option>
 									    <option value="1" th:selected="${product.categoryNo == 1}">한식</option>
@@ -57,11 +53,11 @@
 									</select>
                                 </li>
                                 <li>
-                                    <label for="pPrice">상품 가격</label>
+                                    <label for="pPrice">상품 가격 *</label>
                                     <input type="number" id="pPrice" name="pPrice" th:value="${product.pPrice}" required>
                                 </li>
                                 <li>
-                                    <label for="starDate">유통 기한</label>
+                                    <label for="starDate">유통 기한 *</label>
                                     <input type="date" id="expiration" name="expiration" th:value="${product.expiration}">
                                 </li>
                                 <li>
@@ -74,7 +70,7 @@
                         <div class="form-right">
                             <ul>
                                 <li>
-                                	<label>대표 이미지</label>
+                                	<label>대표 이미지 *</label>
                                     <div class="image-upload">
                                     	<input type="file" id="imgMain" name="imgMainFile" accept="image/*" onchange="readURL(this, 'mainPreview')">
                                    		<!-- 대표 이미지 미리보기 -->
@@ -85,7 +81,7 @@
 									</div>
                                 </li>
                                 <li>
-                                    <label for="inventory">입고량</label>
+                                    <label for="inventory">입고량 *</label>
                                     <input type="number" id="pInput" name="pInput" th:value="${product.pInput}" required>
                                 </li>
                                 <li>
@@ -96,10 +92,8 @@
                         </div>
                     </div>
                     <div class="form-bottom">
+                    	<label for="name" style="margin-bottom: 30px;">상품설명</label>
                         <ul>
-                            <li>
-                                <label for="name">상품설명</label>
-                            </li>
                             <li>
                                 <label>조리된 사진</label>
                                 <div class="image-upload">
@@ -121,17 +115,21 @@
                                 </div>
                             </li>
                             <li>
-                                <label>상품 구성</label>
-                                <input type="text" id="pComponent" name="pComponent" th:value="${product.productDetail.pComponent}" required>
+                                <label>상품 구성 *</label>
+                                <textarea id="pComponent" name="pComponent" required
+                                          th:text="${product.productDetail.pComponent}"></textarea>
                             </li>
                             <li>
                                 <label>조리법</label>
-                                <input type="text" id="cook" name="cook" th:value="${product.productDetail.cook}">
+                                <textarea id="cook" name="cook"
+                                          th:text="${product.productDetail.cook}"></textarea>
                             </li>
                             <li>
                                 <label>추가 정보</label>
-                                <input type="text" id="content" name="content" th:value="${product.productDetail.content}">
+                                <textarea id="content" name="content"
+                                          th:text="${product.productDetail.content}"></textarea>
                             </li>
+                            
                         </ul>
                     </div>
                 </div>

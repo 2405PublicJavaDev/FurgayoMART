@@ -29,6 +29,14 @@ body {
     padding: 10px 20px;
     cursor: pointer;
 }
+a {
+    text-decoration: none; /* 밑줄 제거 */
+    color: inherit; /* 부모 요소의 색상 유지 */
+}
+
+a:visited, a:active, a:hover {
+    color: inherit; /* 클릭했을 때도 색상이 변하지 않음 */
+}
 
 /* 컨테이너 스타일 */
 .container {
@@ -65,10 +73,37 @@ body {
     flex-grow: 1;
 }
 
+.dropdown-content {
+    display: none;
+    padding-left: 20px;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content li {
+    margin-top: 5px;
+}
+
+.dropdown-content a {
+    padding: 5px 10px;
+}
+
+.dropbtn::after {
+    content: ' ▽';
+    font-size: 12px;
+}
+
+.dropdown:hover .dropbtn::after {
+    content: ' △';
+}
+
 /* search-form */
 .search-form {
     padding: 20px;
     border: 1px solid #ccc;
+    border-radius: 5px;
     display: flex;
     justify-items: space-between;
     justify-content: space-between;
@@ -95,6 +130,7 @@ body {
     flex: 1;
     width: 130px;
     text-align: center;
+    border-radius: 5px;
 }
 
 /* 상품 유형 */
@@ -110,6 +146,7 @@ body {
     justify-content: center;
     flex: 1;
     text-align: center;
+    border-radius: 5px;
 }
 .category-range option {
     text-align: center;
@@ -126,6 +163,7 @@ body {
 .remainingDays-range input {
     width: 50px;
     margin-right: 3px;
+    border-radius: 5px;
 }
 
 /* 상품명 */
@@ -136,6 +174,7 @@ body {
 }
 .productName-range input {
     width: 200px;
+    border-radius: 5px;
 }
 
 /* 버튼, 검색 결과 문구 */
@@ -202,10 +241,14 @@ th {
 }
 
 .paginate button.on {
-    background-color: black;
-    border-color: black;
+    background-color: #7fad39;
+    border-color: #7fad39;
     color: #fff;
     font-weight: bold;
+}
+
+.paginate button.on:hover {
+    background-color: #6f9a33;
 }
 
 .paginate div:first-child button,
@@ -224,15 +267,16 @@ th {
 
 /* 버튼 */
 .button {
-    background-color: #333;
+    background-color: #7fad39;;
     color: white;
     padding: 10px 15px;
+    border-radius: 5px;
     border: none;
     cursor: pointer;
     height: 40px;
 }
 .button:hover {
-    background-color: #252525;
+    background-color: #6f9a33;
 }
 .pagination {
     margin-top: 20px;

@@ -14,7 +14,7 @@
         </div>
     </div>
     <div class="container">
-        <ul class="sidebar">
+        <ul class="sidebar" style="font-weight: bold; font-size: 17px;">
             <li>
                 <a href="#">공지사항 관리</a>
             </li>
@@ -24,24 +24,18 @@
             <li>
                 <a href="#">회원 관리</a>
             </li>
-            <li>
-                <a href="#">상품 관리</a>
-                <ul>
-                    <li>
-                        <a href="/admin/product/register">상품 등록</a>
-                    </li>
-                    <li>
-                        <a href="/admin/product/list">상품 조회</a>
-                    </li>
-                </ul>
-            </li>
+            <li class="dropdown">
+				<a href="#" class="dropbtn">상품 관리 <span class="arrow"></span></a>
+				<ul class="dropdown-content">
+					<li><a href="/admin/product/register">상품 등록</a></li>
+					<li><a href="/admin/product/list">상품 조회</a></li>
+				</ul>
+			</li>
         </ul>
         <div class="content">
             <h2>상품 조회하기</h2>
             <form th:action="@{/admin/product/list}" method="get">
 				<input type="hidden" name="prsnPageNo" th:value="${criteria.prsnPageNo}" />
-				
-				<!-- <button type="submit" th:classappend="${pageNo == criteria.prsnPageNo} ? 'on'">[[${pageNo}]]</button> -->
 	            <div class="search-container">
 	                <div class="search-form">
 	                    <div class="date-range">
@@ -79,7 +73,7 @@
 					<span th:text="${totalCount != null ? totalCount + '개가 검색되었습니다.' : '상품이 없습니다.'}"></span>
 					<input type=button class="button" onclick="selectAll(true);" value="전체 선택"/>
 					<input type=button class="button" onclick="selectAll(false);" value="전체 해제"/>
-					<button type="submit" class="button" onclick="confirmMultipleDelete();">삭제</button>
+					<button type="submit" class="button" onclick="confirmMultipleDelete();"style="background-color: #ff0033;">삭제</button>
 				</div>
 	            <table>
 	                <thead>
@@ -117,8 +111,8 @@
 	    					<td th:if="${productVO.remainingDays != null and productVO.remainingDays > 0}" th:text="${productVO.remainingDays + ' 일'}"></td>
 							<td th:if="${productVO.remainingDays == null or productVO.remainingDays <= 0}" th:text="'X'"></td>
 	
-						    <td><button class="button" type="button" th:onclick="showModify([[${productVO.pNo}]]); return false;">수정</button></td>
-						    <td><button class="button" th:onclick="deleteProduct([[${productVO.pNo}]]); return false;">삭제</button></td>
+						    <td><button class="button" type="button" th:onclick="showModify([[${productVO.pNo}]]); return false;" style="background-color: #007bff;">수정</button></td>
+						    <td><button class="button" th:onclick="deleteProduct([[${productVO.pNo}]]); return false;" style="background-color: #ff0033;">삭제</button></td>
 						</tr>
 					</tbody>
 	            </table>
