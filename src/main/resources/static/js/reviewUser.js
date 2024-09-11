@@ -10,8 +10,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const reviewTitle = document.getElementById('review-title');
     let currentPage = 0;
     const reviewsPerPage = 4;
+    let allReviews = [];
 
-    // 리뷰 표시 함수
     function displayReviews(reviewsToShow, title) {
         reviewTitle.textContent = title;
         reviewsDisplay.innerHTML = '';
@@ -23,33 +23,45 @@ document.addEventListener('DOMContentLoaded', function() {
             const pageReviews = reviewsToShow.slice(startIndex, endIndex);
 
             pageReviews.forEach(review => {
-                const accordionItem = document.createElement('div');
-                accordionItem.className = 'accordion-item';
-
-                let imageHTML = '';
-                if (review.fileName) {
-                    imageHTML = `<img src="/uploads/${review.fileName}" alt="리뷰 이미지" class="review-image">`;
-                }
-
-                accordionItem.innerHTML = `
-                    <div class="accordion-header">
-                        <span>${review.pName} - ${review.writerId}</span>
-                        <span class="accordion-arrow">▼</span>
-                    </div>
-                    <div class="accordion-content">
-                        <div class="accordion-content-inner">
-                            <h3>${review.reTitle}</h3>
-                            <p>${review.reContent}</p>
-                            ${imageHTML}
-                        </div>
-                    </div>
-                `;
+                const accordionItem = createReviewAccordionItem(review);
                 reviewsDisplay.appendChild(accordionItem);
             });
         }
         setupAccordion();
         updateNavigationButtons(reviewsToShow.length);
         updateReviewsDisplayOverflow();
+    }
+
+    function createReviewAccordionItem(review) {
+        const accordionItem = document.createElement('div');
+        accordionItem.className = 'accordion-item';
+
+        let imageHTML = '';
+        if (review.fileName) {
+            imageHTML = `<img src="/uploads/${review.fileName}" alt="리뷰 이미지" class="review-image">`;
+        }
+
+        console.log('Review data:', review);
+
+        const pName = review.pname && review.pname.trim() !== '' ? review.pname : '상품명 미지정';
+        const writerId = review.writerId && review.writerId.trim() !== '' ? review.writerId : '작성자 미상';
+        const reTitle = review.reTitle && review.reTitle.trim() !== '' ? review.reTitle : '제목 없음';
+        const reContent = review.reContent && review.reContent.trim() !== '' ? review.reContent : '내용 없음';
+
+        accordionItem.innerHTML = `
+            <div class="accordion-header">
+                <span>${pName} - ${writerId}</span>
+                <span class="accordion-arrow">▼</span>
+            </div>
+            <div class="accordion-content">
+                <div class="accordion-content-inner">
+                    <h3>${reTitle}</h3>
+                    <p>${reContent}</p>
+                    ${imageHTML}
+                </div>
+            </div>
+        `;
+        return accordionItem;
     }
 
     function setupAccordion() {
@@ -61,7 +73,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const arrow = item.querySelector('.accordion-arrow');
 
             header.addEventListener('click', () => {
-                // 다른 모든 아이템 닫기
                 accordionItems.forEach(otherItem => {
                     if (otherItem !== item && otherItem.classList.contains('active')) {
                         otherItem.classList.remove('active');
@@ -70,7 +81,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 });
 
-                // 현재 아이템 토글
                 item.classList.toggle('active');
                 if (item.classList.contains('active')) {
                     content.style.maxHeight = content.scrollHeight + "px";
@@ -80,7 +90,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     arrow.textContent = '▼';
                 }
 
-                // 리뷰 디스플레이의 overflow 상태 업데이트
                 updateReviewsDisplayOverflow();
             });
         });
@@ -108,10 +117,9 @@ document.addEventListener('DOMContentLoaded', function() {
         } else if (direction === 'prev' && !prevButton.disabled) {
             currentPage--;
         }
-        fetchReviews();
+        displayReviews(allReviews, "고객 리뷰");
     }
 
-    // 리뷰 검색
     function searchReviews() {
         const searchTerm = searchInput.value;
         const searchCategory = searchType.value;
@@ -119,18 +127,18 @@ document.addEventListener('DOMContentLoaded', function() {
         fetchReviews(searchCategory, searchTerm);
     }
 
-    // 모든 리뷰 표시
     function showAllReviews() {
         currentPage = 0;
         fetchReviews();
     }
 
-    // 리뷰 작성 폼 제출 처리
     const reviewForm = document.querySelector('.review-form form');
     reviewForm.addEventListener('submit', function(e) {
         e.preventDefault();
 
         const formData = new FormData(this);
+
+        console.log('상품명:', formData.get('pName'));
 
         fetch('/api/reviews', {
             method: 'POST',
@@ -144,13 +152,21 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(data => {
                 console.log('Review added:', data);
-                showAllReviews();
+                displayNewReview(data);
                 this.reset();
             })
             .catch((error) => {
                 console.error('Error:', error);
             });
     });
+
+    function displayNewReview(review) {
+        const accordionItem = createReviewAccordionItem(review);
+        reviewsDisplay.insertBefore(accordionItem, reviewsDisplay.firstChild);
+        setupAccordion();
+        allReviews.unshift(review);
+        displayReviews(allReviews, "고객 리뷰");
+    }
 
     function fetchReviews(searchType, searchKeyword) {
         let url = '/api/reviews';
@@ -161,17 +177,26 @@ document.addEventListener('DOMContentLoaded', function() {
         fetch(url)
             .then(response => response.json())
             .then(data => {
-                displayReviews(data, searchType && searchKeyword ? "검색 결과" : "고객 리뷰");
+                console.log('Received reviews:', data);
+                allReviews = data.map(review => {
+                    console.log('Processing review:', review);
+                    return {
+                        ...review,
+                        pname: review.pname && review.pname.trim() !== '' ? review.pname : '상품명 미지정',
+                        writerId: review.writerId && review.writerId.trim() !== '' ? review.writerId : '작성자 미상',
+                        reTitle: review.reTitle && review.reTitle.trim() !== '' ? review.reTitle : '제목 없음',
+                        reContent: review.reContent && review.reContent.trim() !== '' ? review.reContent : '내용 없음'
+                    };
+                });
+                displayReviews(allReviews, searchType && searchKeyword ? "검색 결과" : "고객 리뷰");
             })
             .catch(error => console.error('Error:', error));
     }
 
-    // 이벤트 리스너 설정
     searchButton.addEventListener('click', searchReviews);
     viewAllButton.addEventListener('click', showAllReviews);
     prevButton.addEventListener('click', () => navigateReviews('prev'));
     nextButton.addEventListener('click', () => navigateReviews('next'));
 
-    // 초기 리뷰 표시
     fetchReviews();
 });

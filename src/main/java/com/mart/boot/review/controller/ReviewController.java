@@ -27,8 +27,11 @@ public class ReviewController {
 
     @PostMapping
     public ResponseEntity<ReviewVO> addReview(@ModelAttribute ReviewVO review,
-                                              @RequestPart(value = "file", required = false) MultipartFile file) {
+                                              @RequestPart(value = "attachedFile", required = false) MultipartFile file) {
         try {
+            System.out.println("Received review: " + review.toString()); // 로깅 추가
+            System.out.println("Received product name: " + review.getPName()); // 상품명 로깅
+
             if (file != null && !file.isEmpty()) {
                 review.setAttachedFile(file);
             }

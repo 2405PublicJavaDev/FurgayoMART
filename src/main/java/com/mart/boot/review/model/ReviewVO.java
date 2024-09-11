@@ -1,5 +1,6 @@
 package com.mart.boot.review.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.web.multipart.MultipartFile;
 import java.util.Date;
 
@@ -12,6 +13,7 @@ public class ReviewVO {
     private Date reviewDate;
     private String pName;
     private Date reModify;
+    @JsonIgnore
     private MultipartFile attachedFile; // 업로드된 파일
     private String fileName; // 업로드된 파일의 실제 파일 이름
 
