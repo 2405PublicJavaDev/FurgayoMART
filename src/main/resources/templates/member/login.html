@@ -1,38 +1,69 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>로그인</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>로그인</title>
+<link rel="stylesheet" th:href="@{/css/header-footer.css}">
     <link rel="stylesheet" th:href="@{/css/login.css}">
 </head>
 <body>
-    <div class="login-container">
-        <h1>로그인</h1>
-        <form id="loginForm" th:action="@{/member/login}" method="post">
-            <div th:if="${error}" class="alert alert-danger" th:text="${error}">
-                Error message here.
-            </div>
-            <div class="input-group">
-                <label for="memberPhone">ID를 입력하세요</label>
-                <input type="tel" id="memberPhone" name="memberPhone" placeholder="휴대폰 번호" required>
-            </div>
-            <div class="input-group">
-                <label for="memberPw">PW를 입력하세요</label>
-                <input type="password" id="memberPw" name="memberPw" placeholder="비밀번호" required>
-            </div>
-            <div class="checkbox-group">
-                <input type="checkbox" id="rememberMe" name="remember-me">
-                <label for="rememberMe">로그인상태유지</label>
-            </div>
-            <button type="submit" class="login-btn">확인</button>
-        </form>
-        <div class="links">
-            <a th:href="@{/member/find-id}">아이디 찾기</a>
-            <a th:href="@{/member/find-pw}">비밀번호 찾기</a>
-            <a th:href="@{/member/register}">회원가입</a>
-        </div>
-    </div>
-    <script th:src="@{/js/login.js}"></script>
+	<header>
+		<div class="container">
+			<div class="header-content">
+				<a href="./"><h1 class="logo">Fugayo's Mart</h1></a>
+				<nav>
+					<ul>
+						<li><a href="./">홈</a></li>
+						<li><a href="/productpage/list">상품</a></li>
+						<li><a href="/api/notice/list">공지사항</a></li>
+						<li><a href="#">리뷰</a></li>
+					</ul>
+				</nav>
+				<div class="user-actions">
+					<span th:if="${session.loggedInMember != null}"> <a
+						href="/member/mypage" th:text="${session.loggedInMember + '****님'}"></a>
+					</span> <span th:unless="${session.loggedInMember != null}">로그인 후
+						이용하세요</span> <span th:if="${session.loggedInMember != null}"> <a
+						href="/member/logout">로그아웃</a>
+					</span> <span th:unless="${session.loggedInMember != null}"> <a
+						href="/member/login">로그인</a>
+					</span> <span>🛒</span> <span>QR</span>
+				</div>
+			</div>
+		</div>
+	</header>
+	<main>
+		<div class="login-container">
+			<h1>로그인</h1>
+			<form id="loginForm" th:action="@{/member/login}" method="post">
+				<div th:if="${error}" class="alert alert-danger" th:text="${error}">
+					Error message here.</div>
+				<div class="input-group">
+					<label for="memberPhone">ID를 입력하세요</label> <input type="tel"
+						id="memberPhone" name="memberPhone" placeholder="휴대폰 번호" required>
+				</div>
+				<div class="input-group">
+					<label for="memberPw">PW를 입력하세요</label> <input type="password"
+						id="memberPw" name="memberPw" placeholder="비밀번호" required>
+				</div>
+				<div class="checkbox-group">
+					<input type="checkbox" id="rememberMe" name="remember-me">
+					<label for="rememberMe">로그인상태유지</label>
+				</div>
+				<button type="submit" class="login-btn">확인</button>
+			</form>
+			<div class="links">
+				<a th:href="@{/member/find-id}">아이디 찾기</a> <a
+					th:href="@{/member/find-pw}">비밀번호 찾기</a> <a
+					th:href="@{/member/register}">회원가입</a>
+			</div>
+		</div>
+	</main>
+	<footer>
+		<hr>
+		<div class="footerclass">회사소개 공지사항 문의하기 운영정책</div>
+	</footer>
+	<script th:src="@{/js/login.js}"></script>
 </body>
 </html>

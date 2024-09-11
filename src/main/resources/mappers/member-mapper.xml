@@ -12,7 +12,7 @@
 	</resultMap>
 	<insert id="insertMember"
 		parameterType="com.mart.boot.member.model.vo.MemberVO">
-		INSERT INTO MEMBERS (
+		INSERT INTO MEMBER (
 		MEMBER_PHONE, MEMBER_PW, MEMBER_NAME, MEMBER_EMAIL,
 		TERMS_AGREEMENT_YN, PRIVACY_AGREEMENT_YN, SMS_AGREEMENT_YN, EMAIL_AGREEMENT_YN
 		) VALUES (
@@ -22,13 +22,11 @@
 	</insert>
 	<update id="updateMember"
 		parameterType="com.mart.boot.member.model.vo.MemberVO">
-		UPDATE MEMBERS
+		UPDATE MEMBER
 		SET
 		MEMBER_PW = #{memberPw},
 		MEMBER_NAME = #{memberName},
 		MEMBER_EMAIL = #{memberEmail},
-		TERMS_AGREEMENT_YN = #{termsAgreementYn},
-		PRIVACY_AGREEMENT_YN = #{privacyAgreementYn},
 		SMS_AGREEMENT_YN = #{smsAgreementYn},
 		EMAIL_AGREEMENT_YN = #{emailAgreementYn}
 		WHERE MEMBER_PHONE = #{memberPhone}
@@ -41,9 +39,9 @@
 		SELECT * FROM MEMBER
 		WHERE MEMBER_PHONE = #{memberPhone} AND MEMBER_PW = #{memberPw}
 	</select>
-	<select id="selectOneByPhone" resultMap="memberResultMap">
+	<select id="selectOneByNo" resultMap="memberResultMap">
 		SELECT * FROM MEMBER
-		WHERE MEMBER_PHONE = #{memberPhone}
+		WHERE MEMBER_NO = #{memberNo}
 	</select>
 	<select id="selectMemberByEmailAndName" resultType="MemberVO">
 		SELECT * FROM MEMBER

@@ -40,24 +40,24 @@ public class MemberController {
 	// 회원가입 로직 수행
 	@PostMapping("/register")
 	public String insertMember(@ModelAttribute MemberVO member
-			, @RequestParam(required = false) boolean agreeAll
-			, @RequestParam(required = false) boolean termsAgreement
-			, @RequestParam(required = false) boolean privacyAgreement
-			, @RequestParam(required = false) boolean smsAgreement
-			, @RequestParam(required = false) boolean emailAgreement
 			, Model model
 			, RedirectAttributes redirectAttributes) {
 		try {
 			// 필수 동의 항목 확인
-			if (!termsAgreement || !privacyAgreement) {
+			if (member.getTermsAgreementYn() == null 
+					|| member.getPrivacyAgreementYn() == null) {
 				model.addAttribute("error", "필수 약관에 동의해주세요.");
-				return "member/register";
+				
 			}
 			// 회원 정보에 동의 항목 추가
-			member.setTermsAgreementYn(termsAgreement ? "Y" : "N");
-			member.setPrivacyAgreementYn(privacyAgreement ? "Y" : "N");
-			member.setSmsAgreementYn(smsAgreement ? "Y" : "N");
-			member.setEmailAgreementYn(emailAgreement ? "Y" : "N");
+			member.setTermsAgreementYn("Y".equals(member.getTermsAgreementYn()) 
+													? member.getTermsAgreementYn() : "N");
+			member.setPrivacyAgreementYn("Y".equals(member.getPrivacyAgreementYn()) 
+													? member.getPrivacyAgreementYn() : "N");
+			member.setSmsAgreementYn("Y".equals(member.getSmsAgreementYn()) 
+													? member.getSmsAgreementYn() : "N");
+			member.setEmailAgreementYn("Y".equals(member.getEmailAgreementYn()) 
+													? member.getEmailAgreementYn() : "N");
 
 			int result = mService.insertMember(member);
 			if (result > 0) {
@@ -81,7 +81,8 @@ public class MemberController {
 	// 로그인 로직 수행
 	@PostMapping("/login")
 	public String checkLogin(Model model, @RequestParam("memberPhone") String memberPhone,
-			@RequestParam("memberPw") String memberPw, HttpSession session) {
+			@RequestParam("memberPw") String memberPw, HttpSession session
+			, RedirectAttributes redirectAttributes) {
 		try {
 			MemberVO member = new MemberVO();
 			member.setMemberPhone(memberPhone);
@@ -89,28 +90,25 @@ public class MemberController {
 
 			member = mService.checkMemberLogin(member);
 			if (member != null) {
-				session.setAttribute("memberPhone", member.getMemberPhone());
-				session.setAttribute("memberName", member.getMemberName());
 				session.setAttribute("memberNo", member.getMemberNo());
+				session.setAttribute("loggedInMember", member.getMemberNo());
 				return "redirect:/";
 			} else {
-				model.addAttribute("error", "로그인이 완료되지 않았습니다.");
-				return "common/error";
+				redirectAttributes.addFlashAttribute("error", "아이디 또는 비밀번호가 올바르지 않습니다.");
+				return "redirect/member/login";
 			}
 		} catch (Exception e) {
-			model.addAttribute("error", e.getMessage());
-			return "common/error";
+			logger.error("로그인 처리 중 오류 발생", e);
+			redirectAttributes.addFlashAttribute("error", "로그인 처리 중 오류가 발생했습니다.");
+			return "redirect/member/login";
 		}
 	}
 
+	// 로그아웃
 	@GetMapping("/logout")
 	public String memberLogout(HttpSession session, RedirectAttributes redirectAttributes) {
 		try {
 			if (session != null) {
-				String memberPhone = (String) session.getAttribute("memberPhone");
-				if (memberPhone != null) {
-					logger.info("User logged out: {}", memberPhone);
-				}
 				session.invalidate();
 				redirectAttributes.addFlashAttribute("msg", "로그아웃되었습니다.");
 				return "redirect:/member/login";
@@ -119,21 +117,19 @@ public class MemberController {
 			logger.error("로그아웃 처리 중 오류 발생", e);
 			redirectAttributes.addFlashAttribute("error", "로그아웃 처리 중 오류가 발생했습니다.");
 		}
-		return "redirect:/";
+		return "redirect:/member/login";
 	}
 
 	// 마이페이지 페이지
 	@GetMapping("/mypage")
 	public String showMypage(Model model, HttpSession session, RedirectAttributes redirectAttributes) {
-		String memberPhone = (String) session.getAttribute("memberPhone");
-
-		if (memberPhone == null) {
+		Long memberNo = (Long) session.getAttribute("loggedInMember");
+		if (memberNo == null) {
 			redirectAttributes.addFlashAttribute("msg", "로그인이 필요한 서비스입니다.");
 			return "redirect:/member/login";
 		}
-
 		try {
-			MemberVO member = mService.selectOneByPhone(memberPhone);
+			MemberVO member = mService.selectOneByNo(memberNo);
 			if (member != null) {
 				model.addAttribute("member", member);
 				model.addAttribute("isAdmin", "Y".equals(member.getAdminYn()));
@@ -152,13 +148,13 @@ public class MemberController {
 	 // 회원정보 수정 페이지
     @GetMapping("/update")
     public String showUpdateForm(Model model, HttpSession session, RedirectAttributes redirectAttributes) {
-        String memberPhone = (String) session.getAttribute("memberPhone");
-        if (memberPhone == null) {
+        Long memberNo = (Long) session.getAttribute("loggedInMember");
+        if (memberNo == null) {
             redirectAttributes.addFlashAttribute("msg", "로그인이 필요한 서비스입니다.");
             return "redirect:/member/login";
         }
         try {
-            MemberVO member = mService.selectOneByPhone(memberPhone);
+            MemberVO member = mService.selectOneByNo(memberNo);
             if (member != null) {
                 model.addAttribute("member", member);
                 return "member/update";
@@ -178,23 +174,17 @@ public class MemberController {
     public String updateMember(@ModelAttribute MemberVO member, 
                                HttpSession session,
                                RedirectAttributes redirectAttributes) {
-        String memberPhone = (String) session.getAttribute("memberPhone");
-        if (memberPhone == null || !memberPhone.equals(member.getMemberPhone())) {
+        Long memberNo = (Long) session.getAttribute("loggedInMember");
+        if (memberNo == null) {
             redirectAttributes.addFlashAttribute("msg", "잘못된 접근입니다.");
             return "redirect:/";
         }
         try {
             // 기존 회원 정보 조회
-            MemberVO existingMember = mService.selectOneByPhone(memberPhone);
+            MemberVO existingMember = mService.selectOneByNo(memberNo);
             if (existingMember == null) {
                 redirectAttributes.addFlashAttribute("msg", "회원 정보가 존재하지 않습니다.");
                 return "redirect:/";
-            }
-
-            // 필수 동의 항목 검증
-            if (!"Y".equals(member.getTermsAgreementYn()) || !"Y".equals(member.getPrivacyAgreementYn())) {
-                redirectAttributes.addFlashAttribute("msg", "필수 약관에 동의해주세요.");
-                return "redirect:/member/update";
             }
 
             // 기존 동의 정보 유지 (사용자가 변경하지 않은 경우를 위해)
@@ -224,12 +214,10 @@ public class MemberController {
 	@PostMapping("/delete")
 	public String deleteMember(HttpSession session, RedirectAttributes redirectAttributes) {
 		String memberPhone = (String) session.getAttribute("memberPhone");
-
 		if (memberPhone == null) {
 			redirectAttributes.addFlashAttribute("error", "로그인이 필요한 서비스입니다.");
 			return "redirect:/member/login";
 		}
-
 		try {
 			int result = mService.deleteMember(memberPhone);
 			if (result > 0) {

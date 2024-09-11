@@ -1,105 +1,103 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fugayo's Mart</title>
-    <link rel="stylesheet" href="/css/header-footer.css">
-    <link rel="stylesheet" href="/css/mainpage.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fugayo's Mart</title>
+<link rel="stylesheet" href="/css/header-footer.css">
+<link rel="stylesheet" href="/css/mainpage.css">
 </head>
 <body>
-    <header>
-        <div class="container">
-            <div class="header-content">
-                <a href="./"><h1 class="logo">Fugayo's Mart</h1></a>
-                <nav>
-                    <ul>
-                        <li><a href="./">홈</a></li>
-                        <li><a href="/productpage/list">상품</a></li>
-                        <li><a href="/api/notice/list">공지사항</a></li>
-                        <li><a href="#">리뷰</a></li>
-                    </ul>
-                </nav>
-                <div class="user-actions">
-                    <span>****님</span>
-                    <span>로그인</span>
-                    <span>🛒</span>
-                    <span>QR</span>
-                </div>
-            </div>
-        </div>
-    </header>
+	<header>
+		<div class="container">
+			<div class="header-content">
+				<a href="./"><h1 class="logo">Fugayo's Mart</h1></a>
+				<nav>
+					<ul>
+						<li><a href="./">홈</a></li>
+						<li><a href="/productpage/list">상품</a></li>
+						<li><a href="/api/notice/list">공지사항</a></li>
+						<li><a href="#">리뷰</a></li>
+					</ul>
+				</nav>
+				<div class="user-actions">
+					<span th:if="${session.loggedInMember != null}"> <a
+						href="/member/mypage" th:text="${session.loggedInMember + '****님'}"></a>
+					</span> <span th:unless="${session.loggedInMember != null}">로그인 후
+						이용하세요</span> <span th:if="${session.loggedInMember != null}"> <a
+						href="/member/logout">로그아웃</a>
+					</span> <span th:unless="${session.loggedInMember != null}"> <a
+						href="/member/login">로그인</a>
+					</span> <span>🛒</span> <span>QR</span>
+				</div>
+			</div>
+		</div>
+	</header>
 
-    <div class="container">
-        <div class="main-content">
-            <div class="departments">
-                <button onclick="toggleDepartments()" class="departments-btn">상품목록 ▼</button>
-                <div id="departmentsDropdown" class="departments-content">
-                    <a href="#">신규상품</a>
-                    <a href="./popularproducts.html">인기상품</a>
-                    <a href="/koreanfood.html">한식</a>
-                    <a href="./chinesefood.html">중식</a>
-                    <a href="./japanesefood.html">양식</a>
-                    <a href="/productpage/list">유통기한 임박 상품</a>
-                </div>
-            </div>
-            <section class="banner">
-                <div class="carousel">
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <img src="./images/광고배너3.PNG" alt="광고 배너 1">
-                        </div>
-                        <div class="carousel-item">
-                            <img src="./images/광고배너2.PNG" alt="광고 배너 2">
-                        </div>
-                        <div class="carousel-item">
-                            <img src="./images/광고배너.PNG" alt="광고 배너 3">
-                        </div>
-                    </div>
-                    <button class="carousel-control prev" aria-label="이전 슬라이드">&lt;</button>
-                    <button class="carousel-control next" aria-label="다음 슬라이드">&gt;</button>
-                </div>
-            </section>
-        </div>
-        
+	<div class="container">
+		<div class="main-content">
+			<div class="departments">
+				<button onclick="toggleDepartments()" class="departments-btn">상품목록
+					▼</button>
+				<div id="departmentsDropdown" class="departments-content">
+					<a href="#">신규상품</a> <a href="./popularproducts.html">인기상품</a> <a
+						href="/koreanfood.html">한식</a> <a href="./chinesefood.html">중식</a>
+					<a href="./japanesefood.html">양식</a> <a href="/productpage/list">유통기한
+						임박 상품</a>
+				</div>
+			</div>
+			<section class="banner">
+				<div class="carousel">
+					<div class="carousel-inner">
+						<div class="carousel-item active">
+							<img src="./images/광고배너3.PNG" alt="광고 배너 1">
+						</div>
+						<div class="carousel-item">
+							<img src="./images/광고배너2.PNG" alt="광고 배너 2">
+						</div>
+						<div class="carousel-item">
+							<img src="./images/광고배너.PNG" alt="광고 배너 3">
+						</div>
+					</div>
+					<button class="carousel-control prev" aria-label="이전 슬라이드">&lt;</button>
+					<button class="carousel-control next" aria-label="다음 슬라이드">&gt;</button>
+				</div>
+			</section>
+		</div>
 
-        <div>
-            <h2>신규 상품</h2>
-        </div>
-        <div class="categories">
-            <div class="category">
-                <img src="./images/치킨.PNG" alt="상품 사진 자리입니다">
-                <h3 class="category-title">치킨</h3>
-                <p class="category-price">19,900 원</p>
-            </div>
-            <div class="category">
-                <img src="./images/밀푀유.PNG" alt="상품 사진 자리입니다">
-                <h3 class="category-title">밀푀유나베 & 칼국수 밀키트</h3>
-                <p class="category-price">17,900 원</p>
-            </div>
-            <div class="category">
-                <img src="./images/부대찌개.PNG" alt="상품 사진 자리입니다">
-                <h3 class="category-title">오리지널 부대찌개</h3>
-                <p class="category-price">13,900 원</p>
-            </div>
-            <div class="category">
-                <img src="./images/차돌박이 숙주볶음.PNG" alt="상품 사진 자리입니다">
-                <h3 class="category-title">차돌박이 숙주볶음</h3>
-                <p class="category-price">13,900 원</p>
-            </div>
-        </div>
-    </div>
-    <br>
-    <footer>
-        <hr>
-        <div class="footerclass">
-            회사소개
-            공지사항
-            문의하기
-            운영정책
-        </div>
-    </footer>
-    <script>
+
+		<div>
+			<h2>신규 상품</h2>
+		</div>
+		<div class="categories">
+			<div class="category">
+				<img src="./images/치킨.PNG" alt="상품 사진 자리입니다">
+				<h3 class="category-title">치킨</h3>
+				<p class="category-price">19,900 원</p>
+			</div>
+			<div class="category">
+				<img src="./images/밀푀유.PNG" alt="상품 사진 자리입니다">
+				<h3 class="category-title">밀푀유나베 & 칼국수 밀키트</h3>
+				<p class="category-price">17,900 원</p>
+			</div>
+			<div class="category">
+				<img src="./images/부대찌개.PNG" alt="상품 사진 자리입니다">
+				<h3 class="category-title">오리지널 부대찌개</h3>
+				<p class="category-price">13,900 원</p>
+			</div>
+			<div class="category">
+				<img src="./images/차돌박이 숙주볶음.PNG" alt="상품 사진 자리입니다">
+				<h3 class="category-title">차돌박이 숙주볶음</h3>
+				<p class="category-price">13,900 원</p>
+			</div>
+		</div>
+	</div>
+	<br>
+	<footer>
+		<hr>
+		<div class="footerclass">회사소개 공지사항 문의하기 운영정책</div>
+	</footer>
+	<script>
         function toggleDepartments() {
             document.getElementById("departmentsDropdown").classList.toggle("show");
         }

@@ -1,90 +1,146 @@
 @charset "UTF-8";
-body {
+body, html {
+    margin: 0;
+    padding: 0;
     font-family: Arial, sans-serif;
     line-height: 1.6;
-    color: #333;
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
+    background-color: #f4f4f4;
 }
 
 main {
-    background-color: #f4f4f4;
-    padding: 20px;
-    border-radius: 5px;
+    padding: 40px 0;
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
-h1, h2, h3 {
-    color: #2c3e50;
+.main-header {
+    background-color: #fff;
+    padding: 20px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.main-header h1 {
+    font-size: 32px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.main-header p {
+    font-size: 16px;
+    color: #666;
+}
+
+.form-container {
+    padding: 20px;
+}
+
+h2 {
+    font-size: 24px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+form {
+    max-width: 600px;
 }
 
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 label {
     display: block;
     margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
 }
 
-input[type="text"],
 input[type="tel"],
 input[type="password"],
+input[type="text"],
 input[type="email"] {
-    width: 100%;
-    padding: 8px;
+    width: 40%;
+    padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
-}
-
-button {
-    background-color: #3498db;
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #2980b9;
+    font-size: 14px;
 }
 
 .ec-base-box {
     border: 1px solid #ddd;
-    padding: 15px;
+    padding: 20px;
     margin-bottom: 20px;
     border-radius: 4px;
+}
+
+.ec-base-box.typeThinBg {
+    background-color: #f9f9f9;
+}
+
+.ec-base-box.gStrong {
+    background-color: #f0f0f0;
 }
 
 .content {
     max-height: 200px;
     overflow-y: auto;
     border: 1px solid #eee;
-    padding: 10px;
-    margin-bottom: 10px;
-}
-
-#registerForm {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
-
-.ec-base-chk {
-    display: inline-block;
-    margin-right: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: #fff;
 }
 
 .check {
     display: flex;
     align-items: center;
     margin-top: 10px;
+    padding: 0;
 }
 
-#submitBtn {
+.check li {
+    list-style: none;
+    margin-bottom: 10px;
+}
+
+.check input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.ec-base-chk {
+    display: inline-block;
+    position: relative;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
     width: 100%;
     margin-top: 20px;
-    background-color: #2ecc71;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* 추가된 스타일 */
+.ec-base-box h3 {
+    margin-top: 0;
+    color: #333;
+}
+
+.check span {
+    font-weight: bold;
+    margin-right: 10px;
 }

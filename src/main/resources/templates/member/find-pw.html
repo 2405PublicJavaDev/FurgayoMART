@@ -4,20 +4,34 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>비밀번호 찾기</title>
+<link rel="stylesheet" href="/css/header-footer.css">
 <link rel="stylesheet" th:href="@{/css/find-pw.css}">
 </head>
 <body>
 	<header>
-		<nav>
-			<a href="#" class="logo">로고</a>
-			<ul class="menu-items">
-				<li><a href="#">리뷰</a></li>
-				<li><a href="#">홈</a></li>
-				<li><a href="#">공지사항</a></li>
-				<li><a href="#">문의하기</a></li>
-				<li><a href="#">로그아웃</a></li>
-			</ul>
-		</nav>
+		<div class="container">
+			<div class="header-content">
+				<a href="./"><h1 class="logo">Fugayo's Mart</h1></a>
+				<nav>
+					<ul>
+						<li><a href="./">홈</a></li>
+						<li><a href="/productpage/list">상품</a></li>
+						<li><a href="/api/notice/list">공지사항</a></li>
+						<li><a href="#">리뷰</a></li>
+					</ul>
+				</nav>
+				<div class="user-actions">
+					<span th:if="${session.loggedInMember != null}"> <a
+						href="/member/mypage" th:text="${session.loggedInMember + '****님'}"></a>
+					</span> <span th:unless="${session.loggedInMember != null}">로그인 후
+						이용하세요</span> <span th:if="${session.loggedInMember != null}"> <a
+						href="/member/logout">로그아웃</a>
+					</span> <span th:unless="${session.loggedInMember != null}"> <a
+						href="/member/login">로그인</a>
+					</span> <span>🛒</span> <span>QR</span>
+				</div>
+			</div>
+		</div>
 	</header>
 	<main>
 		<div class="find-pw-container">
@@ -40,15 +54,9 @@
 			<p th:if="${error}" th:text="${error}" class="error-message"></p>
 		</div>
 	</main>
-	<footer>
-		<nav>
-			<ul class="footer-text">
-				<li><a href="#">회사 소개</a></li>
-				<li><a href="#">공지사항</a></li>
-				<li><a href="#">문의하기</a></li>
-				<li><a href="#">운영 정책</a></li>
-			</ul>
-		</nav>
+<footer>
+		<hr>
+		<div class="footerclass">회사소개 공지사항 문의하기 운영정책</div>
 	</footer>
 </body>
 </html>
