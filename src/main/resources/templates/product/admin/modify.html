@@ -137,7 +137,7 @@
                 </div>
                 <div class="form-bottom">
                     <div class="buttons">
-                        <button type="reset">초기화</button>
+                        <button type="reset" onclick="reLoad()">초기화</button>
                         <button type="submit" id="modify">수정</button>
                     </div>
                 </div>
@@ -145,6 +145,9 @@
         </div>
     </div>
     <script>
+    function reLoad() {
+		location.reload();
+	}
     function readURL(input, previewId) {
         var preview = document.getElementById(previewId);
 

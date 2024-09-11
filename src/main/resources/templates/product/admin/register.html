@@ -138,7 +138,7 @@
                 </div>
                 <div class="form-bottom">
                     <div class="buttons">
-                        <button type="reset">초기화</button>
+                        <button type="reset" onclick="reLoad()">초기화</button>
                         <button type="submit">등록</button>
                     </div>
                 </div>
@@ -146,6 +146,10 @@
         </div>
     </div>
     <script>
+    	function reLoad() {
+    		location.reload();
+    	}
+    	
         // 이미지 미리보기
 	    function readURL(input, previewId) {
 	        if (input.files && input.files[0]) {

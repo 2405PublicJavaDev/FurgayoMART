@@ -1,7 +1,6 @@
 package com.mart.boot.product.model.vo;
 
 import java.util.List;
-
 import org.springframework.web.multipart.MultipartFile;
 
 public class ProductDetailVO {
@@ -13,6 +12,7 @@ public class ProductDetailVO {
 	private String cook;		// 조리법
 	private String content;		// 추가 정보
 	private int categoryNo;		// 상품 유형 번호
+
 	// 파일 업로드를 위한 필드 추가
     private MultipartFile imgMainFile;
     private MultipartFile imgCookFile;
@@ -21,7 +21,7 @@ public class ProductDetailVO {
     private List<ProductImageVO> productImages;
     
     public ProductDetailVO() {}
-    
+
 	public int getpNo() {
 		return pNo;
 	}

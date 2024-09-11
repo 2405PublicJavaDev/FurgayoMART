@@ -1,86 +1,133 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>상품 레이아웃</title>
-	<link rel="stylesheet" href="/css/productcategory.css">
-       
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>상품 레이아웃</title>
+<!-- <link rel="stylesheet" href="/css/productcategory.css"> -->
+<link rel="stylesheet" href="/css/header-footer.css">
+<link rel="stylesheet" href="/css/productcategory.css">
+
 </head>
 <body>
-    <body>
-    <div class="container">
-        <aside class="sidebar">
-            <ul id="categoryList">
-                <li class="active-category">한식</li>
-                <li>중식</li>
-                <li>일식</li>
-                <li>양식</li>
-                <li>분식</li>
-            </ul>
-        </aside>
-        <main class="main-content">
-            <header class="header">
-                <h1>로고</h1>
-                <nav class="nav">
-                    <ul>
-                        <li>홈</li>
-                        <li>신규</li>
-                        <li>모아보기</li>
-                        <li>판매하기</li>
-                        <li>마켓</li>
-                    </ul>
-                </nav>
-            </header>
-           <div class="product-header">
-                <h2 class="product-title">중식</h2>
-                <div class="sort-buttons">
-                    <button class="sort-button" onclick="sortProducts('regDate')">등록일순</button>
-                    <button class="sort-button" onclick="sortProducts('pPrice')">가격순</button>
-                </div>
-            </div>
-            <div id="productGrid" class="product-grid">
-    <div th:each="product : ${pList}" class="product-item" th:data-reg-date="${product.regDate}" th:data-price="${product.pPrice}">
-        <div class="product-image">
-            <img th:if="${product.imageUrl}" th:src="${product.imageUrl}" alt="상품 이미지">
-        </div>
-        <h3 th:text="${product.pName}">상품명</h3>
-        <p th:text="${#numbers.formatDecimal(product.pPrice, 0, 'COMMA', 0, 'POINT')} + ' 원'">가격</p>
-        <p th:text="'입고: ' + ${product.pInput}">입고량</p>
-        <p th:text="'출고: ' + ${product.pOutput}">출고량</p>
-        <p th:text="'판매량: ' + ${product.sale}">판매량</p>
-        <p th:text="'등록일: ' + ${#dates.format(product.regDate, 'yyyy-MM-dd')}">등록일</p>
-    </div>
-</div>
-        </main>
-    </div>
+	<!-- =========================== 헤더 사이드바 ================================== -->
+	<header>
+		<div class="container">
+			<div class="header-content">
+				<a href="/"><h1 class="logo">Fugayo's Mart</h1></a>
+				<nav>
+					<ul>
+						<li><a href="/">홈</a></li>
+						<li><a href="/productpage/list">상품</a></li>
+						<li><a href="#">공지사항</a></li>
+						<li><a href="#">리뷰</a></li>
 
-    <script th:inline="javascript">
-    /*<![CDATA[*/
-    function sortProducts(sortBy) {
-        var productGrid = document.getElementById('productGrid');
-        var products = Array.from(productGrid.children);
+					</ul>
+				</nav>
+				<div class="user-actions">
+					<span>****님</span> <span>로그인</span> <span>🛒</span> <span>QR</span>
+				</div>
+			</div>
+		</div>
+	</header>
+	<div class="container">
+		<div class="main-content">
+			<div class="departments">
+				<button onclick="toggleDepartments()" class="departments-btn">상품목록
+					▼</button>
+				<div id="departmentsDropdown" class="departments-content">
+					<a href="/productpage/newproductlist">신규상품</a> 
+					<a href="/productpage/popularlist">인기상품</a> 
+					<a href="/productpage/koreanfood">한식</a> 
+					<a href="/productpage/chinesefood">중식</a> 
+					<a href="/productpage/japanesefood">일식</a> 
+					<!-- <a href="/productpage/list">유통기한 임박 상품</a> -->
+				</div>
+			</div>
+		</div>
 
-        products.sort(function(a, b) {
-            var valueA, valueB;
-            if (sortBy === 'regDate') {
-                valueA = new Date(a.getAttribute('data-reg-date'));
-                valueB = new Date(b.getAttribute('data-reg-date'));
-            } else if (sortBy === 'pPrice') {
-                valueA = parseInt(a.getAttribute('data-price'));
-                valueB = parseInt(b.getAttribute('data-price'));
-            }
+	<!-- ==================================================================== -->
+	<main>
+		<div class="product-header">
+				<h2 class="product-title">일식</h2>
+				<div class="sort-buttons">
+					<button class="sort-button" onclick="sortProducts('default')">기본순</button>
+					<button class="sort-button" onclick="sortProducts('pOutput')">판매량순</button>
+					<button class="sort-button" onclick="sortProducts('pPrice')">가격순</button>
+				</div>
+			</div>
+				<p class="totalspan" >총 <span class="totalspan" th:text="${totalProducts}"></span>개의 상품이 있습니다.</p>
+			<div id="productGrid" class="product-grid"
+				th:if="${not #lists.isEmpty(pList)}">
+				<div class="product-item" th:each="product : ${pList}"
+					th:data-reg-date="${#dates.format(product.regDate, 'yyyy-MM-dd')}"
+				    th:data-price="${product.pPrice}" 
+				    th:data-pno="${product.pNo}"
+				    th:data-output="${product.pOutput}">
 
-            if (valueA < valueB) return -1;
-            if (valueA > valueB) return 1;
-            return 0;
-        });
+					<a th:href="@{/productpage/detailList/{pNo}(pNo=${product.pNo})}"
+						class="product-href">
+						<div class="product-image">
+							<img th:src="${product.imageUrl}" th:alt="${product.pName}" />
+						</div>
+						<h3 th:text="${product.pName}">
+							<!-- 상품 이름  -->
+						</h3>
+						<p class="price"
+							th:text="${#numbers.formatDecimal(product.pPrice, 0, 'COMMA', 0, 'POINT') + '원'}"></p>
+						<p th:text="'판매량: ' + ${product.pOutput} + '개'">출고량</p>	
+						<p
+							th:text="'등록일: ' + ${#dates.format(product.regDate, 'yyyy-MM-dd')}">등록일</p>
+					</a>
+				</div>
+			</div>
+		</main>
+	</div>
 
-        products.forEach(function(product) {
-            productGrid.appendChild(product);
-        });
-    }
-    /*]]>*/
-    </script>
+	<script th:inline="javascript">
+	function toggleDepartments() {
+		document.getElementById("departmentsDropdown").classList
+				.toggle("show");
+	}
+
+	// Close the dropdown if the user clicks outside of it
+	window.onclick = function(event) {
+		if (!event.target.matches('.departments-btn')) {
+			var dropdowns = document
+					.getElementsByClassName("departments-content");
+			for (var i = 0; i < dropdowns.length; i++) {
+				var openDropdown = dropdowns[i];
+				if (openDropdown.classList.contains('show')) {
+					openDropdown.classList.remove('show');
+				}
+			}
+		}
+	}
+	function sortProducts(sortBy) {
+	    var productGrid = document.getElementById('productGrid');
+	    var products = Array.from(productGrid.children);
+
+	    products.sort(function(a, b) {
+	        var valueA, valueB;
+	        if (sortBy === 'default') {
+	            valueA = new Date(a.getAttribute('data-reg-date'));
+	            valueB = new Date(b.getAttribute('data-reg-date'));
+	            return valueB - valueA; // 기본순(최신순)은 내림차순
+	        } else if (sortBy === 'pOutput') {
+	            valueA = parseInt(a.getAttribute('data-output'));
+	            valueB = parseInt(b.getAttribute('data-output'));
+	            return valueB - valueA; // 판매량순은 내림차순 (많은 순서대로)
+	        } else if (sortBy === 'pPrice') {
+	            valueA = parseInt(a.getAttribute('data-price'));
+	            valueB = parseInt(b.getAttribute('data-price'));
+	            return valueA - valueB; // 가격순은 오름차순
+	        }
+	        return 0;
+	    });
+	    products.forEach(function(product) {
+	        productGrid.appendChild(product);
+	    });
+	}
+	</script>
 </body>
 </html>

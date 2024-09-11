@@ -1,6 +1,5 @@
 package com.mart.boot.product.model.service.impl;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +7,8 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.mart.boot.common.pagenation.Criteria;
+import com.mart.boot.common.pagenation.PagenationInfo;
 import com.mart.boot.common.utility.ProductUtil;
 import com.mart.boot.product.model.mapper.ProductMapper;
 import com.mart.boot.product.model.service.ProductService;
@@ -28,7 +29,7 @@ public class ProductServiceImpl implements ProductService {
 	public ProductServiceImpl(ProductMapper pMapper) {
 		this.pMapper = pMapper;
 	}
-
+	
 	// 관리자_상품 이미지 타입
 	@Override
 	public List<ProductImageVO> selectProductImageList(Integer pNo) {
@@ -37,8 +38,8 @@ public class ProductServiceImpl implements ProductService {
 
 	// 관리자_상품 전체 개수
 	@Override
-	public int getAllCount(List<ProductVO> pList) {
-		return pMapper.getAllCount(pList);
+	public int getAllCount() {
+		return pMapper.getAllCount();
 	}
 
 	// 관리자_상품 개수
@@ -56,8 +57,17 @@ public class ProductServiceImpl implements ProductService {
 
 	// 관리자_전체 상품 조회
 	@Override
-	public List<ProductVO> selectList() {
-		List<ProductVO> pList = pMapper.selectList();
+	public List<ProductVO> selectList(int prsnPageNo, int cntntPerPage) {
+		Criteria criteria = new Criteria();
+		criteria.setPrsnPageNo(prsnPageNo);
+		criteria.setCntntPerPage(cntntPerPage);
+		int totCnt = pMapper.getAllCount();
+		PagenationInfo pagenationInfo = new PagenationInfo(criteria);
+		pagenationInfo.setTotCnt(totCnt);
+		
+		int startRow = (prsnPageNo - 1) * cntntPerPage;
+		int endRow = startRow + cntntPerPage;
+		List<ProductVO> pList = pMapper.getProductList(startRow, endRow);
 		return pList;
 	}
 
@@ -178,6 +188,7 @@ public class ProductServiceImpl implements ProductService {
 		return result;
 	}
 
+	
 	// 사용자 상품 상세 페이지 
 	@Override
 	public ProductVO selectOne(int pNo) {
@@ -208,6 +219,30 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public List<ProductVO> selectJapaneseFood(int categoryNo) {
 		List<ProductVO> pList = pMapper.selectJapaneseFood(categoryNo);
+		return pList;
+	}
+
+	@Override
+	public List<ProductVO> selectPopularList() {
+		List<ProductVO> pList = pMapper.selectPopularList();
+		return pList;
+	}
+
+	@Override
+	public List<ProductVO> selectNewProducts() {
+		List<ProductVO> pList = pMapper.selectNewProducts();
+		return pList;
+	}
+
+	@Override
+	public List<ProductVO> showExpirationList() {
+		List<ProductVO> pList = pMapper.showExpirationList();
+		return pList;
+	}
+
+	@Override
+	public List<ProductVO> mainNewProducts() {
+		List<ProductVO> pList = pMapper.mainNewProducts();
 		return pList;
 	}
 

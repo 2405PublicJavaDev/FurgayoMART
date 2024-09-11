@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>유통기한 임박 상품 sale off</title>
+<link rel="stylesheet" href="/css/header-footer.css">
+<link rel="stylesheet" href="/css/productpage.css">
+</head>
+<body>
+	<!-- =========================== 헤더 사이드바 ================================== -->
+	<header>
+		<div class="container">
+			<div class="header-content">
+				<a href="./mainpage.html"><h1 class="logo">Fugayo's Mart</h1></a>
+				<nav>
+					<ul>
+						<li><a href="/">홈</a></li>
+						<li><a href="/productpage/list">상품</a></li>
+						<li><a href="#">공지사항</a></li>
+						<li><a href="#">리뷰</a></li>
+
+					</ul>
+				</nav>
+				<div class="user-actions">
+					<span>****님</span> <span>로그인</span> <span>🛒</span> <span>QR</span>
+				</div>
+			</div>
+		</div>
+	</header>
+	<div class="container">
+		<div class="main-content">
+			<div class="departments">
+				<button onclick="toggleDepartments()" class="departments-btn">상품목록
+					▼</button>
+				<div id="departmentsDropdown" class="departments-content">
+					<a href="/productpage/newproductlist">신규상품</a> 
+					<a href="/productpage/popularlist">인기상품</a> 
+					<a href="/productpage/koreanfood">한식</a> 
+					<a href="/productpage/chinesefood">중식</a> 
+					<a href="/productpage/japanesefood">일식</a> 
+					<!-- <a href="/productpage/list">유통기한 임박 상품</a> -->
+				</div>
+			</div>
+		</div>
+
+
+<!-- =========================== 메인 내용 ================================== -->
+		<main>
+            <div class="product-header">
+                <h2 class="product-title" th:text="${pageTitle}">인기 상품 목록</h2>
+                <p>총 <span th:text="${totalProducts}"></span>개의 상품이 있습니다.</p>
+            </div>
+
+            <div id="productGrid" class="product-grid" th:if="${not #lists.isEmpty(popularList)}">
+                <div class="product-item" th:each="product : ${popularList}"
+                     th:data-reg-date="${#dates.format(product.regDate, 'yyyy-MM-dd')}"
+                     th:data-price="${product.pPrice}" 
+                     th:data-pno="${product.pNo}">
+
+                    <a th:href="@{/productpage/detailList/{pNo}(pNo=${product.pNo})}" class="product-href">
+                        <div class="product-image">
+                            <img th:src="${product.imageUrl}" th:alt="${product.pName}" />
+                        </div>
+                        <h3 th:text="${product.pName}"></h3>
+                        <p class="price" th:text="${#numbers.formatDecimal(product.pPrice, 0, 'COMMA', 0, 'POINT') + '원'}"></p>
+                        <p th:text="'판매량: ' + ${product.pOutput} + '개'">출고량</p>   
+                        <p th:text="'등록일: ' + ${#dates.format(product.regDate, 'yyyy-MM-dd')}"></p>
+                    </a>
+                </div>
+            </div>
+        </main>
+	</div>
+	<footer>
+		<hr>
+		<div class="footerclass">회사소개 공지사항 문의하기 운영정책</div>
+	</footer>
+	<script>
+		function toggleDepartments() {
+			document.getElementById("departmentsDropdown").classList
+					.toggle("show");
+		}
+
+		// Close the dropdown if the user clicks outside of it
+		window.onclick = function(event) {
+			if (!event.target.matches('.departments-btn')) {
+				var dropdowns = document
+						.getElementsByClassName("departments-content");
+				for (var i = 0; i < dropdowns.length; i++) {
+					var openDropdown = dropdowns[i];
+					if (openDropdown.classList.contains('show')) {
+						openDropdown.classList.remove('show');
+					}
+				}
+			}
+		}
+
+		/*  function toggleDropdown() {
+		     var dropdownContent = document.getElementById("myDropdown");
+		     dropdownContent.classList.toggle("show");
+		 }
+
+		 // 드롭다운 외부 클릭 시 닫기
+		 window.onclick = function(event) {
+		     if (!event.target.matches('.dropdown-btn')) {
+		         var dropdowns = document.getElementsByClassName("dropdown-content");
+		         for (var i = 0; i < dropdowns.length; i++) {
+		             var openDropdown = dropdowns[i];
+		             if (openDropdown.classList.contains('show')) {
+		                 openDropdown.classList.remove('show');
+		             }
+		         }
+		     }
+		 } */
+	</script>
+	<script th:inline="javascript">
+		/*<![CDATA[*/
+		function sortProducts(sortBy) {
+			  var productGrid = document.getElementById('productGrid');
+			    var products = Array.from(productGrid.children);
+
+			    products.sort(function(a, b) {
+			        var valueA, valueB;
+			        if (sortBy === 'default' || sortBy === 'regDate') {
+			            valueA = new Date(a.getAttribute('data-reg-date'));
+			            valueB = new Date(b.getAttribute('data-reg-date'));
+			            // 기본순(최신순)은 내림차순, 등록일순은 오름차순
+			            return sortBy === 'default' ? valueB - valueA : valueA - valueB;
+			        } else if (sortBy === 'pPrice') {
+			            valueA = parseInt(a.getAttribute('data-price'));
+			            valueB = parseInt(b.getAttribute('data-price'));
+			            return valueA - valueB;
+			        }
+			        return 0;
+			    });
+
+			    products.forEach(function(product) {
+			        productGrid.appendChild(product);
+			    });
+		}
+		/*]]>*/
+	</script>
+</body>
+</html>

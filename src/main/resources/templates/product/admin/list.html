@@ -38,7 +38,10 @@
         </ul>
         <div class="content">
             <h2>상품 조회하기</h2>
-            <form th:action="@{/admin/product/search}" method="get">
+            <form th:action="@{/admin/product/list}" method="get">
+				<input type="hidden" name="prsnPageNo" th:value="${criteria.prsnPageNo}" />
+				
+				<!-- <button type="submit" th:classappend="${pageNo == criteria.prsnPageNo} ? 'on'">[[${pageNo}]]</button> -->
 	            <div class="search-container">
 	                <div class="search-form">
 	                    <div class="date-range">
@@ -120,12 +123,58 @@
 					</tbody>
 	            </table>
             </form>
-            <div class="pagination">
-                <a href="#">1</a>
-                <a href="#">2</a>
-            </div>
-        </div>
-    </div>
+			<div class="paginate-wrap">
+				<div class="paginate">
+				    <!-- 이전 버튼 -->
+				    <div>
+				        <form th:if="${pagenationInfo.prev}" method="GET" action="/admin/product/list">
+				            <input type="hidden" name="prsnPageNo" th:value="${pagenationInfo.firstPageNo - 1}" />
+				
+				            <!-- 검색 조건 hidden 필드 추가 -->
+				            <input type="hidden" name="startDate" th:value="${searchMap.startDate != null ? searchMap.startDate : ''}" />
+							<input type="hidden" name="endDate" th:value="${searchMap.endDate != null ? searchMap.endDate : ''}" />
+							<input type="hidden" name="categoryNo" th:value="${searchMap.categoryNo != null ? searchMap.categoryNo : 999}" />
+							<input type="hidden" name="remainingDays" th:value="${searchMap.remainingDays != null ? searchMap.remainingDays : ''}" />
+							<input type="hidden" name="pName" th:value="${searchMap.pName != null ? searchMap.pName : ''}" />
+				
+				            <button type="submit">이전</button>
+				        </form>
+				    </div>
+				
+				    <!-- 페이지 번호 -->
+				    <div th:each="pageNo : ${#numbers.sequence(pagenationInfo.firstPageNo, pagenationInfo.lastPageNo)}">
+				        <form method="GET" action="/admin/product/list">
+							<input type="hidden" name="prsnPageNo" th:value="${pageNo}" />
+				            <!-- 검색 조건 hidden 필드 추가 -->
+				            <input type="hidden" name="startDate" th:value="${searchMap.startDate != null ? searchMap.startDate : ''}" />
+							<input type="hidden" name="endDate" th:value="${searchMap.endDate != null ? searchMap.endDate : ''}" />
+							<input type="hidden" name="categoryNo" th:value="${searchMap.categoryNo != null ? searchMap.categoryNo : 999}" />
+							<input type="hidden" name="remainingDays" th:value="${searchMap.remainingDays != null ? searchMap.remainingDays : ''}" />
+							<input type="hidden" name="pName" th:value="${searchMap.pName != null ? searchMap.pName : ''}" />
+				
+				            <button type="submit" th:classappend="${pageNo == criteria.prsnPageNo} ? 'on'">[[${pageNo}]]</button>
+				        </form>
+				    </div>
+				
+				    <!-- 다음 버튼 -->
+				    <div>
+				        <form th:if="${pagenationInfo.next}" method="GET" action="/admin/product/list">
+				            <input type="hidden" name="prsnPageNo" th:value="${pagenationInfo.lastPageNo + 1}" />
+				
+				            <!-- 검색 조건 hidden 필드 추가 -->
+				            <input type="hidden" name="startDate" th:value="${searchMap.startDate != null ? searchMap.startDate : ''}" />
+							<input type="hidden" name="endDate" th:value="${searchMap.endDate != null ? searchMap.endDate : ''}" />
+							<input type="hidden" name="categoryNo" th:value="${searchMap.categoryNo != null ? searchMap.categoryNo : 999}" />
+							<input type="hidden" name="remainingDays" th:value="${searchMap.remainingDays != null ? searchMap.remainingDays : ''}" />
+							<input type="hidden" name="pName" th:value="${searchMap.pName != null ? searchMap.pName : ''}" />
+				
+				            <button type="submit">다음</button>
+				        </form>
+				    </div>
+				</div>
+			</div>
+		</div>
+	</div>
 	<script th:inline="javascript">
 		/* 메시지가 있을 경우 alert로 표시 */
 		if(/*[[${message != null}]]*/ false){
@@ -165,7 +214,7 @@
 	            checkbox.checked = isChecked;
 	        });
 	    }
-
+		
 	</script>
 
 </body>
