@@ -12,6 +12,14 @@ import com.mart.boot.product.model.vo.ProductVO;
 @Mapper
 public interface ProductMapper {
 
+	/**
+	 * 관리자_전체 상품 조회 + 페이지네이션 Mapper
+	 * @param startRow
+	 * @param endRow
+	 * @return
+	 */
+	List<ProductVO> getProductList(int startRow, int endRow);
+	
 	/** 
 	 * 관리자_상품 이미지 타입 Mapper
 	 * @param pNo
@@ -24,7 +32,7 @@ public interface ProductMapper {
 	 * @param pList
 	 * @return
 	 */
-	int getAllCount(List<ProductVO> pList);
+	int getAllCount();
 
 	/**
 	 * 관리자_상품 조건 개수 조회 Mapper
@@ -41,10 +49,11 @@ public interface ProductMapper {
 	
 	/**
 	 * 관리자_전체 상품 조회 Mapper
-	 * @param
-	 * @return List<ProductVO>
+	 * @param cntntPerPage 
+	 * @param i 
+	 * @return ist<ProductVO>
 	 */
-	List<ProductVO> selectList();
+	List<ProductVO> selectList(int i, int cntntPerPage);
 	
 	/**
 	 * 관리자_상품 기본 정보 등록 Mapper

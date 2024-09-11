@@ -14,7 +14,7 @@
         </div>
     </div>
     <div class="container">
-            <ul class="sidebar">
+            <ul class="sidebar" style="font-weight: bold; font-size: 17px;">
                 <li>
                     <a href="#">공지사항 관리</a>
                 </li>
@@ -24,15 +24,11 @@
                 <li>
                     <a href="#">회원 관리</a>
                 </li>
-                <li>
-                    <a href="#">상품 관리</a>
-                    <ul>
-                        <li>
-                            <a href="/admin/product/register">상품 등록</a>
-                        </li>
-                        <li>
-                            <a href="/admin/product/list">상품 조회</a>
-                        </li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">상품 관리 <span class="arrow"></span></a>
+                    <ul class="dropdown-content">
+                        <li><a href="/admin/product/register" style="font-weight: bold;">상품 등록</a></li>
+                        <li><a href="/admin/product/list">상품 조회</a></li>
                     </ul>
                 </li>
             </ul>        
@@ -44,11 +40,11 @@
                         <div class="form-left">
                             <ul>
                                 <li>
-                                    <label for="name">상품명</label>
+                                    <label for="name">상품명 *</label>
                                     <input type="text" id="name" name="pName" required>
                                 </li>
                                 <li>
-                                    <label for="category">상품 유형</label>
+                                    <label for="category">상품 유형 *</label>
                                     <select id="categoryNo" name="categoryNo" required>
                                         <option value="">선택하세요</option>
                                         <option value=1>한식</option>
@@ -57,11 +53,11 @@
                                     </select>
                                 </li>
                                 <li>
-                                    <label for="price">상품 가격</label>
+                                    <label for="price">상품 가격 *</label>
                                     <input type="number" id="pPrice" name="pPrice" required>
                                 </li>
                                 <li>
-                                    <label for="starDate">유통 기한</label>
+                                    <label for="starDate">유통 기한 *</label>
                                     <input type="date" id="expiration" name="expiration" required>
                                 </li>
                                 <li>
@@ -73,18 +69,18 @@
                         <div class="form-right">
                             <ul>
                                 <li>
-                                    <label for="imgMain">대표 이미지</label>
+                                    <label for="imgMain">대표 이미지 *</label>
                                     <div class="image-upload">
                                         <input type="file" id="imgMain" name="imgMain" accept="image/*" required onchange="readURL(this, 'mainPreview')">
                                         <img id="mainPreview" 
                                             th:src="${productDetailVO != null && productDetailVO.imgMain != null 
                                                     ? '/images/' + productDetailVO.imgMain 
                                                     : '/images/no-image.png'}" 
-                                            alt="포맷 : JPG, PNG 해상도 : 1300x1300px 이하">
+                                            alt="첨부 파일 없음">
                                     </div>
                                 </li>
                                 <li>
-                                    <label for="inventory">입고량</label>
+                                    <label for="inventory">입고량 *</label>
                                     <input type="number" id="pInput" name="pInput" min="0" required>
                                 </li>
                                 <li>
@@ -95,10 +91,8 @@
                         </div>
                     </div>
                     <div class="form-bottom">
+                        <label for="name" style="margin-bottom: 30px;">상품설명</label>
                         <ul>
-                            <li>
-                                <label for="name">상품설명</label>
-                            </li>
                             <li>
                                 <label>조리된 사진</label>
                                 <div class="image-upload">
@@ -107,7 +101,7 @@
 	                                th:src="${productDetailVO != null && productDetailVO.imgCook != null 
 										     ? '/images/' + productDetailVO.imgCook 
 										     : '/images/no-image.png'}"
-								     alt="조리된 이미지">
+								     alt="첨부 파일 없음">
                                 </div>
                             </li>
                             <li>
@@ -118,27 +112,27 @@
 	                                	th:src="${productDetailVO != null && productDetailVO.imgComponent != null 
 											     ? '/images/' + productDetailVO.imgComponent 
 											     : '/images/no-image.png'}" 
-	                                	alt="컴포넌트 이미지">
+	                                	alt="첨부 파일 없음">
                                 </div>
                             </li>
                             <li>
-                                <label>상품 구성</label>
-                                <input type="text" id="pComponent" name="pComponent" required>
+                                <label>상품 구성 *</label>
+                                <textarea type="text" id="pComponent" name="pComponent" required></textarea>
                             </li>
                             <li>
                                 <label>조리법</label>
-                                <input type="text" id="cook" name="cook">
+                                <textarea type="text" id="cook" name="cook"></textarea>
                             </li>
                             <li>
                                 <label>추가 정보</label>
-                                <input type="text" id="content" name="content">
+                                <textarea type="text" id="content" name="content"></textarea>
                             </li>
                         </ul>
                     </div>
                 </div>
                 <div class="form-bottom">
                     <div class="buttons">
-                        <button type="reset">초기화</button>
+                        <button type="reset" onclick="reLoad()">초기화</button>
                         <button type="submit">등록</button>
                     </div>
                 </div>
@@ -146,6 +140,10 @@
         </div>
     </div>
     <script>
+    	function reLoad() {
+    		location.reload();
+    	}
+    	
         // 이미지 미리보기
 	    function readURL(input, previewId) {
 	        if (input.files && input.files[0]) {

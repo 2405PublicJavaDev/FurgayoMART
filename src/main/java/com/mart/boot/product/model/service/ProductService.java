@@ -29,10 +29,10 @@ public interface ProductService {
 
 	/**
 	 * 관리자_상품 전체 개수 조회 Service
-	 * @param pList
+	 * @param 
 	 * @return int
 	 */
-	int getAllCount(List<ProductVO> pList);
+	int getAllCount();
 	
 	/**
 	 * 관리자_상품 조건 검색 Service
@@ -43,9 +43,11 @@ public interface ProductService {
 
 	/**
 	 * 관리자_전체 상품 조회 Service
-	 * @return List<ProductVO>
+	 * @param prsnPageNo
+	 * @param cntntPerPage
+	 * @return
 	 */
-	List<ProductVO> selectList();
+	List<ProductVO> selectList(int prsnPageNo, int cntntPerPage);
 
 	/**
 	 * 관리자_상품 등록 Service

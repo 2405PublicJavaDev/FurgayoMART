@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.mart.boot.common.pagenation.Criteria;
+import com.mart.boot.common.pagenation.PagenationInfo;
 import com.mart.boot.product.model.service.ProductService;
 import com.mart.boot.product.model.vo.ProductDetailVO;
 import com.mart.boot.product.model.vo.ProductImageVO;
@@ -77,43 +79,58 @@ public class AdminpController {
 		return "redirect:/admin/product/list";
 	}
 
-	// 관리자_전체 상품 조회
+	// 관리자_상품 전체 및 조건 검색
 	@GetMapping("/list")
-	public String showProductList(Model model) {
-		List<ProductVO> pList = pService.selectList();
-		int totalCount = pService.getAllCount(pList);
-		if (pList == null || pList.isEmpty()) {
-	        model.addAttribute("message", "조회할 상품이 없습니다.");
-	    }
-	    model.addAttribute("pList", pList);
-	    model.addAttribute("totalCount",totalCount);
-		return "product/admin/list";
-	}
-
-	// 관리자_상품 조건 검색
-	@GetMapping("/search")
-	public String searchProducts(Model model
+	public String searchProducts(Model model, Criteria criteria
 			, @RequestParam(value = "startDate", required = false) String startDate
 			, @RequestParam(value = "endDate", required = false) String endDate
 			, @RequestParam(value = "categoryNo", required = false) Integer categoryNo
 			, @RequestParam(value = "remainingDays", required = false) Integer remainingDays
-			, @RequestParam(value = "pName", required = false) String pName) {
+			, @RequestParam(value = "pName", required = false) String pName){
+		
+		startDate = (startDate != null && startDate.isEmpty()) ? null : startDate;
+	    endDate = (endDate != null && endDate.isEmpty()) ? null : endDate;
+	    
 		Map<String, Object> searchMap = new HashMap<>();
 	    searchMap.put("startDate", startDate);
 	    searchMap.put("endDate", endDate);
 	    searchMap.put("categoryNo", categoryNo);
 	    searchMap.put("remainingDays", remainingDays);
 	    searchMap.put("pName", pName);
-	    
-	    List<ProductVO> pList = pService.searchProducts(searchMap);
-		int totalCount = pService.getTotalCount(searchMap);
-		
-		model.addAttribute("pList", pList);
-		model.addAttribute("totalCount",totalCount);
-		if (pList == null || pList.isEmpty()) {
-	        model.addAttribute("message", "조회할 상품이 없습니다.");
+
+	    List<ProductVO> pList;
+	    int prsnPageNo = criteria.getPrsnPageNo();
+	    int cntntPerPage = criteria.getCntntPerPage();
+	    int startRow = (prsnPageNo - 1) * cntntPerPage + 1;
+	    int totalCount;
+	    int endRow;
+
+	    PagenationInfo pagenationInfo = new PagenationInfo(criteria);
+
+	    // 조건 검색이 있는 경우
+	    if (startDate != null || endDate != null || categoryNo != null || remainingDays != null || pName != null) {
+	        // 검색 조건이 하나라도 있는 경우
+	        totalCount = pService.getTotalCount(searchMap);
+	        endRow = Math.min(prsnPageNo * cntntPerPage, totalCount);
+	        searchMap.put("startRow", startRow);
+	        searchMap.put("endRow", endRow);
+	        pList = pService.searchProducts(searchMap);
+	    } else {
+	        // 전체 조회의 경우
+	        totalCount = pService.getAllCount();
+	        endRow = Math.min(prsnPageNo * cntntPerPage, totalCount);
+	        pList = pService.selectList(prsnPageNo, cntntPerPage);
 	    }
-		return "product/admin/list";
+	    
+	    pagenationInfo.setTotCnt(totalCount);
+
+	    model.addAttribute("pList", pList);
+	    model.addAttribute("pagenationInfo", pagenationInfo);
+	    model.addAttribute("searchMap", searchMap);
+	    model.addAttribute("totalCount", totalCount);
+	    model.addAttribute("startDate", startDate);
+	    model.addAttribute("endDate", endDate);
+	    return "product/admin/list";
 	}
 
 	// 관리자_상품 삭제

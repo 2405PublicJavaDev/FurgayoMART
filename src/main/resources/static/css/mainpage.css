@@ -8,6 +8,7 @@ body {
     font-family: Arial, sans-serif;
     background-color: rgb(245, 245, 245);
 }
+/* <<<<<<< HEAD
 .container {
     
     margin: 0 auto;
@@ -29,6 +30,9 @@ body {
     flex-grow: 1;
     margin-left: 20px;
 }
+=======
+
+>>>>>>> 1726fd1ead97444fd4b021d849010fe4cf9ce0b7 */
 .container {
     max-width: 1200px;
     margin: 0 auto;
@@ -44,6 +48,28 @@ body {
     position: relative;
     width: 200px;
 }
+
+
+.banner-and-products {
+    flex-grow: 1;
+    margin-left: 20px;
+}
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.main-content {
+    display: flex;
+    margin-top: 20px;
+}
+
+.departments {
+    position: relative;
+    width: 200px;
+}
+
 
 main {
     flex-grow: 1;

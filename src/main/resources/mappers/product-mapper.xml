@@ -38,7 +38,43 @@
 	        <result property="imageType" column="imgType"/>
 	    </association>
 	</resultMap>
-
+	<!-- 관리자_상품 조건 검색 페이징 조회 -->
+	<select id="searchProductList" parameterType="map" resultType="ProductVO">
+	    SELECT * 
+	    FROM (
+	        SELECT A.*, ROWNUM AS RNUM
+	        FROM (
+	            SELECT * FROM PRODUCT
+	            WHERE 1=1
+	            <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+	                AND TRUNC(REG_DATE) BETWEEN TO_DATE(#{startDate}, 'YYYY-MM-DD') AND TO_DATE(#{endDate}, 'YYYY-MM-DD')
+	            </if>
+	            <if test="categoryNo != null and categoryNo != 999">
+	                AND CATEGORY_NO = #{categoryNo}
+	            </if>
+	            <if test="remainingDays != null">
+	                AND (TO_DATE(EXPIRATION, 'YYYY-MM-DD') - SYSDATE) &lt;= #{remainingDays}
+	            </if>
+	            <if test="pName != null and pName != ''">
+	                AND P_NAME LIKE '%' || #{pName} || '%'
+	            </if>
+	            ORDER BY REG_DATE DESC
+	   		)	
+	    WHERE ROWNUM BETWEEN #{startRow} AND #{endRow}
+	</select>
+	<!-- 관리자_상품 리스트 페이징 조회 -->
+	<select id="getProductList" resultType="ProductVO">
+	    SELECT * 
+	    FROM (
+	        SELECT ROWNUM AS RNUM, A.*
+	        FROM (
+	            SELECT * FROM PRODUCT
+	            ORDER BY REG_DATE DESC
+	        ) A
+	        WHERE ROWNUM &lt;= #{endRow}
+	    )
+	    WHERE ROWNUM &gt;= #{startRow}
+	</select>
 	<!-- 관리자_상품 이미지 조회 -->
 	<select id="selectProductImageList" resultType="ProductImageVO">
     	SELECT IMAGE_ID, FILE_NAME, FILE_RENAME, FILE_PATH, P_NO, IMAGE_TYPE
@@ -51,42 +87,52 @@
 	</select>
 	<!-- 관리자_상품 개수 조회 -->
 	<select id="getTotalCount" parameterType="map" resultType="int">
-		SELECT COUNT(*) FROM PRODUCT
-		WHERE 1=1
-		<if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
-			AND TRUNC(REG_DATE) BETWEEN TO_DATE(#{startDate}, 'YYYY-MM-DD') AND TO_DATE(#{endDate}, 'YYYY-MM-DD')
-		</if>
-		<if test="categoryNo != null and categoryNo != 999">
-			AND CATEGORY_NO = #{categoryNo}
-		</if>
-		<if test="remainingDays != null">
-        	AND (TO_DATE(EXPIRATION, 'YYYY-MM-DD') - SYSDATE) &lt;= #{remainingDays}
-    	</if>
-		<if test="pName != null and pName != ''">
-			AND P_NAME LIKE '%' || #{pName} || '%'
-		</if>
+		SELECT COUNT(*) 
+	    FROM PRODUCT
+	    WHERE 1=1
+	    <if test="startDate and endDate != null">
+	        AND TRUNC(REG_DATE, 'DAY') BETWEEN TO_DATE(#{startDate}, 'YYYY-MM-DD') AND TO_DATE(#{endDate}, 'YYYY-MM-DD')
+	    </if>
+	    <if test="pName != null and pName != ''">
+	        AND P_NAME LIKE '%' || #{pName} || '%'
+	    </if>
+	    <if test="categoryNo != null and categoryNo != 999">
+	        AND CATEGORY_NO = #{categoryNo}
+	    </if>
+	    <if test="remainingDays != null">
+	        AND (TO_DATE(EXPIRATION, 'YYYY-MM-DD') - SYSDATE) &lt;= #{remainingDays}
+	    </if>
 	</select>
 	<!-- 관리자_상품 조건 검색 -->
 	<select id="searchProducts" parameterType="map" resultType="ProductVO">
-		SELECT * FROM PRODUCT
-		WHERE 1=1
-		<if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
-			AND TRUNC(REG_DATE) BETWEEN TO_DATE(#{startDate}, 'YYYY-MM-DD') AND TO_DATE(#{endDate}, 'YYYY-MM-DD')
-		</if>
-		<if test="categoryNo != null and categoryNo != 999">
-			AND CATEGORY_NO = #{categoryNo}
-		</if>
-		<if test="remainingDays != null">
-        	AND (TO_DATE(EXPIRATION, 'YYYY-MM-DD') - SYSDATE) &lt;= #{remainingDays}
-    	</if>
-		<if test="pName != null and pName != ''">
-			AND P_NAME LIKE '%' || #{pName} || '%'
-		</if>
-		ORDER BY REG_DATE DESC
+	    SELECT * 
+	    FROM (
+	        SELECT A.*, ROWNUM AS RNUM
+	        FROM (
+	            SELECT * FROM PRODUCT
+	            WHERE 1=1
+	            <if test="startDate != null and startDate != '' and endDate != null and endDate != ''">
+	                AND TRUNC(REG_DATE, 'DAY') BETWEEN TO_DATE(#{startDate}, 'YYYY-MM-DD') AND TO_DATE(#{endDate}, 'YYYY-MM-DD')
+	            </if>
+	            <if test="categoryNo != null and categoryNo != 999">
+	                AND CATEGORY_NO = #{categoryNo}
+	            </if>
+	            <if test="remainingDays != null">
+	                AND (TO_DATE(EXPIRATION, 'YYYY-MM-DD') - SYSDATE) &lt;= #{remainingDays}
+	            </if>
+	            <if test="pName != null and pName != ''">
+	                AND P_NAME LIKE '%' || #{pName} || '%'
+	            </if>
+	            ORDER BY REG_DATE DESC
+	        ) A
+	        WHERE ROWNUM &lt;= #{endRow}
+	    )
+	    WHERE RNUM &gt;= #{startRow}
 	</select>
+
 	<!-- 관리자_전체 상품 조회 -->
     <select id="selectList" resultType="ProductVO">
-        SELECT * FROM PRODUCT ORDER BY REG_DATE DESC -->
+        SELECT * FROM PRODUCT ORDER BY REG_DATE DESC
     </select>
     <!-- 관리자_상품 기본 정보 등록 -->
     <insert id="addProduct" useGeneratedKeys="true" keyProperty="pNo" keyColumn="P_NO">
