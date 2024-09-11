@@ -4,45 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fugayo's Mart</title>
-    <link rel="stylesheet" href="/css/header-footer.css">
+    <link rel="stylesheet" href="/css/header-footer.css"> 
+    <link rel="stylesheet" href="/css/mainpageheader.css">
     <link rel="stylesheet" href="/css/mainpage.css">
 </head>
 <body>
-    <header>
-        <div class="container">
-            <div class="header-content">
-                <a href="./"><h1 class="logo">Fugayo's Mart</h1></a>
-                <nav>
-                    <ul>
-                        <li><a href="./">홈</a></li>
-                        <li><a href="/productpage/list">상품</a></li>
-                        <li><a href="/api/notice/list">공지사항</a></li>
-                        <li><a href="#">리뷰</a></li>
-                    </ul>
-                </nav>
-                <div class="user-actions">
-                    <span>****님</span>
-                    <span>로그인</span>
-                    <span>🛒</span>
-                    <span>QR</span>
-                </div>
-            </div>
-        </div>
-    </header>
+	<!-- =========================== 헤더 사이드바 ================================== -->
+	<header>
+		<div class="container">
+			<div class="header-content">
+				<a href="/"><img class="headerimage" src="/images/로고.png" alt="로고입니다만"> </a>
+				<nav>
+					<ul>
+						<li><a href="/">홈</a></li>
+						<li><a href="/productpage/list">상품</a></li>
+						<li><a href="/notice/user">공지사항</a></li>
+						<li><a href="/review/user">리뷰</a></li>
 
-    <div class="container">
-        <div class="main-content">
-            <div class="departments">
-                <button onclick="toggleDepartments()" class="departments-btn">상품목록 ▼</button>
-                <div id="departmentsDropdown" class="departments-content">
-                    <a href="#">신규상품</a>
-                    <a href="./popularproducts.html">인기상품</a>
-                    <a href="/koreanfood.html">한식</a>
-                    <a href="./chinesefood.html">중식</a>
-                    <a href="./japanesefood.html">양식</a>
-                    <a href="/productpage/list">유통기한 임박 상품</a>
-                </div>
-            </div>
+					</ul>
+				</nav>
+				<div class="user-actions">
+					<span></span>
+					<a href="/member/login"></a><span>로그인</span>
+					<a href="/member/register"><span>회원가입</span> 
+					<span>QR</span>
+				</div>
+			</div>
+		</div>
+	</header>
+	<div class="container">
+		<div class="main-content">
+			<div class="departments">
+				<button onclick="toggleDepartments()" class="departments-btn">상품목록
+					▼</button>
+				<div id="departmentsDropdown" class="departments-content">
+					<a href="/productpage/newproductlist">신규상품</a> 
+					<a href="/productpage/popularlist">인기상품</a> 
+					<a href="/productpage/koreanfood">한식</a> 
+					<a href="/productpage/chinesefood">중식</a> 
+					<a href="/productpage/japanesefood">일식</a> 
+					<!-- <a href="/productpage/list">유통기한 임박 상품</a> -->
+				</div>
+			</div>
             <section class="banner">
                 <div class="carousel">
                     <div class="carousel-inner">
@@ -64,29 +67,38 @@
         
 
         <div>
-            <h2>신규 상품</h2>
+            <h2>유통기한 임박 상품 20% SALE!!</h2>
         </div>
+		
         <div class="categories">
+        <a href="/productpage/detailList/10152">
             <div class="category">
-                <img src="./images/치킨.PNG" alt="상품 사진 자리입니다">
-                <h3 class="category-title">치킨</h3>
-                <p class="category-price">19,900 원</p>
-            </div>
-            <div class="category">
-                <img src="./images/밀푀유.PNG" alt="상품 사진 자리입니다">
-                <h3 class="category-title">밀푀유나베 & 칼국수 밀키트</h3>
-                <p class="category-price">17,900 원</p>
-            </div>
-            <div class="category">
-                <img src="./images/부대찌개.PNG" alt="상품 사진 자리입니다">
-                <h3 class="category-title">오리지널 부대찌개</h3>
+                <img src="./images/main/product_10152.jpg" alt="상품 사진 자리입니다">
+                <h3 class="category-title">후쿠오카식 모츠나베</h3>
                 <p class="category-price">13,900 원</p>
             </div>
+            </a>
+            <a href="/productpage/detailList/10145">
             <div class="category">
-                <img src="./images/차돌박이 숙주볶음.PNG" alt="상품 사진 자리입니다">
-                <h3 class="category-title">차돌박이 숙주볶음</h3>
-                <p class="category-price">13,900 원</p>
+                <img src="./images/main/product_10145.jpg" alt="상품 사진 자리입니다">
+                <h3 class="category-title">장 칼국수</h3>
+                <p class="category-price">9,900 원</p>
             </div>
+            </a>
+            <a href="/productpage/detailList/10122">
+            <div class="category">
+                <img src="./images/main/product_10122.jpg" alt="상품 사진 자리입니다">
+                <h3 class="category-title">콘치즈</h3>
+                <p class="category-price">5,900 원</p>
+            </div>
+            </a>
+            <a href="/productpage/detailList/10141">
+            <div class="category">
+                <img src="./images/main/product_10141.jpg" alt="상품 사진 자리입니다">
+                <h3 class="category-title">서울식 불고기 전골</h3>
+                <p class="category-price">12,000 원</p>
+            </div>
+            </a>
         </div>
     </div>
     <br>
@@ -100,11 +112,12 @@
         </div>
     </footer>
     <script>
+    	// 사이드바 드롭다운
         function toggleDepartments() {
             document.getElementById("departmentsDropdown").classList.toggle("show");
         }
 
-        // Close the dropdown if the user clicks outside of it
+       // 사이드바 드롭다운
         window.onclick = function(event) {
             if (!event.target.matches('.departments-btn')) {
                 var dropdowns = document.getElementsByClassName("departments-content");
@@ -116,6 +129,7 @@
                 }
             }
         }
+        // 케러셀 
         document.addEventListener('DOMContentLoaded', function() {
             const carousel = document.querySelector('.carousel');
             const inner = carousel.querySelector('.carousel-inner');
@@ -134,8 +148,8 @@
             prevBtn.addEventListener('click', () => showSlide(currentIndex - 1));
             nextBtn.addEventListener('click', () => showSlide(currentIndex + 1));
         
-            // 자동 슬라이드 (선택사항)
-            setInterval(() => showSlide(currentIndex + 1), 4000);
+            // 자동 슬라이드 
+            setInterval(() => showSlide(currentIndex + 1), 5000);
         });
     </script>
 </body>

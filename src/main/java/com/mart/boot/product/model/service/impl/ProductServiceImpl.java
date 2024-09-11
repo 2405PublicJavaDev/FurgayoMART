@@ -20,9 +20,9 @@ import com.mart.boot.product.model.vo.ProductVO;
 public class ProductServiceImpl implements ProductService {
 	
 	private final ProductMapper pMapper;
-	private final String FILE_PATH_MAIN = "C:/Users/KDY/Desktop/backend/bootworkspace/FurgayoMART/src/main/resources/static/images/main/";
-	private final String FILE_PATH_COOK = "C:/Users/KDY/Desktop/backend/bootworkspace/FurgayoMART/src/main/resources/static/images/cook/";
-	private final String FILE_PATH_COMPONENT = "C:/Users/KDY/Desktop/backend/bootworkspace/FurgayoMART/src/main/resources/static/images/component/";
+	private final String FILE_PATH_MAIN = "C:/Users/user1/Desktop/backend/bootworkspace/Furgayomart/src/main/resources/static/images/main/";
+	private final String FILE_PATH_COOK = "C:/Users/user1/Desktop/backend/bootworkspace/Furgayomart/src/main/resources/static/images/cook/";
+	private final String FILE_PATH_COMPONENT = "C:/Users/user1/Desktop/backend/bootworkspace/Furgayomart/src/main/resources/static/images/component/";
 	
 	
 	public ProductServiceImpl(ProductMapper pMapper) {
@@ -193,47 +193,53 @@ public class ProductServiceImpl implements ProductService {
 		return pList;
 	}
 
-	// 사용자 카테고리별 상품 페이지
+	// 사용자 한식 카테고리 페이지
 	@Override
 	public List<ProductVO> selectKoreanFood(int categoryNo) {
 	    List<ProductVO> pList = pMapper.selectKoreanFood(categoryNo);
 	    return pList;
 	}
-
+	// 사용자 중식 카테고리 페이지
 	@Override
 	public List<ProductVO> selectChinesesFood(int categoryNo) {
 		List<ProductVO> pList = pMapper.selectChinesesFood(categoryNo);
 		return pList;
 	}
-
+	// 사용자 한식 카테고리 페이지
 	@Override
 	public List<ProductVO> selectJapaneseFood(int categoryNo) {
 		List<ProductVO> pList = pMapper.selectJapaneseFood(categoryNo);
 		return pList;
 	}
-
+	// 사용자 인기 카테고리 페이지
 	@Override
 	public List<ProductVO> selectPopularList() {
 		List<ProductVO> pList = pMapper.selectPopularList();
 		return pList;
 	}
-
+	// 사용자 신규상품 카테고리 페이지
 	@Override
 	public List<ProductVO> selectNewProducts() {
 		List<ProductVO> pList = pMapper.selectNewProducts();
 		return pList;
 	}
-
+	// 사용자 유통기한 카테고리 페이지
 	@Override
 	public List<ProductVO> showExpirationList() {
 		List<ProductVO> pList = pMapper.showExpirationList();
 		return pList;
 	}
-
+	// 사용자 메인페이지 신규 카테고리 페이지
 	@Override
 	public List<ProductVO> mainNewProducts() {
 		List<ProductVO> pList = pMapper.mainNewProducts();
 		return pList;
+	}
+	// 사용자 상품 상세 페이지
+	@Override
+	public ProductVO getProductWithDetail(int pNo) {
+		ProductVO product = pMapper.getProductWithDetail(pNo);
+		return product;
 	}
 
 }

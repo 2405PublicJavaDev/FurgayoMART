@@ -151,6 +151,14 @@ public interface ProductService {
 	 */
 	List<ProductVO> mainNewProducts();
 
+	
+	/**
+	 * 사용자 상세페이지
+	 * @param pNo
+	 * @return ProductVO
+	 */
+	ProductVO getProductWithDetail(int pNo);
+
 }
 
 

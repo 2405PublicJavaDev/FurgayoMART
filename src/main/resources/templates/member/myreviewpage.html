@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>내 리뷰내역</title>
+    <link rel="stylesheet" href="/css/header-footer.css">
+    <link rel="stylesheet" href="/css/myreviewpage.css">
+</head>
+<body>
+<header>
+		<div class="container">
+			<div class="header-content">
+				<a href="/"><h1 class="logo">Fugayo's Mart</h1></a>
+				<nav>
+					<ul>
+						<li><a href="/">홈</a></li>
+						<li><a href="/productpage/list">상품</a></li>
+						<li><a href="#">공지사항</a></li>
+						<li><a href="#">리뷰</a></li>
+
+					</ul>
+				</nav>
+				<div class="user-actions">
+					<span>****님</span> <span>로그인</span> <span>🛒</span> <span>QR</span>
+				</div>
+			</div>
+		</div>
+	</header>
+    <div class="reviewcontainer">
+        <h1>내 리뷰내역</h1>
+        <p>리뷰내역이 남겨주신 소중한 리뷰를 이곳에 담아두었습니다! 앞으로 남겨주실 리뷰들도 기다리고 있겠습니다!</p>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>카테고리</th>
+                    <th>리뷰내용</th>
+                    <th>등록 날짜</th>
+                    <th>상태</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- 10개의 동일한 행을 생성 -->
+                <tr th:each="i : ${#numbers.sequence(1, 10)}">
+                    <td><input type="checkbox" class="checkbox"></td>
+                    <td>리뷰</td>
+                    <td>항목</td>
+                    <td>2024.08.27</td>
+                    <td><button class="button">삭제</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+        
+        <footer>
+		<hr>
+		<div class="footerclass">회사소개 공지사항 문의하기 운영정책</div>
+	</footer>
+</body>
+</html>

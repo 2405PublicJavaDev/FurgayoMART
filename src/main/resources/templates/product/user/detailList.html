@@ -1,127 +1,138 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>상품 상세 페이지</title>
-    <link rel="stylesheet" href="/css/header-footer.css">
-    <link rel="stylesheet" href="/css/productdetailpage.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>상품 상세 페이지</title>
+<link rel="stylesheet" href="/css/header-footer.css">
+<link rel="stylesheet" href="/css/productdetailpage.css">
 </head>
 <body>
-    <header>
-        <div class="container">
-            <div class="header-content">
-                <a href="./mainpage.html"><h1 class="logo">Fugayo's Mart</h1></a>
-                <nav>
-                    <ul>
-                        <li><a href="/">홈</a></li>
-                        <li><a href="/productpage/list">상품</a></li>
-                        <li><a href="#">공지사항</a></li>
-                        <li><a href="#">리뷰</a></li>
-                        
-                    </ul>
-                </nav>
-                <div class="user-actions">
-                    <span>****님</span>
-                    <span>로그인</span>
-                    <span>🛒</span>
-                    <span>QR</span>
-                </div>
-            </div>
-        </div>
-    </header>
-    <div class="container">
-        <aside class="sidebar">
-            <div class="dropdown">
-                <button onclick="toggleDropdown()" class="dropdown-btn">상품목록 ▼</button>
-                <div id="myDropdown" class="dropdown-content">
-                    <a href="#">신규상품</a>
-                    <a href="./popularproducts.html">인기상품</a>
-                    <a href="#">한식</a>
-                    <a href="#">중식</a>
-                    <a href="#">양식</a>
-                    <a href="#">유통기한 임박 상품</a>
-                </div>
-            </div>
-        </aside>
-        <main>
-            <div class="product-detail" >
-                <div class="product-image">
-                    	<img th:src="@{${product.imageUrl}}" th:alt="${product.pName}" /><!-- 상품이미지  -->
-                   	</div> 
-                <div class="product-info">
-			     	 <h1 class="product-title" th:text="${product.pName}">상품명</h1>
-					<p class="product-description">상품에 대한 간단한 설명</p>                   
-					<div class="buy-options">
-                        <input type="number" id="quantity" class="quantity" min="1" value="1">
-                        <button class="action-button buy-button" onclick="buyProduct()">구매하기</button>
-                        <button class="action-button cart-button" onclick="addToCart()">장바구니</button>
-                        <button id="likeButton" class="action-button like-button" onclick="toggleLike()">좋아요</button>
-                    </div>
-                </div>
-            </div>
-            <div class="product-details">
-                상품 상세 설명
-            </div>
-        </main>
-    </div>
-    
-    <div id="notification"></div>
+	<!-- =========================== 헤더 사이드바 ================================== -->
+	<header>
+		<div class="container">
+			<div class="header-content">
+				<a href="/"><img class="headerimage" src="/images/로고.png" alt="로고입니다만"> </a>
+				<nav>
+					<ul>
+						<li><a href="/">홈</a></li>
+						<li><a href="/productpage/list">상품</a></li>
+						<li><a href="/notice/user">공지사항</a></li>
+						<li><a href="/review/user">리뷰</a></li>
 
-    <script>
-        function toggleDropdown() {
-            document.getElementById("myDropdown").classList.toggle("show");
-        }
+					</ul>
+				</nav>
+				<div class="user-actions">
+					<span></span>
+					<a href="/member/login"></a><span>로그인</span>
+					<a href="/member/register"><span>회원가입</span> 
+					<span>QR</span>
+				</div>
+			</div>
+		</div>
+	</header>
+	<div class="container">
+		<div class="main-content">
+			<div class="departments">
+				<button onclick="toggleDepartments()" class="departments-btn">상품목록
+					▼</button>
+				<div id="departmentsDropdown" class="departments-content">
+					<a href="/productpage/newproductlist">신규상품</a> 
+					<a href="/productpage/popularlist">인기상품</a> 
+					<a href="/productpage/koreanfood">한식</a> 
+					<a href="/productpage/chinesefood">중식</a> 
+					<a href="/productpage/japanesefood">일식</a> 
+					<!-- <a href="/productpage/list">유통기한 임박 상품</a> -->
+				</div>
+			</div>
+		</div>
 
-        window.onclick = function(event) {
-            if (!event.target.matches('.dropdown-btn')) {
-                var dropdowns = document.getElementsByClassName("dropdown-content");
-                for (var i = 0; i < dropdowns.length; i++) {
-                    var openDropdown = dropdowns[i];
-                    if (openDropdown.classList.contains('show')) {
-                        openDropdown.classList.remove('show');
-                    }
-                }
-            }
-        }
+	<main>
+		<div class="product-detail">
+			<div class="product-image">
+				<img th:if="${product != null and product.imageUrl != null}"
+					th:src="@{${product.imageUrl}}" th:alt="${product.pName}" />
+			</div>
+			<div class="product-info">
+				<h1 class="product-title" th:text="${product.pName}">상품명</h1>
+				<p class="product-description"
+					th:text="${product.productDetail != null ? product.productDetail.pComponent : '상품 설명 없음'}">상품에
+					대한 간단한 설명</p>
+				<p class="price"
+					th:text="${#numbers.formatDecimal(product.pPrice, 0, 'COMMA', 0, 'POINT') + '원'}"></p>
 
-       let isLiked = false;
+				<p th:text="'남은 기한 : ' + ${product.remainingDays} + '일'"></p>
+				<p th:text="'재고 수량 : ' + ${product.pInput} + '개'"></p>
+				<div class="buy-options">
+					<input type="number" id="quantity" class="quantity" min="1"
+						value="1">
+					<button class="action-button buy-button" onclick="buyProduct()">구매하기</button>
+					<button class="action-button cart-button" onclick="addToCart()">장바구니</button>
+					<!-- <button id="likeButton" class="action-button like-button"
+						onclick="toggleLike()">좋아요</button> -->
+				</div>
+			</div>
+		</div>
+		<div class="product-details">
+        <h2 class="pdtails">상품 상세 정보</h2>
+        <div th:if="${product != null and product.productDetail != null}">
+	        <hr class="detailhr">
+	        
+				<h3 >상품 구성</h3>
+				<p class="pdetailh3" th:text="${product.productDetail.pComponent}">구성</p>
+	            <img class="detail-img" th:if="${product.productDetail.imgMain != null}" 
+	                 th:src="@{${product.productDetail.imgMain}}" 
+	                 alt="메인 이미지"/>
+	        <hr class="detailhr">
+	        
+				<h3 >조리 방법</h3>
+				<p class="pdetailh3" th:text="${product.productDetail.cook}">조리 방법</p>
+	            <img class="detail-img" th:if="${product.productDetail.imgCook != null}" 
+	                 th:src="@{${product.productDetail.imgCook}}" 
+	                 alt="조리 이미지"/>
+	                 
+	         <hr class="detailhr">
+				<h3 > 추가 정보</h3>
+				<p class="pdetailh3" th:text="${product.productDetail.content}">상세 설명</p>
+	            <img class="detail-img" th:if="${product.productDetail.imgComponent != null}" 
+	                 th:src="@{${product.productDetail.imgComponent}}" 
+	                 alt="구성 이미지"/>					
+			<hr class="detailhr">
+		</div>
+			<div th:unless="${product != null and product.productDetail != null}">
+				<p>상세 정보가 없습니다.</p>
+			</div>
+		</div>
+	</div>
+	</main>
+	<footer>
+		<hr>
+		<div class="footerclass">회사소개 공지사항 문의하기 운영정책</div>
+	</footer>
 
-        function showNotification(message) {
-            const notification = document.getElementById('notification');
-            notification.textContent = message;
-            notification.style.display = 'block';
-            setTimeout(() => {
-                notification.style.display = 'none';
-            }, 3000);
-        }
+	<div id="notification"></div>
 
-        function buyProduct() {
-            const quantity = document.getElementById('quantity').value;
-            showNotification(`${quantity}개의 상품을 구매했습니다.`);
-            // 여기에 실제 구매 로직을 추가할 수 있습니다.
-        }
+	<script>
+	function toggleDepartments() {
+		document.getElementById("departmentsDropdown").classList
+				.toggle("show");
+	}
 
-        function addToCart() {
-            const quantity = document.getElementById('quantity').value;
-            showNotification(`${quantity}개의 상품을 장바구니에 담았습니다.`);
-            // 여기에 실제 장바구니 추가 로직을 구현할 수 있습니다.
-        }
+	// Close the dropdown if the user clicks outside of it
+	window.onclick = function(event) {
+		if (!event.target.matches('.departments-btn')) {
+			var dropdowns = document
+					.getElementsByClassName("departments-content");
+			for (var i = 0; i < dropdowns.length; i++) {
+				var openDropdown = dropdowns[i];
+				if (openDropdown.classList.contains('show')) {
+					openDropdown.classList.remove('show');
+				}
+			}
+		}
+	}
 
-        function toggleLike() {
-            const likeButton = document.getElementById('likeButton');
-            isLiked = !isLiked;
-            if (isLiked) {
-                likeButton.classList.add('liked');
-                likeButton.textContent = '좋아요 취소';
-                showNotification('상품을 좋아요 목록에 추가했습니다.');
-            } else {
-                likeButton.classList.remove('liked');
-                likeButton.textContent = '좋아요';
-                showNotification('상품을 좋아요 목록에서 제거했습니다.');
-            }
-            // 여기에 실제 좋아요 상태 변경 로직을 구현할 수 있습니 다.
-        }
+       
     </script>
 </body>
 </html>

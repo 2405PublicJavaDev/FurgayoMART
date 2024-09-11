@@ -270,4 +270,15 @@ public class MemberController {
 //		return isVerified ? "이메일이 성공적으로 인증되었습니다." : "인증 코드가 올바르지 않습니다.";
 //	}
 //}
+    // 내 리뷰페이지
+    @GetMapping("/myreviewpage")
+    public String showMyReviewPage(Model model) {
+    	return "member/myreviewpage";
+    }
+    // 내 구매페이지
+    @GetMapping("/mypurchasepage")
+    public String showMyPurchasePage(Model model) {
+    	return "member/mypurchasepage";
+    }
+    
 }

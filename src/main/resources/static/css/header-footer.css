@@ -48,6 +48,10 @@ nav ul li a {
     font-weight: bold;
     transition: color 0.3s ease;
 }
+.headerimage{
+	width:250px;
+	height:40px;
+}
 /* ================================== 카테고리 ================================== */
 .container {
     max-width: 1200px;

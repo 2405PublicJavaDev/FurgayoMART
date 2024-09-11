@@ -14,14 +14,24 @@
 	    <result property="sale" column="SALE"/>
 	    <result property="pPrice" column="P_PRICE"/>
 	    <!-- ProductDetailVO -->
-	    <association property="productDetail" javaType="ProductDetailVO">
+	     <association property="productDetail" javaType="ProductDetailVO">
 	        <result property="imgMain" column="IMG_MAIN"/>
 	        <result property="imgCook" column="IMG_COOK"/>
 	        <result property="imgComponent" column="IMG_COMPONENT"/>
 	        <result property="pComponent" column="P_COMPONENT"/>
 	        <result property="cook" column="COOK"/>
 	        <result property="content" column="CONTENT"/>
-	    </association>
+	    </association> 
+	    <!-- <association property="productDetail" javaType="ProductDetailVO">
+            <result property="pNo" column="PD_P_NO"/>
+            <result property="imgMain" column="IMG_MAIN"/>
+            <result property="imgCook" column="IMG_COOK"/>
+            <result property="imgComponent" column="IMG_COMPONENT"/>
+            <result property="pComponent" column="P_COMPONENT"/>
+            <result property="cook" column="COOK"/>
+            <result property="content" column="CONTENT"/>
+            <result property="categoryNo" column="PD_CATEGORY_NO"/>
+        </association> -->
 	    <!-- ProductImageVO -->
 	    <association property="productImage" javaType="ProductImageVO">
 	        <result property="filePath" column="imgFilePath"/>
@@ -150,7 +160,15 @@
 	
 	<!-- 사용자_상품 페이지 -->
     <select id="selecpagetList" resultType="com.mart.boot.product.model.vo.ProductVO">
-        SELECT * FROM PRODUCT ORDER BY REG_DATE DESC
+   SELECT 
+            p.P_NO, p.P_NAME, p.P_INPUT, p.P_OUTPUT, p.EXPIRATION, p.REG_DATE, p.CATEGORY_NO, p.SALE, p.P_PRICE,
+            pd.P_NO as PD_P_NO, pd.IMG_MAIN, pd.IMG_COOK, pd.IMG_COMPONENT, pd.P_COMPONENT, pd.COOK, pd.CONTENT, pd.CATEGORY_NO as PD_CATEGORY_NO
+        FROM 
+            PRODUCT p
+        LEFT JOIN 
+            PRODUCT_DETAIL pd ON p.P_NO = pd.P_NO
+        ORDER BY p.REG_DATE DESC  
+       <!--  SELECT * FROM PRODUCT ORDER BY REG_DATE DESC  -->
     </select>
     <!-- 사용자_상품 상세 페이지 -->
     <select id="selectOne" resultType="ProductVO">
@@ -217,4 +235,14 @@
 	    WHERE ROWNUM <= 6
 	    ]]>
 	</select>
+	<select id="getProductWithDetail" resultMap="ProductWithDetailMap">
+    SELECT 
+            p.*, pd.*
+        FROM 
+            PRODUCT p
+        LEFT JOIN 
+            PRODUCT_DETAIL pd ON p.P_NO = pd.P_NO
+        WHERE 
+            p.P_NO = #{pNo}
+</select>
 </mapper>

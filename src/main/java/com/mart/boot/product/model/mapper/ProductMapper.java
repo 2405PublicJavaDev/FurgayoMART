@@ -176,4 +176,11 @@ public interface ProductMapper {
 	 */
 	List<ProductVO> mainNewProducts();
 
+	/**
+	 * 사용자 상세페
+	 * @param pNo
+	 * @return ProductVO
+	 */
+	ProductVO getProductWithDetail(int pNo);
+
 }

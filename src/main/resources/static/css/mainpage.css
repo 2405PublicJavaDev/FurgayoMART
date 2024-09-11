@@ -6,15 +6,13 @@
 }
 body {
     font-family: Arial, sans-serif;
-    line-height: 1.6;
     background-color: rgb(245, 245, 245);
-    
 }
-
 .container {
-    max-width: 1200px;
+    
     margin: 0 auto;
-    padding: 0 15px;
+    
+    max-width: 1200px;
 }
 
 .main-content {
@@ -245,6 +243,11 @@ main {
     gap: 30px;
     margin-top: 20px;
     margin-bottom: 30px;
+  
+}
+.categories a {
+	text-decoration-line : none;
+	color : black;
 }
 .category {
     background-color: white;
