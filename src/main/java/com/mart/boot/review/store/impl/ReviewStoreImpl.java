@@ -2,8 +2,10 @@ package com.mart.boot.review.store.impl;
 
 import com.mart.boot.review.model.ReviewVO;
 import com.mart.boot.review.store.ReviewStore;
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -24,8 +26,7 @@ public class ReviewStoreImpl implements ReviewStore {
     }
 
     @Override
-    public List<ReviewVO> getReviews(String searchType, String searchKeyword) {
-        // 수정된 부분: Map.of()를 HashMap으로 변경하여 null 허용
+    public List<ReviewVO> getReviews(String searchType, String searchKeyword, Pageable pageable) {
         Map<String, Object> params = new HashMap<>();
         if (searchType != null) {
             params.put("searchType", searchType);
@@ -33,7 +34,10 @@ public class ReviewStoreImpl implements ReviewStore {
         if (searchKeyword != null) {
             params.put("searchKeyword", searchKeyword);
         }
-        return sqlSession.selectList(namespace + ".selectReviews", params);
+
+        RowBounds rowBounds = new RowBounds((int) pageable.getOffset(), pageable.getPageSize());
+
+        return sqlSession.selectList(namespace + ".selectReviews", params, rowBounds);
     }
 
     @Override

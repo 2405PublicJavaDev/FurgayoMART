@@ -1,71 +1,93 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const searchButton = document.getElementById('search-button');
-    const searchInput = document.getElementById('search-input');
-    const searchType = document.getElementById('search-type');
+document.addEventListener('DOMContentLoaded', function () {
+    const searchButton = document.querySelector('.btn-search');
+    const searchTypeSelect = document.querySelector('#search-type');
+    const searchKeywordInput = document.querySelector('#search-keyword');
+    const reviewListContainer = document.querySelector('#review-list-container');
     const viewAllButton = document.getElementById('view-all-button');
-    const recentReviews = document.getElementById('recent-reviews');
-    const reviewsDisplay = document.getElementById('reviews-display');
     const prevButton = document.getElementById('prev-review');
     const nextButton = document.getElementById('next-review');
-    const reviewTitle = document.getElementById('review-title');
+
     let currentPage = 0;
-    const reviewsPerPage = 4;
-    let allReviews = [];
+    let reviews = [];
 
-    function displayReviews(reviewsToShow, title) {
-        reviewTitle.textContent = title;
-        reviewsDisplay.innerHTML = '';
-        if (reviewsToShow.length === 0) {
-            reviewsDisplay.innerHTML = '<p>표시할 리뷰가 없습니다.</p>';
-        } else {
-            const startIndex = currentPage * reviewsPerPage;
-            const endIndex = startIndex + reviewsPerPage;
-            const pageReviews = reviewsToShow.slice(startIndex, endIndex);
-
-            pageReviews.forEach(review => {
-                const accordionItem = createReviewAccordionItem(review);
-                reviewsDisplay.appendChild(accordionItem);
-            });
+    function fetchUserReviews(searchType = null, searchKeyword = null, page = 0) {
+        let url = `/api/reviews?page=${page}&size=9`; // 9개의 리뷰를 가져옵니다 (3페이지 분량)
+        if (searchType && searchKeyword) {
+            url += `&searchType=${searchType}&searchKeyword=${searchKeyword}`;
         }
-        setupAccordion();
-        updateNavigationButtons(reviewsToShow.length);
-        updateReviewsDisplayOverflow();
+
+        fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Received reviews:', data);
+                reviews = data.content;
+                currentPage = 0;
+                displayReviews();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                if (reviewListContainer) {
+                    reviewListContainer.innerHTML = '<p>리뷰를 불러오는 중 오류가 발생했습니다.</p>';
+                }
+            });
     }
 
-    function createReviewAccordionItem(review) {
-        const accordionItem = document.createElement('div');
-        accordionItem.className = 'accordion-item';
-
-        let imageHTML = '';
-        if (review.fileName) {
-            imageHTML = `<img src="/uploads/${review.fileName}" alt="리뷰 이미지" class="review-image">`;
+    function displayReviews() {
+        if (!reviewListContainer) {
+            console.error('Review list container not found');
+            return;
         }
 
-        console.log('Review data:', review);
+        reviewListContainer.innerHTML = '';
 
-        const pName = review.pname && review.pname.trim() !== '' ? review.pname : '상품명 미지정';
-        const writerId = review.writerId && review.writerId.trim() !== '' ? review.writerId : '작성자 미상';
-        const reTitle = review.reTitle && review.reTitle.trim() !== '' ? review.reTitle : '제목 없음';
-        const reContent = review.reContent && review.reContent.trim() !== '' ? review.reContent : '내용 없음';
+        if (!reviews || reviews.length === 0) {
+            reviewListContainer.innerHTML = '<p>표시할 리뷰가 없습니다.</p>';
+            return;
+        }
 
-        accordionItem.innerHTML = `
-            <div class="accordion-header">
-                <span>${pName} - ${writerId}</span>
-                <span class="accordion-arrow">▼</span>
-            </div>
-            <div class="accordion-content">
-                <div class="accordion-content-inner">
-                    <h3>${reTitle}</h3>
-                    <p>${reContent}</p>
-                    ${imageHTML}
+        const startIndex = currentPage * 3;
+        const endIndex = startIndex + 3;
+        const currentReviews = reviews.slice(startIndex, endIndex);
+
+        currentReviews.forEach(review => {
+            const reviewItem = document.createElement('div');
+            reviewItem.className = 'review-item';
+            reviewItem.innerHTML = `
+                <div class="accordion-header">
+                    <span>${review.pname || '상품명 없음'} - ${review.writerId || '작성자 없음'}</span>
+                    <span class="accordion-arrow">▼</span>
                 </div>
-            </div>
-        `;
-        return accordionItem;
+                <div class="accordion-content">
+                    <div class="accordion-content-inner">
+                        <h3>${review.reTitle || '제목 없음'}</h3>
+                        <p>${review.reContent || '내용 없음'}</p>
+                    </div>
+                </div>
+            `;
+            if (review.fileName) {
+                const img = document.createElement('img');
+                img.src = `/uploads/${review.fileName}`;
+                img.alt = "Review Image";
+                img.className = "review-image";
+                img.onclick = function() {
+                    showOriginalImage(`/uploads/${review.fileName}`);
+                };
+                reviewItem.querySelector('.accordion-content-inner').appendChild(img);
+            }
+            reviewListContainer.appendChild(reviewItem);
+        });
+
+        setupAccordion();
+        updateNavigationButtons();
     }
 
     function setupAccordion() {
-        const accordionItems = document.querySelectorAll('.accordion-item');
+        const accordionItems = document.querySelectorAll('.review-item');
 
         accordionItems.forEach(item => {
             const header = item.querySelector('.accordion-header');
@@ -89,114 +111,91 @@ document.addEventListener('DOMContentLoaded', function() {
                     content.style.maxHeight = null;
                     arrow.textContent = '▼';
                 }
-
-                updateReviewsDisplayOverflow();
             });
         });
     }
 
-    function updateReviewsDisplayOverflow() {
-        const reviewsRight = document.querySelector('.reviews-right');
-
-        if (reviewsDisplay.scrollHeight > reviewsRight.clientHeight) {
-            reviewsDisplay.style.overflowY = 'auto';
-        } else {
-            reviewsDisplay.style.overflowY = 'hidden';
-        }
-    }
-
-    function updateNavigationButtons(totalReviews) {
-        const totalPages = Math.ceil(totalReviews / reviewsPerPage);
+    function updateNavigationButtons() {
         prevButton.disabled = currentPage === 0;
-        nextButton.disabled = currentPage === totalPages - 1 || totalReviews <= reviewsPerPage;
+        nextButton.disabled = (currentPage + 1) * 3 >= reviews.length;
     }
 
-    function navigateReviews(direction) {
-        if (direction === 'next' && !nextButton.disabled) {
-            currentPage++;
-        } else if (direction === 'prev' && !prevButton.disabled) {
+    if (searchButton) {
+        searchButton.addEventListener('click', function () {
+            const searchType = searchTypeSelect ? searchTypeSelect.value : null;
+            const searchKeyword = searchKeywordInput ? searchKeywordInput.value.trim() : null;
+
+            if (!searchKeyword) {
+                alert('검색어를 입력해주세요.');
+                return;
+            }
+
+            fetchUserReviews(searchType, searchKeyword);
+        });
+    }
+
+    if (viewAllButton) {
+        viewAllButton.addEventListener('click', function () {
+            fetchUserReviews();
+        });
+    }
+
+    prevButton.addEventListener('click', function() {
+        if (currentPage > 0) {
             currentPage--;
+            displayReviews();
         }
-        displayReviews(allReviews, "고객 리뷰");
-    }
-
-    function searchReviews() {
-        const searchTerm = searchInput.value;
-        const searchCategory = searchType.value;
-        currentPage = 0;
-        fetchReviews(searchCategory, searchTerm);
-    }
-
-    function showAllReviews() {
-        currentPage = 0;
-        fetchReviews();
-    }
-
-    const reviewForm = document.querySelector('.review-form form');
-    reviewForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        const formData = new FormData(this);
-
-        console.log('상품명:', formData.get('pName'));
-
-        fetch('/api/reviews', {
-            method: 'POST',
-            body: formData
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('Review added:', data);
-                displayNewReview(data);
-                this.reset();
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
     });
 
-    function displayNewReview(review) {
-        const accordionItem = createReviewAccordionItem(review);
-        reviewsDisplay.insertBefore(accordionItem, reviewsDisplay.firstChild);
-        setupAccordion();
-        allReviews.unshift(review);
-        displayReviews(allReviews, "고객 리뷰");
-    }
-
-    function fetchReviews(searchType, searchKeyword) {
-        let url = '/api/reviews';
-        if (searchType && searchKeyword) {
-            url += `?searchType=${searchType}&searchKeyword=${searchKeyword}`;
+    nextButton.addEventListener('click', function() {
+        if ((currentPage + 1) * 3 < reviews.length) {
+            currentPage++;
+            displayReviews();
         }
+    });
 
-        fetch(url)
-            .then(response => response.json())
-            .then(data => {
-                console.log('Received reviews:', data);
-                allReviews = data.map(review => {
-                    console.log('Processing review:', review);
-                    return {
-                        ...review,
-                        pname: review.pname && review.pname.trim() !== '' ? review.pname : '상품명 미지정',
-                        writerId: review.writerId && review.writerId.trim() !== '' ? review.writerId : '작성자 미상',
-                        reTitle: review.reTitle && review.reTitle.trim() !== '' ? review.reTitle : '제목 없음',
-                        reContent: review.reContent && review.reContent.trim() !== '' ? review.reContent : '내용 없음'
-                    };
-                });
-                displayReviews(allReviews, searchType && searchKeyword ? "검색 결과" : "고객 리뷰");
+    window.showOriginalImage = function(imageSrc) {
+        const popup = document.createElement('div');
+        popup.className = 'image-popup';
+        popup.innerHTML = `
+            <div class="image-popup-content">
+                <img src="${imageSrc}" alt="원본 이미지">
+                <button onclick="this.parentElement.parentElement.remove()">닫기</button>
+            </div>
+        `;
+        document.body.appendChild(popup);
+    };
+
+    // 리뷰 작성 폼 제출 처리
+    const reviewForm = document.querySelector('.review-form form');
+    if (reviewForm) {
+        reviewForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+
+            fetch('/api/reviews', {
+                method: 'POST',
+                body: formData
             })
-            .catch(error => console.error('Error:', error));
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Review added:', data);
+                    this.reset();
+                    fetchUserReviews(); // 리뷰 목록 새로고침
+                })
+                .catch((error) => {
+                    console.error('Error:', error);
+                    alert('리뷰 작성 중 오류가 발생했습니다.');
+                });
+        });
     }
 
-    searchButton.addEventListener('click', searchReviews);
-    viewAllButton.addEventListener('click', showAllReviews);
-    prevButton.addEventListener('click', () => navigateReviews('prev'));
-    nextButton.addEventListener('click', () => navigateReviews('next'));
-
-    fetchReviews();
+    // 초기 로드 시 모든 리뷰 불러오기
+    fetchUserReviews();
 });

@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>관리자 페이지</title>
     <link rel="stylesheet" href="/css/reviewAdmin.css">
 </head>
@@ -29,6 +31,7 @@
     </ul>
     <div class="main-content">
         <h2>리뷰 관리</h2>
+        <button class="btn-delete-selected" id="delete-selected-btn">선택 항목 삭제</button>
         <table class="review-table">
             <thead>
             <tr>
@@ -41,53 +44,23 @@
                 <th>관리</th>
             </tr>
             </thead>
-            <tbody>
-            <tr>
-                <td><input type="checkbox" class="review-checkbox"></td>
-                <td>신선한 재료</td>
-                <td>재료가 정말 신선해서 놀랐어요. 조리도 쉽고 맛도 훌륭했습니다.</td>
-                <td>chef_kim</td>
-                <td>2024.08.15</td>
-                <td>소고기 스테이크</td>
-                <td>
-                    <button class="btn-reply" onclick="toggleReplyPanel(this)">답글</button>
-                    <button class="btn-delete">삭제</button>
-                </td>
-            </tr>
-            <tr class="reply-panel" style="display: none;">
-                <td colspan="7">
-                    <div class="reply-content">
-                        <h4>리뷰 답글 등록 화면</h4>
-                        <p><strong>신선한 재료</strong></p>
-                        <p>chef_kim | 2024.08.15</p>
-                        <p>재료가 정말 신선해서 놀랐어요. 조리도 쉽고 맛도 훌륭했습니다.</p>
-                        <textarea placeholder="답글을 입력하세요..."></textarea>
-                        <button class="btn-submit-reply">답글 등록</button>
-                    </div>
-                </td>
-            </tr>
-            <!-- 추가 리뷰 항목들... -->
+            <tbody id="review-list">
+            <!-- JS에서 동적으로 리뷰 리스트를 추가할 예정 -->
             </tbody>
         </table>
 
-        <div class="pagination">
-            <span>&lt;&lt;</span>
-            <span>1</span>
-            <span>2</span>
-            <span>3</span>
-            <span>4</span>
-            <span>5</span>
-            <span>6</span>
-            <span>&gt;&gt;</span>
+        <!-- 페이지네이션 -->
+        <div class="pagination" id="pagination">
+            <!-- 페이지 번호가 동적으로 추가됩니다 -->
         </div>
 
         <div class="search-bar">
-            <select>
-                <option>제목</option>
-                <option>내용</option>
-                <option>작성자</option>
+            <select id="search-type">
+                <option value="reTitle">제목</option>
+                <option value="reContent">내용</option>
+                <option value="pname">상품명</option>
             </select>
-            <input type="text" placeholder="검색할 내용을 입력 해주세요">
+            <input type="text" id="search-keyword" placeholder="검색할 내용을 입력 해주세요">
             <button class="btn-search">검색</button>
         </div>
     </div>

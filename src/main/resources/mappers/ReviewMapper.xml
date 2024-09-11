@@ -20,11 +20,14 @@
     <select id="selectReviews" parameterType="map" resultType="com.mart.boot.review.model.ReviewVO">
         SELECT * FROM REVIEW
         <where>
-            <if test="searchType != null and searchType == 'productName'">
+            <if test="searchType != null and searchType == 'pname'">
                 AND P_NAME LIKE '%' || #{searchKeyword} || '%'
             </if>
-            <if test="searchType != null and searchType == 'content'">
+            <if test="searchType != null and searchType == 'reContent'">
                 AND RE_CONTENT LIKE '%' || #{searchKeyword} || '%'
+            </if>
+            <if test="searchType != null and searchType == 'reTitle'">
+                AND RE_TITLE LIKE '%' || #{searchKeyword} || '%'
             </if>
         </where>
         ORDER BY REVIEW_DATE DESC
@@ -54,11 +57,14 @@
     <select id="countReviews" parameterType="map" resultType="int">
         SELECT COUNT(*) FROM REVIEW
         <where>
-            <if test="searchType != null and searchType == 'productName'">
+            <if test="searchType != null and searchType == 'pname'">
                 AND P_NAME LIKE '%' || #{searchKeyword} || '%'
             </if>
-            <if test="searchType != null and searchType == 'content'">
+            <if test="searchType != null and searchType == 'reContent'">
                 AND RE_CONTENT LIKE '%' || #{searchKeyword} || '%'
+            </if>
+            <if test="searchType != null and searchType == 'reTitle'">
+                AND RE_TITLE LIKE '%' || #{searchKeyword} || '%'
             </if>
         </where>
     </select>

@@ -1,3 +1,48 @@
+/* 페이징 스타일 */
+.pagination {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.page-link {
+    display: inline-block;
+    padding: 5px 10px;
+    margin: 0 2px;
+    cursor: pointer;
+    color: black;
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.page-link:hover {
+    background-color: #ddd;
+}
+
+.page-number.active {
+    background-color: black;
+    color: white;
+    font-weight: bold;
+}
+
+/* CSS 추가 부분 */
+.pagination .active {
+    background-color: black;
+    color: white;
+    font-weight: bold;
+}
+
+/* CSS: 선택 항목 삭제 버튼 스타일 */
+#delete-selected {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    float: right;
+    margin-bottom: 20px;
+}
+
 html, body {
     margin: 0;
     padding: 0;
@@ -112,11 +157,6 @@ body {
     background-color: #4CAF50;
 }
 
-.pagination {
-    text-align: center;
-    margin: 20px 0;
-}
-
 .search-bar {
     display: flex;
     justify-content: center;
@@ -187,6 +227,3 @@ footer ul li a {
 .footer-text {
     margin-top: 20px;
 }
-
-
-
