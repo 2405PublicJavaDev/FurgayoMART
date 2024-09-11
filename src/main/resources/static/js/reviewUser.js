@@ -11,32 +11,6 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentPage = 0;
     const reviewsPerPage = 4;
 
-    // 가상의 리뷰 데이터 (이미지 URL 추가)
-    let reviews = [
-        { id: 1, productName: "사과", content: "제품도 신선하고 품질도 아주 좋아요", author: "고객1", imageUrl: "path/to/image1.jpg" },
-        { id: 2, productName: "배", content: "결제가 간편해서 이용하기 편합니다.", author: "고객2", imageUrl: "path/to/image2.jpg" },
-        { id: 3, productName: "포도", content: "배송이 빨라요!", author: "고객3", imageUrl: "path/to/image3.jpg" },
-        // ... 더 많은 리뷰 데이터
-    ];
-
-    // 리뷰 정렬 (최신순)
-    reviews.sort((a, b) => b.id - a.id);
-
-    // 최근 리뷰 표시
-    function displayRecentReviews() {
-        recentReviews.innerHTML = '';
-        reviews.slice(0, 2).forEach(review => {
-            const reviewCard = document.createElement('div');
-            reviewCard.className = 'review-card';
-            reviewCard.innerHTML = `
-                <div class="user-avatar"></div>
-                <p class="user-name">${review.author} 고객님</p>
-                <p class="review-text">${review.content}</p>
-            `;
-            recentReviews.appendChild(reviewCard);
-        });
-    }
-
     // 리뷰 표시 함수
     function displayReviews(reviewsToShow, title) {
         reviewTitle.textContent = title;
@@ -53,18 +27,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 accordionItem.className = 'accordion-item';
 
                 let imageHTML = '';
-                if (review.imageUrl) {
-                    imageHTML = `<img src="${review.imageUrl}" alt="리뷰 이미지" class="review-image">`;
+                if (review.fileName) {
+                    imageHTML = `<img src="/uploads/${review.fileName}" alt="리뷰 이미지" class="review-image">`;
                 }
 
                 accordionItem.innerHTML = `
                     <div class="accordion-header">
-                        <span>${review.productName} - ${review.author}</span>
+                        <span>${review.pName} - ${review.writerId}</span>
                         <span class="accordion-arrow">▼</span>
                     </div>
                     <div class="accordion-content">
                         <div class="accordion-content-inner">
-                            <p>${review.content}</p>
+                            <h3>${review.reTitle}</h3>
+                            <p>${review.reContent}</p>
                             ${imageHTML}
                         </div>
                     </div>
@@ -133,24 +108,21 @@ document.addEventListener('DOMContentLoaded', function() {
         } else if (direction === 'prev' && !prevButton.disabled) {
             currentPage--;
         }
-        displayReviews(reviews, "고객 리뷰");
+        fetchReviews();
     }
 
     // 리뷰 검색
     function searchReviews() {
-        const searchTerm = searchInput.value.toLowerCase();
+        const searchTerm = searchInput.value;
         const searchCategory = searchType.value;
-        const searchResults = reviews.filter(review =>
-            review[searchCategory].toLowerCase().includes(searchTerm)
-        );
         currentPage = 0;
-        displayReviews(searchResults, "검색 결과");
+        fetchReviews(searchCategory, searchTerm);
     }
 
     // 모든 리뷰 표시
     function showAllReviews() {
         currentPage = 0;
-        displayReviews(reviews, "모든 리뷰");
+        fetchReviews();
     }
 
     // 리뷰 작성 폼 제출 처리
@@ -158,43 +130,40 @@ document.addEventListener('DOMContentLoaded', function() {
     reviewForm.addEventListener('submit', function(e) {
         e.preventDefault();
 
-        const productName = document.getElementById('product-name').value;
-        const reviewContent = document.getElementById('review-content').value;
+        const formData = new FormData(this);
 
-        // 새 리뷰 추가
-        addReview(productName, reviewContent);
-
-        // 폼 초기화
-        reviewForm.reset();
+        fetch('/api/reviews', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Review added:', data);
+                showAllReviews();
+                this.reset();
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
     });
 
-    // 새 리뷰 추가 함수
-    function addReview(product, content, imageUrl = '') {
-        const isLoggedIn = checkLoginStatus();
-        let author = isLoggedIn ? getCurrentUserName() : "비회원";
+    function fetchReviews(searchType, searchKeyword) {
+        let url = '/api/reviews';
+        if (searchType && searchKeyword) {
+            url += `?searchType=${searchType}&searchKeyword=${searchKeyword}`;
+        }
 
-        const newReview = {
-            id: reviews.length + 1,
-            productName: product,
-            content: content,
-            author: author,
-            imageUrl: imageUrl
-        };
-
-        reviews.unshift(newReview);
-        currentPage = 0;
-        displayReviews(reviews, "고객 리뷰");
-        displayRecentReviews();
-    }
-
-    // 로그인 상태 확인 함수 (예시)
-    function checkLoginStatus() {
-        return false; // 실제 구현에서는 적절히 수정
-    }
-
-    // 현재 사용자 이름 가져오기 함수 (예시)
-    function getCurrentUserName() {
-        return "로그인사용자"; // 실제 구현에서는 적절히 수정
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                displayReviews(data, searchType && searchKeyword ? "검색 결과" : "고객 리뷰");
+            })
+            .catch(error => console.error('Error:', error));
     }
 
     // 이벤트 리스너 설정
@@ -204,8 +173,5 @@ document.addEventListener('DOMContentLoaded', function() {
     nextButton.addEventListener('click', () => navigateReviews('next'));
 
     // 초기 리뷰 표시
-    displayReviews(reviews, "고객 리뷰");
-
-    // 초기 최근 리뷰 표시
-    displayRecentReviews();
+    fetchReviews();
 });
