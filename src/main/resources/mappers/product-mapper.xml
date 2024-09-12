@@ -134,7 +134,7 @@
     <select id="selectList" resultType="ProductVO">
         SELECT * FROM PRODUCT ORDER BY REG_DATE DESC
     </select>
-	<!-- 관리자_상품 조건 검색 -->
+	<!-- 관리자_상품 조건 검색 
 	<select id="searchProducts" parameterType="map" resultType="ProductVO">
 		SELECT * FROM PRODUCT
 		WHERE 1=1
@@ -151,11 +151,8 @@
 			AND P_NAME LIKE '%' || #{pName} || '%'
 		</if>
 		ORDER BY REG_DATE DESC
-	</select>
-	<!-- 관리자_전체 상품 조회 -->
-	<select id="selectList" resultType="ProductVO">
-		SELECT * FROM PRODUCT ORDER BY REG_DATE DESC -->
-	</select>
+	</select> -->
+	
 
 	<!-- 관리자_상품 기본 정보 등록 -->
 	<insert id="addProduct" useGeneratedKeys="true" keyProperty="pNo" keyColumn="P_NO">
@@ -226,10 +223,7 @@
 	<delete id="deleteProductDetail">
 		DELETE FROM PRODUCT_DETAIL WHERE P_NO = #{pNo}
 	</delete>
-	<!-- 관리자_상품 상세 정보 삭제 -->
-	<delete id="deleteProductDetail">
-		DELETE FROM PRODUCT_DETAIL WHERE P_NO = #{pNo}
-	</delete>
+	
 	<!-- 관리자_상품 삭제 -->
 	<delete id="deleteProduct" parameterType="int">
 	    DELETE FROM PRODUCT WHERE P_NO = #{pNo}
