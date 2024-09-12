@@ -109,3 +109,10 @@ nav ul li a {
     margin-top: 20px;
     
 }
+.footerclass a {
+	text-decoration: none;
+    color: black;
+}
+.footerclass a:hover {
+	color : gray;
+}

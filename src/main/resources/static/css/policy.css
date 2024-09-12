@@ -5,28 +5,29 @@ body, html {
     line-height: 1.6;
     width: 100%;
     min-height: 2403px;
+    background-color: rgb(245, 245, 245);
 }
 
-.container {
+/* .container {
     width: 100%;
     min-height: 2403px;
     position: relative;
 }
-
+ */
 .hero h1 {
     font-size: 64px;
 }
 
-header {
+/* header {
     background-color: #fff;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     position: fixed;
     width: 100%;
     top: 0;
     z-index: 1000;
-    height: 60px; /* 상단 바 높이 줄임 */
+    height: 60px; 상단 바 높이 줄임
 }
-
+ */
 #nav-top {
     display: flex;
     justify-content: space-between;
@@ -114,7 +115,7 @@ main {
     color: rgba(0, 0, 0, 0.5);
 }
 
-footer {
+/* footer {
     background-color: #f0f0f0;
     padding: 40px 0;
     text-align: center;
@@ -127,7 +128,7 @@ footer nav {
     max-width: 1440px;
     margin: 0 auto;
     height: auto;
-    padding: 0 20px; /* 좌우 패딩을 추가하여 작은 화면에서도 중앙에 위치 */
+    padding: 0 20px; 좌우 패딩을 추가하여 작은 화면에서도 중앙에 위치
 }
 
 footer ul {
@@ -137,12 +138,15 @@ footer ul {
     justify-content: center;
     gap: 60px;
     margin: 0;
-    text-align: center; /* 중앙 정렬 추가 */
+    text-align: center; 중앙 정렬 추가
 }
 
 footer ul li a {
     text-decoration: none;
     color: #333;
     font-size: 20px;
-}
+} */
 
+.scaler{
+	margin-top : 40px;
+}

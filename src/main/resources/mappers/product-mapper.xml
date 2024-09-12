@@ -244,6 +244,7 @@
     WHERE rank <= 6
     ]]>
 	</select>
+	<!--  사용자_상품 카테고리 페이지(신규 상품) -->
 	<select id="selectNewProducts" resultType="com.mart.boot.product.model.vo.ProductVO">
 	    <![CDATA[
 	    SELECT * FROM (
@@ -256,6 +257,7 @@
 	    WHERE ROWNUM <= 6
 	    ]]>
 	</select>
+	<!--  사용자_상품 카테고리 페이지(유통 기한) -->
 	<select id="showExpirationList" resultType="com.mart.boot.product.model.vo.ProductVO">
 	    <![CDATA[
 	    SELECT * FROM (
@@ -269,6 +271,7 @@
 	    WHERE ROWNUM <= 6
 	    ]]>
 	</select>
+	<!--  메인페이지 페이지(신규) -->
 	<select id="mainNewProducts">
 	 <![CDATA[
 	    SELECT * FROM (
@@ -281,6 +284,7 @@
 	    WHERE ROWNUM <= 6
 	    ]]>
 	</select>
+	<!-- 상세페이지 -->
 	<select id="getProductWithDetail" resultMap="ProductWithDetailMap">
     SELECT 
             p.*, pd.*

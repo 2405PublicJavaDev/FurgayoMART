@@ -110,9 +110,13 @@ main {
 }
 
 .btn-secondary {
-    background-color: #6c757d;
+    background-color: #007bff;
     color: white;
 }
+.btn-secondary:hover {
+    background-color: #0056b3;
+}
+
 
 @media (max-width: 768px) {
     .mypage-header {
@@ -127,4 +131,5 @@ main {
     .grid-container {
         grid-template-columns: 1fr;
     }
+  
 }

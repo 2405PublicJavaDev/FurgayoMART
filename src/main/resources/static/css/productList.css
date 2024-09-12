@@ -9,13 +9,7 @@ body {
     height: 1696px;
 }
 
-/* 헤더 스타일 */
-.header {
-    padding: 5px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+
 
 .header-menu a {
     text-decoration: none;
