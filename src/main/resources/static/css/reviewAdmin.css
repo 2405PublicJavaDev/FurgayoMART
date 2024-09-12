@@ -170,7 +170,7 @@ body {
 }
 
 .btn-search {
-    background-color: black;
+    background-color: #7fad39;
     color: white;
     border: none;
     padding: 5px 15px;
@@ -226,4 +226,12 @@ footer ul li a {
 
 .footer-text {
     margin-top: 20px;
+}
+
+
+.btn-reply {
+    background-color: #007bff;
+}
+.btn-delete {
+    background-color: #ff0033;
 }

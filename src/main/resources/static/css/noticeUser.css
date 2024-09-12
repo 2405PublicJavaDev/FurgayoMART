@@ -1,3 +1,58 @@
+/* 헤더 스타일 */
+header {
+    background-color: #ffffff;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 10px 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #000;
+    text-decoration: none;
+}
+
+nav ul {
+    display: flex;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    margin-right: 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: normal;
+}
+
+.user-actions {
+    display: flex;
+    align-items: center;
+}
+
+.user-actions span {
+    margin-left: 15px;
+    font-size: 14px;
+    color: #333;
+}
+
+/* 기존 스타일 */
 /* 기본 레이아웃 스타일 */
 .content {
     display: flex;
