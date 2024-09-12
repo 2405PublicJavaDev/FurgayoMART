@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>공지사항 게시판</title>
-    <link rel="stylesheet" href="/css/header-footer.css"> 
+<link rel="stylesheet" href="/css/common.css">
     <link rel="stylesheet" href="/css/noticeUser.css">
 </head>
 <body>
@@ -48,9 +48,9 @@
                     </ul>
                 </nav> -->
                 <div class="user-actions">
-                    <a href="/member/mypage"> <span>관리자 님</span></a>
-                    <a href="/member/login"> <span>로그인</span></a>
-                    <span>QR</span>
+<!--                     <a href="/member/mypage"> <span>관리자 님</span></a> -->
+<!--                     <a href="/member/login"> <span>로그인</span></a> -->
+<!--                     <span>QR</span> -->
                     <span th:if="${session.loggedInMember != null}"> <a
 						href="/member/mypage" th:text="${session.loggedInMember + '님'}"></a>
 					</span>

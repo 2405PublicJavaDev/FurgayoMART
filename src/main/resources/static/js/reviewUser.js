@@ -66,6 +66,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     <div class="accordion-content-inner">
                         <h3>${review.reTitle || '제목 없음'}</h3>
                         <p>${review.reContent || '내용 없음'}</p>
+						<br>
                     </div>
                 </div>
             `;
