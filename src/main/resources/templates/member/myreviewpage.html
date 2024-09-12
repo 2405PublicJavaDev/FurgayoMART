@@ -51,21 +51,73 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- 10개의 동일한 행을 생성 -->
-                <tr th:each="i : ${#numbers.sequence(1, 10)}">
+                <tr>
                     <td><input type="checkbox" class="checkbox"></td>
-                    <td>리뷰</td>
-                    <td>항목</td>
-                    <td>2024.08.27</td>
-                    <td><button class="button">삭제</button></td>
+                    <td>상품</td>
+                    <td>재입고 예정일 문의</td>
+                    <td>2024.10.04</td>
+                    <td>답변대기중</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" class="checkbox"></td>
+                    <td>상품</td>
+                    <td>상품 불량으로 인한 교환 신청</td>
+                    <td>2024.10.02</td>
+                    <td>답변대기중</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" class="checkbox"></td>
+                    <td>상품</td>
+                    <td>상품 불량으로 인한 교환 신청</td>
+                    <td>2024.09.25</td>
+                    <td>답변대기중</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" class="checkbox"></td>
+                    <td>상품</td>
+                    <td>상품 불량으로 인한 교환 신청</td>
+                    <td>2024.09.22</td>
+                    <td>답변완료</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" class="checkbox"></td>
+                    <td>상품</td>
+                    <td>상품 상세 정보 추가 요청</td>
+                    <td>2024.09.22</td>
+                    <td>답변완료</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" class="checkbox"></td>
+                    <td>상품 </td>
+                    <td>상품 재입고 예정일 문의</td>
+                    <td>2024.09.22</td>
+                    <td>답변완료</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" class="checkbox"></td>
+                    <td>상품</td>
+                    <td>주문 취소 요청 관련 문의</td>
+                    <td>2024.09.20</td>
+                    <td>답변완료</td>
+                </tr>
+                <tr>
+                    <td><input type="checkbox" class="checkbox"></td>
+                    <td>상품</td>
+                    <td>재입고 예정일 문의</td>
+                    <td>2024.09.15</td>
+                    <td>답변완료</td>
                 </tr>
             </tbody>
         </table>
     </div>
-        
-        <footer>
-		<hr>
-		<div class="footerclass">회사소개 공지사항 문의하기 운영정책</div>
-	</footer>
+       <footer>
+        <hr>
+        <div class="footerclass">
+            <a href="/introduce">회사소개</a>
+            <a href="/notice/user">공지사항</a>
+            <a href="/inquiry">문의하기</a>
+            <a href="/policy">운영정책</a>
+        </div>
+    </footer>
 </body>
 </html>
