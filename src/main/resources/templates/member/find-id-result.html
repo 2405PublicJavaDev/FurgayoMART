@@ -8,31 +8,34 @@
     <title>아이디 찾기 결과</title>
 </head>
 <body>
+	<!-- =========================== 헤더 사이드바 ================================== -->
 	<header>
 		<div class="container">
 			<div class="header-content">
-				<a href="./"><h1 class="logo">Fugayo's Mart</h1></a>
+				<a href="/"><img class="headerimage" src="/images/logo.png" alt="로고입니다만"> </a>
 				<nav>
 					<ul>
-						<li><a href="./">홈</a></li>
+						<li><a href="/">홈</a></li>
 						<li><a href="/productpage/list">상품</a></li>
-						<li><a href="/api/notice/list">공지사항</a></li>
-						<li><a href="#">리뷰</a></li>
+						<li><a href="/notice/user">공지사항</a></li>
+						<li><a href="/review/user">리뷰</a></li>
 					</ul>
 				</nav>
 				<div class="user-actions">
 					<span th:if="${session.loggedInMember != null}"> <a
 						href="/member/mypage" th:text="${session.loggedInMember + '님'}"></a>
-					</span> <span th:unless="${session.loggedInMember != null}">로그인 후
+					</span>
+					 <span th:unless="${session.loggedInMember != null}">로그인 후
 						이용하세요</span> <span th:if="${session.loggedInMember != null}"> <a
 						href="/member/logout">로그아웃</a>
-					</span> <span th:unless="${session.loggedInMember != null}"> <a
+					</span> 
+					<span th:unless="${session.loggedInMember != null}"> <a
 						href="/member/login">로그인</a>
-					</span> <span>🛒</span> <span>QR</span>
+					</span> 
+					 <span>QR</span>
 				</div>
 			</div>
-		</div>
-	</header>
+		</header>
 	<main>
    <h1>아이디(휴대폰 번호) 찾기 결과</h1>
     <div th:if="${message}" th:text="${message}" style="color: green;"></div>

@@ -8,6 +8,34 @@
     <link rel="stylesheet" href="/css/policy.css">
 </head>
 <body>
+<!-- =========================== 헤더 사이드바 ================================== -->
+	<header>
+		<div class="container">
+			<div class="header-content">
+				<a href="/"><img class="headerimage" src="/images/logo.png" alt="로고입니다만"> </a>
+				<nav>
+					<ul>
+						<li><a href="/">홈</a></li>
+						<li><a href="/productpage/list">상품</a></li>
+						<li><a href="/notice/user">공지사항</a></li>
+						<li><a href="/review/user">리뷰</a></li>
+					</ul>
+				</nav>
+				<div class="user-actions">
+					<span th:if="${session.loggedInMember != null}"> <a
+						href="/member/mypage" th:text="${session.loggedInMember + '님'}"></a>
+					</span>
+					 <span th:unless="${session.loggedInMember != null}">로그인 후
+						이용하세요</span> <span th:if="${session.loggedInMember != null}"> <a
+						href="/member/logout">로그아웃</a>
+					</span> 
+					<span th:unless="${session.loggedInMember != null}"> <a
+						href="/member/login">로그인</a>
+					</span> 
+					 <span>QR</span>
+				</div>
+			</div>
+		</header>
 <div id="scaler">
     <div class="container">
         <header>

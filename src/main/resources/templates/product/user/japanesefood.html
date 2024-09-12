@@ -23,14 +23,20 @@
 					</ul>
 				</nav>
 				<div class="user-actions">
-					<span></span>
-					<a href="/member/login"><span>로그인</span></a>
-					<a href="/member/register"><span>회원가입</span></a>
-					<span>QR</span>
+					<span th:if="${session.loggedInMember != null}"> <a
+						href="/member/mypage" th:text="${session.loggedInMember + '님'}"></a>
+					</span>
+					 <span th:unless="${session.loggedInMember != null}">로그인 후
+						이용하세요</span> <span th:if="${session.loggedInMember != null}"> <a
+						href="/member/logout">로그아웃</a>
+					</span> 
+					<span th:unless="${session.loggedInMember != null}"> <a
+						href="/member/login">로그인</a>
+					</span> 
+					 <span>QR</span>
 				</div>
 			</div>
-		</div>
-	</header>
+		</header>
 	<div class="container">
 		<div class="main-content">
 			<div class="departments">
