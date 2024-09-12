@@ -81,8 +81,7 @@ public class MemberController {
 	// 로그인 로직 수행
 	@PostMapping("/login")
 	public String checkLogin(Model model, @RequestParam("memberPhone") String memberPhone,
-			@RequestParam("memberPw") String memberPw, HttpSession session
-			, RedirectAttributes redirectAttributes) {
+							 @RequestParam("memberPw") String memberPw, HttpSession session, RedirectAttributes redirectAttributes) {
 		try {
 			MemberVO member = new MemberVO();
 			member.setMemberPhone(memberPhone);
@@ -92,6 +91,10 @@ public class MemberController {
 			if (member != null) {
 				session.setAttribute("memberNo", member.getMemberNo());
 				session.setAttribute("loggedInMember", member.getMemberName());
+
+				if (member.getMemberNo() == 24) {
+					return "redirect:/admin";
+				}
 				return "redirect:/";
 			} else {
 				redirectAttributes.addFlashAttribute("error", "아이디 또는 비밀번호가 올바르지 않습니다.");

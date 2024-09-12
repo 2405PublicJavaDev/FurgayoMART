@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Furgayo's MART</title>
+    <link rel="stylesheet" href="/css/common.css">
     <link rel="stylesheet" href="/css/introduce.css">
     <link rel="stylesheet" href="/css/header-footer.css"> 
 </head>
 <body>
 <div id="scaler">
-    <div class="header-content">
+   <!--  <div class="header-content">
 				<a href="/"><img class="headerimage" src="/images/logo.png" alt="로고입니다만"> </a>
 				<nav class="harderlinks">
 					<ul>
@@ -33,7 +34,42 @@
 					 <span>QR</span>
 				</div>
 			</div>
-        </header>
+        </header> -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="/" class="logo">
+                    <img src="/images/logo.png" alt="Fugayo's Mart Logo" class="headerimage">
+                </a>
+                <nav>
+                    <ul>
+                        <li><a href="/">홈</a></li>
+                        <li><a href="/productpage/list">상품</a></li>
+                        <li><a href="/notice/user">공지사항</a></li>
+                        <li><a href="/review/user">리뷰</a></li>
+                    </ul>
+                </nav>
+                <div class="user-actions">
+                    <!-- <span>관리자 님</span>
+                    <span>로그인</span>
+                    <span>QR</span> -->
+                    					<span th:if="${session.loggedInMember != null}"> <a
+						href="/member/mypage" th:text="${session.loggedInMember + '님'}"></a>
+					</span>
+					 <span th:unless="${session.loggedInMember != null}">로그인 후
+						이용하세요</span> <span th:if="${session.loggedInMember != null}"> <a
+						href="/member/logout">로그아웃</a>
+					</span> 
+					<span th:unless="${session.loggedInMember != null}"> <a
+						href="/member/login">로그인</a>
+					</span> 
+					 <span>QR</span>
+                    
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="container">
         <main>
             <section class="hero">
                 <h1>Furgayo's MART</h1>
@@ -43,7 +79,8 @@
                     <h2>스캔 한 번으로 여는 미래형 식탁! - Furgayo's MART, QR로 혁신하는 무인 밀키트 매장</h2>
                     <p>여러분의 스마트폰이 곧 키오스크입니다! Furgayo's MART에 오신 것을 환영합니다.</p>
                     <p>Furgayo's MART는 당신의 바쁜 일상에 혁명적인 편리함을 선사합니다. 우리 이름 "Furgayo's"에는 재치 있는 의미가 담겨 있습니다. 인터넷 밈 "퍼가요~♡"에서 영감을 받아, 여러분이 우리의 혁신적 서비스를 마음껏 '퍼가시길' 바라는 마음과 함께, '퍼가요 + 스마트'의 의미를 담아 미래지향적인 쇼핑 경험을 약속합니다.</p>
-                    <button>회원가입</button>
+                    <a href="/member/register"> <button>회원가입</button> </a>
+
                     <div class="image-placeholder">
                         <img src="/images/furgayo_logo2.jpeg" alt="Description" id="left-logo">
                     </div>
@@ -64,16 +101,17 @@
                 </div>
             </section>
         </main>
-        <footer>
-        <hr>
-        <div class="footerclass">
-            <a href="/introduce">회사소개</a>
-            <a href="/notice/user">공지사항</a>
-            <a href="/inquiry">문의하기</a>
-            <a href="/policy">운영정책</a>
-        </div>
-    </footer>
     </div>
+    <footer>
+        <nav>
+            <ul class="footer-text">
+                <li><a href="/introduce">회사 소개</a></li>
+                <li><a href="/notice/user">공지사항</a></li>
+                <li><a href="/inquiry">문의하기</a></li>
+                <li><a href="/policy">운영 정책</a></li>
+            </ul>
+        </nav>
+    </footer>
 </div>
 </body>
 </html>

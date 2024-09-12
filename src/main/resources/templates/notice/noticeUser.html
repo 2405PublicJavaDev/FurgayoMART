@@ -11,7 +11,7 @@
 <div id="scaler">
     <header>
         <div class="container">
-           <div class="header-content">
+           <!-- <div class="header-content">
 				<a href="/"><img class="headerimage" src="/images/logo.png" alt="로고입니다만"> </a>
 				<nav class="harderlinks">
 					<ul>
@@ -34,7 +34,36 @@
 					</span> 
 					 <span>QR</span>
 				</div>
-			</div>
+			</div> -->
+            <div class="header-content">
+                <a href="/" class="logo">
+                    <img src="/images/logo.png" alt="Fugayo's Mart Logo" class="headerimage">
+                </a>
+                <!-- <nav>
+                    <ul>
+                        <li><a href="/">홈</a></li>
+                        <li><a href="/productpage/list">상품</a></li>
+                        <li><a href="/notice/user">공지사항</a></li>
+                        <li><a href="/review/user">리뷰</a></li>
+                    </ul>
+                </nav> -->
+                <div class="user-actions">
+                    <a href="/member/mypage"> <span>관리자 님</span></a>
+                    <a href="/member/login"> <span>로그인</span></a>
+                    <span>QR</span>
+                    <span th:if="${session.loggedInMember != null}"> <a
+						href="/member/mypage" th:text="${session.loggedInMember + '님'}"></a>
+					</span>
+					 <span th:unless="${session.loggedInMember != null}">로그인 후
+						이용하세요</span> <span th:if="${session.loggedInMember != null}"> <a
+						href="/member/logout">로그아웃</a>
+					</span> 
+					<span th:unless="${session.loggedInMember != null}"> <a
+						href="/member/login">로그인</a>
+					</span> 
+					 <span>QR</span>
+                </div>
+            </div>
         </div>
     </header>
     <div class="container">
@@ -73,15 +102,16 @@
                 </div>
             </section>
         </main>
-         <footer>
-        <hr>
-        <div class="footerclass">
-            <a href="/introduce">회사소개</a>
-            <a href="/notice/user">공지사항</a>
-            <a href="/inquiry">문의하기</a>
-            <a href="/policy">운영정책</a>
-        </div>
-    </footer>
+        <footer>
+            <nav>
+                <ul class="footer-text">
+                    <li><a href="/introduce">회사 소개</a></li>
+                    <li><a href="/notice/user">공지사항</a></li>
+                    <li><a href="/inquiry">문의하기</a></li>
+                    <li><a href="/policy">운영 정책</a></li>
+                </ul>
+            </nav>
+        </footer>
     </div>
 </div>
 <script src="/js/noticeUser.js"></script>

@@ -446,3 +446,20 @@ footer {
         padding: 20px;
     }
 }
+
+
+/* 링크 기본 스타일 */
+a {
+    text-decoration: none; /* 언더라인 없애기 */
+    color: black; /* 기본 색상 */
+}
+
+/* 링크를 클릭한 후에도 색상 변화 방지 */
+a:visited {
+    color: black; /* 클릭 후에도 보라색으로 바뀌지 않게 함 */
+}
+
+/* 호버 시 색상 변화 (필요 시 수정) */
+a:hover {
+    color: #007bff; /* 마우스 호버 시 색상 */
+}
