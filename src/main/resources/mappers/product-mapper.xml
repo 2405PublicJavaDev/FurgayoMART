@@ -291,4 +291,9 @@
         WHERE 
             p.P_NO = #{pNo}
 </select>
+	
+	<!-- 구매완료 페이지에서 상품명 로드하기 위한 쿼리문 -->
+	<select id="getProductByPname" resultType="com.mart.boot.product.model.vo.ProductVO">
+		SELECT * FROM PRODUCT WHERE P_NAME = #{pName}
+	</select>
 </mapper>

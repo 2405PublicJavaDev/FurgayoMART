@@ -1,89 +1,146 @@
 @charset "UTF-8";
-body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
+body, html {
     margin: 0;
     padding: 0;
-}
-
-header {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
     background-color: #f4f4f4;
-    padding: 1rem;
-}
-
-nav ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-nav ul li {
-    display: inline;
-    margin-right: 10px;
-}
-
-nav ul li a {
-    text-decoration: none;
-    color: #333;
 }
 
 main {
-    width: 80%;
-    margin: 2rem auto;
+    padding: 40px 0;
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
-h1, h2, h3 {
+.main-header {
+    background-color: #fff;
+    padding: 20px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.main-header h1 {
+    font-size: 32px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.main-header p {
+    font-size: 16px;
+    color: #666;
+}
+
+.form-container {
+    padding: 20px;
+}
+
+h2 {
+    font-size: 24px;
+    margin-top: 30px;
+    margin-bottom: 20px;
     color: #333;
 }
 
 form {
-    background-color: #f9f9f9;
-    padding: 2rem;
-    border-radius: 5px;
+    max-width: 600px;
 }
 
-form div {
-    margin-bottom: 1rem;
+.form-group {
+    margin-bottom: 20px;
 }
 
 label {
     display: block;
-    margin-bottom: 0.5rem;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
 }
 
-input[type="text"],
+input[type="tel"],
 input[type="password"],
+input[type="text"],
 input[type="email"] {
-    width: 100%;
-    padding: 0.5rem;
+    width: 40%;
+    padding: 10px;
     border: 1px solid #ddd;
-    border-radius: 3px;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.ec-base-box {
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 4px;
+}
+
+.ec-base-box.typeThinBg {
+    background-color: #f9f9f9;
+}
+
+.ec-base-box.gStrong {
+    background-color: #f0f0f0;
+}
+
+.content {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #eee;
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: #fff;
+}
+
+.check {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+    padding: 0;
+}
+
+.check li {
+    list-style: none;
+    margin-bottom: 10px;
+}
+
+.check input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.ec-base-chk {
+    display: inline-block;
+    position: relative;
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
 }
 
 button {
-    background-color: #333;
-    color: #fff;
-    padding: 0.5rem 1rem;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
     border: none;
-    border-radius: 3px;
+    border-radius: 4px;
     cursor: pointer;
+    font-size: 16px;
+    width: 100%;
+    margin-top: 20px;
 }
 
 button:hover {
-    background-color: #555;
+    background-color: #45a049;
 }
 
-footer {
-    background-color: #333;
-    color: #fff;
-    text-align: center;
-    padding: 1rem;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-}
-
-footer button {
-    background-color: #fff;
+/* 추가된 스타일 */
+.ec-base-box h3 {
+    margin-top: 0;
     color: #333;
-    margin: 0 10px;
+}
+
+.check span {
+    font-weight: bold;
+    margin-right: 10px;
 }

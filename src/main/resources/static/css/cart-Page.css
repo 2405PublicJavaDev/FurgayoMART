@@ -1,0 +1,173 @@
+@charset "UTF-8";
+
+html, body {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+
+.container {
+	flex: 1 0 auto;
+	display: flex;
+	flex-direction: column;
+/* 	min-height: calc(100vh - 120px); 헤더와 푸터의 높이를 뺀 값 */
+}
+
+main {
+	flex: 1 0 auto;
+	display: flex;
+	flex-direction: column;
+}
+
+main::after {
+	content : '';
+	display: block;
+	height: 60px;
+}
+
+.cart-container {
+	max-width: 1200px;
+	margin: 0 auto;
+	padding: 20px;
+	flex: 1 0 auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+}
+
+.cart-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	margin-bottom: 30px;
+}
+
+.cart-title h1 {
+	font-size: 24px;
+	margin-bottom: 10px;
+}
+
+.cart-title p {
+	font-size: 14px;
+	color: #666;
+}
+
+.cart-image img {
+	max-width: 200px;
+	height: auto;
+}
+
+.cart-items {
+	margin-bottom: 30px;
+}
+
+.cart-item {
+	display: flex;
+	align-items: center;
+	padding: 15px 0;
+	border-bottom: 1px solid #eee;
+}
+
+.item-check {
+	margin-right: 15px;
+}
+
+.item-image {
+	width: 80px;
+	height: 80px;
+	object-fit: cover;
+	margin-right: 15px;
+}
+
+.item-details {
+	flex-grow: 1;
+}
+
+.item-name {
+	font-size: 16px;
+	margin-bottom: 5px;
+}
+
+.item-price {
+	font-size: 14px;
+	color: #666;
+}
+
+.item-quantity {
+	display: flex;
+	align-items: center;
+	margin-top: 10px;
+}
+
+.quantity-btn {
+	width: 30px;
+	height: 30px;
+	background-color: #f0f0f0;
+	border: none;
+	cursor: pointer;
+}
+
+.quantity-input {
+	width: 40px;
+	height: 30px;
+	text-align: center;
+	margin: 0 5px;
+}
+
+.delete-btn {
+	padding: 5px 10px;
+	background-color: #ff4d4d;
+	color: white;
+	border: none;
+	cursor: pointer;
+}
+
+.cart-summary {
+	background-color: #f9f9f9;
+	padding: 20px;
+	margin-bottom: 30px;
+}
+
+.payment-section {
+	display: flex;
+	justify-content: space-between;
+}
+
+.payment-method {
+	flex-basis: 45%;
+}
+
+.payment-method h3 {
+	margin-bottom: 10px;
+}
+
+.payment-summary {
+	flex-basis: 45%;
+	text-align: right;
+}
+
+#checkout-btn {
+	margin-top: 10px;
+	padding: 10px 20px;
+	background-color: #4CAF50;
+	color: white;
+	border: none;
+	cursor: pointer;
+}
+
+.empty-cart {
+	/* 	text-align: center; */
+	/* 	padding: 50px 0; */
+	/* 	font-size: 18px; */
+	/* 	color: #666; */
+	flex: 1 0 auto;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}

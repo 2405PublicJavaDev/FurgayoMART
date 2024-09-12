@@ -190,6 +190,14 @@ public interface ProductMapper {
 	 * @param pNo
 	 * @return ProductVO
 	 */
+	
 	ProductVO getProductWithDetail(int pNo);
+	/**
+	 * 
+	 * 구매완료페이지 상품명 조회
+	 * @param getpName
+	 * @return
+	 */
+	ProductVO getProductByPname(String getpName);
 
 }

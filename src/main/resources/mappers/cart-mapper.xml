@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mart.boot.cart.model.mapper.CartMapper">
+
+    <select id="selectCartItemByProductAndMember" resultType="CartVO">
+        SELECT * FROM CART
+        WHERE MEMBER_NO = #{memberNo} AND P_NO = #{pNo}
+    </select>
+
+    <select id="selectCartItems" resultType="CartVO">
+        SELECT C.*, P.P_NAME, P.P_PRICE, P.SALE
+        FROM CART C
+        JOIN PRODUCT P ON C.P_NO = P.P_NO
+        WHERE C.MEMBER_NO = #{memberNo}
+    </select>
+
+    <update id="updateCartItem" parameterType="CartVO">
+        UPDATE CART
+        SET QUANTITY = #{quantity}, 
+            ADDED_AT = #{addedAt}
+        WHERE CART_ITEM_NO = #{cartItemNo} AND MEMBER_NO = #{memberNo}
+    </update>
+
+    <delete id="deleteCartItem">
+        DELETE FROM CART
+        WHERE CART_ITEM_NO = #{cartItemNo} AND MEMBER_NO = #{memberNo}
+    </delete>
+
+    <update id="updateCartItemQuantity">
+        UPDATE CART
+        SET QUANTITY = #{quantity}
+        WHERE CART_ITEM_NO = #{cartItemNo} AND MEMBER_NO = #{memberNo}
+    </update>
+
+    <insert id="insertCartItem" parameterType="CartVO">
+        INSERT INTO CART (MEMBER_NO, P_NO, P_NAME, P_PRICE, IMAGE_URL, QUANTITY, SALE, ADDED_AT)
+        VALUES (#{memberNo}, #{pNo}, #{pName}, #{pPrice}, #{imageUrl}, #{quantity}, #{sale}, #{addedAt})
+    </insert>
+
+</mapper>

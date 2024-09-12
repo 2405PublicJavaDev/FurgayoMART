@@ -16,14 +16,14 @@ public interface MemberService {
 	 * @param member
 	 * @return MemberVO
 	 */
-	MemberVO checkMemberLogin(MemberVO member);
+	MemberVO checkMemberLogin(MemberVO member) throws Exception;
 
 	/**
 	 * 마이페이지
-	 * @param memberPhone
+	 * @param memberNo
 	 * @return MemberVO
 	 */
-	MemberVO selectOneByPhone(String memberPhone);
+	MemberVO selectOneByNo(Long memberNo);
 
 	/**
 	 * 회원정보 수정
@@ -45,7 +45,18 @@ public interface MemberService {
 	 * @param name
 	 * @return String
 	 */
-	String findIdByEmailAndName(String email, String name);
+	String findIdByEmailAndName(String email, String name) throws Exception;
+
+	/**
+	 * 비밀번호 찾기
+	 * @param email
+	 * @param phone
+	 * @param name
+	 * @return String
+	 */
+	String findPwByEmailAndPhoneAndName(String email, String phone, String name);
+
+
 	
 //	/**
 //	 * 지정된 이메일 주소로 인증 코드를 발송

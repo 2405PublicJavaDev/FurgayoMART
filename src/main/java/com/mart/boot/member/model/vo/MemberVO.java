@@ -8,6 +8,12 @@ public class MemberVO {
     private String memberEmail;		// 회원 이메일
     private String adminYn = "N";        // 관리자 여부
     
+    // 동의 항목 추가
+    private String termsAgreementYn;
+    private String privacyAgreementYn;
+    private String smsAgreementYn;
+    private String emailAgreementYn;
+    
     // Getters and Setters
 	public Long getMemberNo() { 
 		return memberNo;
@@ -46,9 +52,35 @@ public class MemberVO {
 	public void setAdminYn(String adminYn) {
 		this.adminYn = adminYn;
 	}
+	public String getTermsAgreementYn() {
+		return termsAgreementYn;
+	}
+	public void setTermsAgreementYn(String termsAgreementYn) {
+		this.termsAgreementYn = termsAgreementYn;
+	}
+	public String getPrivacyAgreementYn() {
+		return privacyAgreementYn;
+	}
+	public void setPrivacyAgreementYn(String privacyAgreementYn) {
+		this.privacyAgreementYn = privacyAgreementYn;
+	}
+	public String getSmsAgreementYn() {
+		return smsAgreementYn;
+	}
+	public void setSmsAgreementYn(String smsAgreementYn) {
+		this.smsAgreementYn = smsAgreementYn;
+	}
+	public String getEmailAgreementYn() {
+		return emailAgreementYn;
+	}
+	public void setEmailAgreementYn(String emailAgreementYn) {
+		this.emailAgreementYn = emailAgreementYn;
+	}
 	@Override
 	public String toString() {
 		return "MemberVO [memberNo=" + memberNo + ", memberPhone=" + memberPhone + ", memberPw=" + memberPw
-				+ ", memberName=" + memberName + ", memberEmail=" + memberEmail + ", adminYn=" + adminYn + "]";
+				+ ", memberName=" + memberName + ", memberEmail=" + memberEmail + ", adminYn=" + adminYn
+				+ ", termsAgreementYn=" + termsAgreementYn + ", privacyAgreementYn=" + privacyAgreementYn
+				+ ", smsAgreementYn=" + smsAgreementYn + ", emailAgreementYn=" + emailAgreementYn + "]";
 	}
 }

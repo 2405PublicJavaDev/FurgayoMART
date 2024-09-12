@@ -13,6 +13,9 @@ header {
     top: 0;
     z-index: 1000;
     text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .header-content {
@@ -48,10 +51,11 @@ nav ul li a {
     font-weight: bold;
     transition: color 0.3s ease;
 }
-.headerimage{
+/* ========================================================================== 수정부분================================================  */
+/* .headerimage{
 	width:250px;
 	height:40px;
-}
+} */
 /* ================================== 카테고리 ================================== */
 .container {
     max-width: 1200px;
@@ -96,6 +100,7 @@ nav ul li a {
 .show {
     display: block;
 }
+
 /* =========================== 발바닥 ================================ */
 .footerclass {
     text-align: center;

@@ -1,9 +1,14 @@
 package com.mart.boot.member.model.service.impl;
 
+import java.util.UUID;
+
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mart.boot.member.emailconfig.EmailConfig;
+import com.mart.boot.member.emailconfig.EmailService;
 import com.mart.boot.member.model.mapper.MemberMapper;
 import com.mart.boot.member.model.service.MemberService;
 import com.mart.boot.member.model.vo.MemberVO;
@@ -17,25 +22,37 @@ public class MemberServiceImpl implements MemberService {
 	
 	@Autowired
 	private MemberMapper mStore;
+	
+	@Autowired
+	private EmailService eService;
+
 
 	
+    @Override
+    public int insertMember(MemberVO member) throws Exception {
+        member.setSmsAgreementYn(member.getSmsAgreementYn() != null ? member.getSmsAgreementYn() : "N");
+        member.setEmailAgreementYn(member.getEmailAgreementYn() != null ? member.getEmailAgreementYn() : "N");
+
+        int result = mStore.insertMember(member);
+        if (result <= 0) {
+            throw new RuntimeException("회원 등록에 실패했습니다.");
+        }
+        return result;
+    }
+
 	@Override
-	public int insertMember(MemberVO member) throws Exception {
-		int result = mStore.insertMember(member);
-		return result;
+	public MemberVO checkMemberLogin(MemberVO member) throws Exception {
+		MemberVO loggedInMember = mStore.checkMemberLogin(member);
+		if (loggedInMember != null) {
+			loggedInMember.setMemberPw(null);
+		}
+		return loggedInMember;
 	}
 
 
 	@Override
-	public MemberVO checkMemberLogin(MemberVO member) {
-		MemberVO result = mStore.checkMemberLogin(member);
-		return result;
-	}
-
-
-	@Override
-	public MemberVO selectOneByPhone(String memberPhone) {
-		MemberVO member = mStore.selectOneByPhone(memberPhone);
+	public MemberVO selectOneByNo(Long memberNo) {
+		MemberVO member = mStore.selectOneByNo(memberNo);
 		return member;
 	}
 
@@ -55,12 +72,33 @@ public class MemberServiceImpl implements MemberService {
 
 
 	@Override
-	public String findIdByEmailAndName(String email, String name) {
+	public String findIdByEmailAndName(String email, String name) throws Exception{
 		MemberVO member = mStore.selectMemberByEmailAndName(email, name);
-		return member != null ? member.getMemberPhone() : null;
+		if (member != null) {
+//			emailConfig.sendIdRevoveryEmail(email, member.getMemberPhone());
+			return member.getMemberPhone();
+		}
+		return null;
 	}
 	
-	
+	@Override
+	public String findPwByEmailAndPhoneAndName(String email, String phone, String name) {
+		MemberVO member = mStore.selectPwMemberByEmailAndPhoneAndName(email, phone, name);
+		if (member != null) {
+			String tempPassword = generateTempPassword();
+			member.setMemberPw(tempPassword);
+			mStore.updateMemberPassword(member);
+			eService.sendPasswordResetEmail(member.getMemberEmail(), tempPassword);
+//			emailConfig.sendPasswordResetEmail(member.getMemberEmail(), tempPassword);
+			return tempPassword;
+		}
+		return null;
+	}
+
+
+	private String generateTempPassword() {
+		return UUID.randomUUID().toString().substring(0, 8);
+	}
 	
 //	@Override
 //	public String sendVerificationEmail(String email) {

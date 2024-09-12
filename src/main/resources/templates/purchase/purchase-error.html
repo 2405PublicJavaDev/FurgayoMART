@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>구매 오류</title>
+<link rel="stylesheet" href="/css/header-footer.css">
+</head>
+<body>
+	<header>
+		<div class="container">
+			<div class="header-content">
+				<a href="./"><h1 class="logo">Fugayo's Mart</h1></a>
+				<nav>
+					<ul>
+						<li><a href="./">홈</a></li>
+						<li><a href="/productpage/list">상품</a></li>
+						<li><a href="/api/notice/list">공지사항</a></li>
+						<li><a href="#">리뷰</a></li>
+					</ul>
+				</nav>
+				<div class="user-actions">
+					<span th:if="${session.loggedInMember != null}"> <a
+						href="/member/mypage" th:text="${session.loggedInMember + '님'}"></a>
+					</span> <span th:unless="${session.loggedInMember != null}">로그인 후
+						이용하세요</span> <span th:if="${session.loggedInMember != null}"> <a
+						href="/member/logout">로그아웃</a>
+					</span> <span th:unless="${session.loggedInMember != null}"> <a
+						href="/member/login">로그인</a>
+					</span> <span>🛒</span> <span>QR</span>
+				</div>
+			</div>
+		</div>
+	</header>			</div>
+		</div>
+	</header>
+	<main>
+		<div class="error-container">
+			<h1>구매 처리 중 오류가 발생했습니다</h1>
+			<p th:text="${error}">오류 메시지</p>
+			<a href="/" class="btn-home">홈으로 돌아가기</a>
+		</div>
+	</main>
+	<footer>
+		<hr>
+		<div class="footerclass">회사소개 공지사항 문의하기 운영정책</div>
+	</footer>
+</body>
+</html>

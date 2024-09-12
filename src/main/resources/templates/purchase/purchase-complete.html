@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>구매 완료</title>
+<link rel="stylesheet" href="/css/header-footer.css">
+<link rel="stylesheet" th:href="@{/css/purchase-complete.css}">
+</head>
+<body>
+	<header>
+		<div class="container">
+			<div class="header-content">
+				<a href="./"><h1 class="logo">Fugayo's Mart</h1></a>
+				<nav>
+					<ul>
+						<li><a href="./">홈</a></li>
+						<li><a href="/productpage/list">상품</a></li>
+						<li><a href="/api/notice/list">공지사항</a></li>
+						<li><a href="#">리뷰</a></li>
+					</ul>
+				</nav>
+				<div class="user-actions">
+					<span th:if="${session.loggedInMember != null}"> <a
+						href="/member/mypage" th:text="${session.loggedInMember + '님'}"></a>
+					</span> <span th:unless="${session.loggedInMember != null}">로그인 후
+						이용하세요</span> <span th:if="${session.loggedInMember != null}"> <a
+						href="/member/logout">로그아웃</a>
+					</span> <span th:unless="${session.loggedInMember != null}"> <a
+						href="/member/login">로그인</a>
+					</span> <span>🛒</span> <span>QR</span>
+				</div>
+			</div>
+		</div>
+	</header>
+	<main>
+		<div class="purchase-complete-container">
+			<h1>구매가 완료되었습니다</h1>
+			<input type="hidden" name="pName" th:value="${product.pName}">
+			<div class="purchase-details">
+				<h2>구매 정보</h2>
+				<p>
+					상품명: <span th:text="${product.pName}"></span>
+				</p>
+				<p>
+					수량: <span th:text="${purchase.quantity}"></span>
+				</p>
+				<p>
+					총 구매금액: <span
+						th:text="${#numbers.formatDecimal(purchase.totalAmount, 0, 'COMMA', 0, 'POINT')}">0</span>원
+				</p>
+			</div>
+			<div class="bank-info">
+				<h2>무통장입금 정보</h2>
+				<pre th:text="${bankInfo}"></pre>
+			</div>
+			<p class="warning">위 계좌로 입금 기한 내에 입금해 주세요. 입금 확인 후 주문이 완료됩니다.</p>
+			<a href="/" class="btn-home">홈으로 돌아가기</a>
+		</div>
+	</main>
+	<footer>
+		<hr>
+		<div class="footerclass">회사소개 공지사항 문의하기 운영정책</div>
+	</footer>
+</body>
+</html>

@@ -4,10 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>마이페이지</title>
+    <link rel="stylesheet" href="/css/header-footer.css">
     <link rel="stylesheet" th:href="@{/css/mypage.css}">
 </head>
 <body>
-    <!-- <header th:replace="fragments/header :: header"></header> -->
+	<header>
+		<div class="container">
+			<div class="header-content">
+				<a href="./"><h1 class="logo">Fugayo's Mart</h1></a>
+				<nav>
+					<ul>
+						<li><a href="./">홈</a></li>
+						<li><a href="/productpage/list">상품</a></li>
+						<li><a href="/api/notice/list">공지사항</a></li>
+						<li><a href="#">리뷰</a></li>
+					</ul>
+				</nav>
+				<div class="user-actions">
+					<span th:if="${session.loggedInMember != null}"> <a
+						href="/member/mypage" th:text="${session.loggedInMember + '님'}"></a>
+					</span> <span th:unless="${session.loggedInMember != null}">로그인 후
+						이용하세요</span> <span th:if="${session.loggedInMember != null}"> <a
+						href="/member/logout">로그아웃</a>
+					</span> <span th:unless="${session.loggedInMember != null}"> <a
+						href="/member/login">로그인</a>
+					</span> <span>🛒</span> <span>QR</span>
+				</div>
+			</div>
+		</div>
+	</header>
     <main>
         <div class="mypage-header">
             <h1>마이페이지</h1>
@@ -32,28 +57,29 @@
                 <h2>2. 추가 정보</h2>
                 <div class="grid-container">
                     <div class="grid-item">
-                        <h3>회원 정보 수정</h3>
+                        <h3>회원 정보</h3>
                         <a th:href="@{/member/update}" class="btn btn-primary">정보 수정하기</a>
                     </div>
                     <div class="grid-item">
                         <h3>장바구니</h3>
-<!--                         <a th:href="@{/cart}" class="btn btn-secondary">장바구니 보기</a> -->
+                        <a th:href="@{/member/my-cart}" class="btn btn-secondary">장바구니 보기</a>
                     </div>
                     <div class="grid-item">
                         <h3>나의 구매내역</h3>
-<!--                         <a th:href="@{/orders}" class="btn btn-secondary">구매내역 보기</a> -->
+                        <a th:href="@{member/my-purchase}" class="btn btn-secondary">구매내역 보기</a>
                     </div>
                     <div class="grid-item">
                         <h3>나의 리뷰내역</h3>
-<!--                         <a th:href="@{/reviews}" class="btn btn-secondary">리뷰내역 보기</a> -->
+                        <a th:href="@{/member/my-review}" class="btn btn-secondary">리뷰내역 보기</a>
                     </div>
                 </div>
             </div>
         </section>
     </main>
-
-    <!-- <footer th:replace="fragments/footer :: footer"></footer> -->
-
+		<footer>
+		<hr>
+		<div class="footerclass">회사소개 공지사항 문의하기 운영정책</div>
+	</footer>
     <script th:src="@{/js/mypage.js}"></script>
 </body>
 </html>
