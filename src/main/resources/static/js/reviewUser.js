@@ -199,3 +199,21 @@ document.addEventListener('DOMContentLoaded', function () {
     // 초기 로드 시 모든 리뷰 불러오기
     fetchUserReviews();
 });
+
+function toggleDepartments() {
+    var dropdown = document.getElementById("departmentsDropdown");
+    dropdown.classList.toggle("show");
+}
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(event) {
+    if (!event.target.matches('.departments-btn')) {
+        var dropdowns = document.getElementsByClassName("departments-content");
+        for (var i = 0; i < dropdowns.length; i++) {
+            var openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains('show')) {
+                openDropdown.classList.remove('show');
+            }
+        }
+    }
+}
