@@ -1,11 +1,17 @@
 @charset "UTF-8";
 /* 전체 */
-body {
-    margin: 0 auto;
+html, body {
+    margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-    width: 1440px;
-    height: 1696px;
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 
@@ -45,17 +51,18 @@ a:visited, a:active, a:hover {
     flex-grow: 1;
 }
 
-/* 사이드바 */
+/* 사이드바 스타일 */
 .sidebar {
     background-color: #f1f1f1;
     width: 200px;
     padding: 20px;
-    box-sizing: border-box;
-    flex-shrink: 0;
+    height: 100%;
+    margin: 0;
 }
 
 .sidebar li {
     list-style: none;
+    position: relative;
 }
 
 .sidebar a {
@@ -65,40 +72,43 @@ a:visited, a:active, a:hover {
     padding: 10px;
 }
 
-.sidebar a:hover {
+.sidebar a:hover, .sidebar a.active {
     background-color: #ddd;
 }
 
-.dropdown-content {
+.content {
+    padding:0 20px;
+    flex-grow: 1;
+}
+
+/* 드롭다운 메뉴 */
+.sidebar .dropdown-content {
     display: none;
     padding-left: 20px;
 }
 
-.dropdown:hover .dropdown-content {
+.sidebar .dropdown-content.show {
     display: block;
+    padding: 10px;
 }
 
-.dropdown-content li {
-    margin-top: 5px;
+.sidebar .dropdown-content a {
+    padding: 10px;
 }
 
-.dropdown-content a {
-    padding: 5px 10px;
-}
-
-.dropbtn::after {
-    content: ' ▽';
+.sidebar .dropbtn::after {
+    content: ' ▼';
     font-size: 12px;
 }
 
-.dropdown:hover .dropbtn::after {
-    content: ' △';
+.sidebar .dropbtn.active::after {
+    content: ' ▲';
 }
 
 /* 콘텐츠 영역 */
 .content {
     flex-grow: 1;
-    padding: 20px;
+    padding:0 20px;
 }
 
 .content h2 {
@@ -164,22 +174,22 @@ a:visited, a:active, a:hover {
     border-radius: 3px;
 }
 
-textarea {
+.content textarea {
     width: 100%;
     height: 100px;
-    padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 5px;
     resize: vertical;
     font-family: inherit;
     font-size: inherit;
 }
 
-textarea:focus {
+.content textarea:focus {
     outline: none;
     border-color: #007bff;
     box-shadow: 0 0 0 2px rgba(0,123,255,.25);
 }
+
 /* 이미지 업로드 버튼 */
 .image-upload {
     width: 100%;

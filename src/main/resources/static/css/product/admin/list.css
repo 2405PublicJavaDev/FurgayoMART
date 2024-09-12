@@ -1,12 +1,18 @@
 @charset "UTF-8";
 
 /* 전체 스타일 */
-body {
-    margin: 0 auto;
+html, body {
+    margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
-    width: 1440px;
-    height: 1696px;
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 /* 헤더 스타일 */
@@ -49,12 +55,13 @@ a:visited, a:active, a:hover {
     background-color: #f1f1f1;
     width: 200px;
     padding: 20px;
-    box-sizing: border-box;
-    flex-shrink: 0;
+    height: 100%;
+    margin: 0;
 }
 
 .sidebar li {
     list-style: none;
+    position: relative;
 }
 
 .sidebar a {
@@ -64,53 +71,54 @@ a:visited, a:active, a:hover {
     padding: 10px;
 }
 
-.sidebar a:hover {
+.sidebar a:hover, .sidebar a.active {
     background-color: #ddd;
 }
 
 .content {
-    padding-left: 20px;
+    padding:0 20px;
     flex-grow: 1;
 }
 
-.dropdown-content {
+/* 드롭다운 메뉴 */
+.sidebar .dropdown-content {
     display: none;
     padding-left: 20px;
 }
 
-.dropdown:hover .dropdown-content {
+.sidebar .dropdown-content.show {
     display: block;
+    padding: 10px;
 }
 
-.dropdown-content li {
-    margin-top: 5px;
+.sidebar .dropdown-content a {
+    padding: 10px;
 }
 
-.dropdown-content a {
-    padding: 5px 10px;
-}
-
-.dropbtn::after {
-    content: ' ▽';
+.sidebar .dropbtn::after {
+    content: ' ▼';
     font-size: 12px;
 }
 
-.dropdown:hover .dropbtn::after {
-    content: ' △';
+.sidebar .dropbtn.active::after {
+    content: ' ▲';
 }
 
 /* search-form */
 .search-form {
+    margin-right: 5px;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
     display: flex;
     justify-items: space-between;
     justify-content: space-between;
+    flex-shrink:1;
 }
 
 .search-form label {
     margin: 0 10px;
+    font-size: 18px;
 }
 .search-form input, .search-form select {
     padding: 5px;
@@ -122,13 +130,14 @@ a:visited, a:active, a:hover {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    width: 23%;
 }
 .date-range input {
     display: flex;
     align-items: center;
     justify-content: center;
     flex: 1;
-    width: 130px;
+    width: 45%;
     text-align: center;
     border-radius: 5px;
 }
@@ -138,10 +147,11 @@ a:visited, a:active, a:hover {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    width: 12%;
 }
 .category-range select {
     display: flex;
-    width: 90px;
+    width: 25%;
     align-items: center;
     justify-content: center;
     flex: 1;
@@ -159,9 +169,10 @@ a:visited, a:active, a:hover {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    width: 17%;
 }
 .remainingDays-range input {
-    width: 50px;
+    width: 30%;
     margin-right: 3px;
     border-radius: 5px;
 }
@@ -171,9 +182,10 @@ a:visited, a:active, a:hover {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    width: 42.55%;
 }
 .productName-range input {
-    width: 200px;
+    width: 85%;
     border-radius: 5px;
 }
 
@@ -203,7 +215,7 @@ th {
 
 /* 페이지네이션 */
 .paginate-wrap {
-    margin-top: 30px;
+    margin:30px 0;
     font-family: Arial, sans-serif;
 }
 
