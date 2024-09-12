@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>상품 등록</title>
+<link rel="stylesheet" href="/css/commonAdmin.css">
 <link rel="stylesheet" href="/css/product/admin/register.css">
 </head>
 <body>
@@ -22,12 +23,9 @@
                     <a href="#">리뷰 관리</a>
                 </li>
                 <li>
-                    <a href="#">회원 관리</a>
-                </li>
-                <li class="dropdown">
-                    <a href="#" class="dropbtn">상품 관리 <span class="arrow"></span></a>
+                    <a href="#" class="dropbtn">상품 관리</a>
                     <ul class="dropdown-content">
-                        <li><a href="/admin/product/register" style="font-weight: bold;">상품 등록</a></li>
+                        <li><a href="/admin/product/register" class="active">상품 등록</a></li>
                         <li><a href="/admin/product/list">상품 조회</a></li>
                     </ul>
                 </li>
@@ -139,6 +137,14 @@
             </form>
         </div>
     </div>
+    <!-- <footer>
+		<ul class="footer-text">
+			<li><a href="/introduce">회사 소개</a></li>
+			<li><a href="/notice/admin">공지사항</a></li>
+			<li><a href="/inquiry">문의 하기</a></li>
+			<li><a href="/policy">운영 정책</a></li>
+		</ul>
+	</footer> -->
     <script>
     	function reLoad() {
     		location.reload();
@@ -163,8 +169,19 @@
         // 입고량, 출고량
         const pInput = document.getElementById('pInput');
         const pOutput = document.getElementById('pOutput');
-        const form = document.querySelector('form'); 
+        const form = document.querySelector('form');
+        
+        // 입고량 검증
+        function validateInput() {
+            const inputVal = parseInt(pInput.value);
+            
+            if (isNaN(inputVal) || inputVal <= 0) {
+                alert("입고량을 올바르게 입력하세요.");
+                pInput.value = "";
+            }
+        }
 
+        // 출고량 검증
         function validateOutput() {
             const inputVal = parseInt(pInput.value);
             const outputVal = parseInt(pOutput.value);
@@ -174,8 +191,10 @@
                 pOutput.value = "";
             }
         }
-        pOutput.addEventListener('input', validateOutput);
+
+        // 이벤트 리스너 추가
         pInput.addEventListener('input', validateInput);
+        pOutput.addEventListener('input', validateOutput);
 
         form.addEventListener('submit', function(event) {
             const inputVal = parseInt(pInput.value);
@@ -186,6 +205,20 @@
                 event.preventDefault(); 
             }
         });
+
+        document.addEventListener('DOMContentLoaded', function() {
+			var dropbtns = document.querySelectorAll('.sidebar .dropbtn');
+			
+			dropbtns.forEach(function(btn) {
+				btn.addEventListener('click', function(e) {
+					e.preventDefault();
+					this.classList.toggle('active');
+					var content = this.nextElementSibling;
+					content.classList.toggle('show');
+				});
+			});
+		});
+
     </script>
 </body>
 </html>
