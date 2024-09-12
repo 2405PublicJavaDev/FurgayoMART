@@ -9,95 +9,117 @@
 </head>
 <body>
 <div id="scaler">
-    <div class="container">
-        <header>
-            <nav>
-                <a href="#" class="logo">로고</a>
-                <ul class="menu-items">
-                    <li><a href="#">홈</a></li>
-                    <li><a href="#">리뷰</a></li>
-                    <li><a href="#">공지사항</a></li>
-                    <li><a href="#">문의하기</a></li>
-                    <li><a href="#">***** 님 로그아웃</a></li>
-                </ul>
-            </nav>
-        </header>
-        <main>
-            <section class="hero">
-                <h1>리뷰 페이지에 오신걸 환영 합니다</h1>
-                <p>제품 리뷰를 확인 해보세요</p>
-                <div class="search-container">
-                    <select id="search-type">
-                        <option value="productName">상품명</option>
-                        <option value="content">내용</option>
-                    </select>
-                    <input type="text" id="search-input" placeholder="검색할 내용을 입력 해주세요">
-                    <button class="primary-btn" id="search-button">리뷰 검색</button>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="./mainpage.html" class="logo">
+                    <img src="/images/로고.PNG" alt="Fugayo's Mart Logo" class="headerimage">
+                </a>
+                <nav>
+                    <ul>
+                        <li><a href="./mainpage.html">홈</a></li>
+                        <li><a href="./productpage.html">상품</a></li>
+                        <li><a href="#">공지사항</a></li>
+                        <li><a href="#">리뷰</a></li>
+                    </ul>
+                </nav>
+                <div class="user-actions">
+                    <span>****님</span>
+                    <span>로그인</span>
+                    <span>QR</span>
                 </div>
-            </section>
-            <section class="reviews">
-                <div class="reviews-container">
-                    <div class="reviews-left">
-                        <h2>고객 리뷰</h2>
-                        <p>다른 고객들은 어떻게 리뷰를 남겼는지 확인해 보세요</p>
-                        <button class="secondary-btn" id="view-all-button">모든 리뷰 보기</button>
-                        <div id="recent-reviews">
-                            <!-- 최근 리뷰는 JavaScript로 동적으로 추가됩니다 -->
-                        </div>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <div class="main-content">
+            <div class="departments">
+                <button onclick="toggleDepartments()" class="departments-btn">상품목록 ▼</button>
+                <div id="departmentsDropdown" class="departments-content">
+                    <a href="#">신규상품</a>
+                    <a href="./popularproducts.html">인기상품</a>
+                    <a href="./koreanfood.html">한식</a>
+                    <a href="./chinesefood.html">중식</a>
+                    <a href="./japanesefood.html">양식</a>
+                    <a href="./productpage.html">유통기한 임박 상품</a>
+                </div>
+            </div>
+            <main>
+                <section class="hero">
+                    <h1>리뷰 페이지에 오신걸 환영 합니다</h1>
+                    <p>제품 리뷰를 확인 해보세요</p>
+                    <div class="search-container">
+                        <select id="search-type">
+                            <option value="pname">상품명</option>
+                            <option value="reContent">내용</option>
+                            <option value="reTitle">제목</option>
+                        </select>
+                        <input type="text" id="search-keyword" placeholder="검색할 내용을 입력 해주세요">
+                        <button class="primary-btn btn-search">리뷰 검색</button>
                     </div>
-                    <div class="reviews-right">
-                        <div class="reviews-header">
-                            <h2 id="review-title">고객 리뷰</h2>
-                            <div class="review-navigation">
-                                <button id="prev-review" class="nav-button">&lt;</button>
-                                <button id="next-review" class="nav-button">&gt;</button>
+                </section>
+                <section class="reviews">
+                    <div class="reviews-container">
+                        <div class="reviews-left">
+                            <h2>모두의 리뷰</h2>
+                            <p>다른 고객들은 어떻게 리뷰를 남겼는지 확인해 보세요</p>
+                            <button class="secondary-btn" id="view-all-button">모든 리뷰 보기</button>
+                            <div id="recent-reviews">
+                                <!-- 최근 리뷰는 JavaScript로 동적으로 추가됩니다 -->
                             </div>
                         </div>
-                        <div id="reviews-display">
-                            <!-- 검색 결과 또는 모든 리뷰가 여기에 표시됩니다 -->
+                        <div class="reviews-right">
+                            <div class="reviews-header">
+                                <h2 id="review-title">고객 리뷰</h2>
+                                <div class="review-navigation">
+                                    <button id="prev-review" class="nav-button">&lt;</button>
+                                    <button id="next-review" class="nav-button">&gt;</button>
+                                </div>
+                            </div>
+                            <div id="review-list-container">
+                                <div class="review-slider">
+                                    <!-- 리뷰 항목들이 여기에 동적으로 추가됩니다 -->
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </section>
-            <section class="write-review">
-                <div class="image-placeholder">
-                    첨부파일<br>이미지<br>확인
-                </div>
-                <div class="review-form">
-                    <h2>리뷰 작성</h2>
-                    <p>의견을 자유롭게 작성해 주세요.</p>
-                    <form>
-                        <div class="form-group">
-                            <label for="product-name">상품명</label>
-                            <input type="text" id="product-name" placeholder="상품명을 입력해 주세요">
-                        </div>
-                        <div class="form-group">
-                            <label for="review-title">제목</label>
-                            <input type="text" id="review-title" placeholder="제목을 입력해 주세요">
-                        </div>
-                        <div class="form-group">
-                            <label for="review-content">내용 작성</label>
-                            <textarea id="review-content" placeholder="내용을 입력 해 주세요"></textarea>
-                        </div>
-                        <div class="button-group">
-                            <button type="button" class="secondary-btn">파일 첨부하기</button>
-                            <button type="submit" class="primary-btn">작성 완료</button>
-                        </div>
-                    </form>
-                </div>
-            </section>
-        </main>
-        <footer>
-            <nav>
-                <ul class="footer-text">
-                    <li><a href="#">회사 소개</a></li>
-                    <li><a href="#">공지사항</a></li>
-                    <li><a href="#">문의하기</a></li>
-                    <li><a href="#">운영 정책</a></li>
-                </ul>
-            </nav>
-        </footer>
+                </section>
+                <section class="write-review">
+                    <div class="review-form">
+                        <h2>리뷰 작성</h2>
+                        <p>의견을 자유롭게 작성해 주세요.</p>
+                        <form enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="pName">상품명</label>
+                                <input type="text" id="pName" name="pName" placeholder="상품명을 입력해 주세요" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="reTitle">제목</label>
+                                <input type="text" id="reTitle" name="reTitle" placeholder="제목을 입력해 주세요" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="reContent">내용 작성</label>
+                                <textarea id="reContent" name="reContent" placeholder="내용을 입력 해 주세요" required></textarea>
+                            </div>
+                            <div class="button-group">
+                                <button type="submit" class="primary-btn">작성 완료</button>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+            </main>
+        </div>
     </div>
+    <footer>
+        <nav>
+            <ul class="footer-text">
+                <li><a href="#">회사 소개</a></li>
+                <li><a href="#">공지사항</a></li>
+                <li><a href="#">문의하기</a></li>
+                <li><a href="#">운영 정책</a></li>
+            </ul>
+        </nav>
+    </footer>
 </div>
 <script src="/js/reviewUser.js"></script>
 </body>

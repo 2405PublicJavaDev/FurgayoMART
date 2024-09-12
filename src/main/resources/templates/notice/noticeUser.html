@@ -9,19 +9,27 @@
 </head>
 <body>
 <div id="scaler">
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo">Fugayo's Mart</a>
+                <nav>
+                    <ul>
+                        <li><a href="#">홈</a></li>
+                        <li><a href="#">상품</a></li>
+                        <li><a href="#">공지사항</a></li>
+                        <li><a href="#">리뷰</a></li>
+                    </ul>
+                </nav>
+                <div class="user-actions">
+                    <span>****님</span>
+                    <span>로그인</span>
+                    <span>QR</span>
+                </div>
+            </div>
+        </div>
+    </header>
     <div class="container">
-        <header>
-            <nav>
-                <a href="#" class="logo">로고</a>
-                <ul class="menu-items">
-                    <li><a href="#">리뷰</a></li>
-                    <li><a href="#">홈</a></li>
-                    <li><a href="#">공지사항</a></li>
-                    <li><a href="#">문의하기</a></li>
-                    <li><a href="#">로그아웃</a></li>
-                </ul>
-            </nav>
-        </header>
         <main>
             <section class="hero">
                 <h1>공지사항 게시판에 오신걸 환영합니다.</h1>
@@ -46,14 +54,14 @@
                     <button id="view-all-button" class="view-all">모든 공지 보기</button>
                 </div>
                 <div class="notice-list">
-                    <div class="accordion" id="notice-accordion">
-                        <!-- 공지사항이 여기에 동적으로 추가됩니다 -->
+                    <div id="notice-accordion" class="accordion">
+                        <!-- 핀된 공지사항이 여기에 동적으로 추가됩니다 -->
                     </div>
                 </div>
             </section>
             <section class="all-notices">
                 <div id="notices-container" class="notices-container">
-                    <p>공지사항 전체 목록 or 검색된 공지사항 표시</p>
+                    <p>공지사항 전체 목록 또는 검색된 공지사항이 여기에 표시됩니다.</p>
                 </div>
             </section>
         </main>

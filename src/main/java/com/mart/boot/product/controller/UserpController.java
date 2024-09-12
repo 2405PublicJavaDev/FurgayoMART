@@ -142,11 +142,6 @@ public class UserpController {
 		            Path imagePath = Paths.get("src/main/resources/static/images/main/" + imageName);
 		            if (Files.exists(imagePath)) {
 		                product.setImageUrl("/images/main/" + imageName);
-//=======
-//		            Path imagePath = Paths.get("src/main/resources/static/images/" + imageName);
-//		            if (Files.exists(imagePath)) {
-//		                product.setImageUrl("/images/" + imageName);
-//>>>>>>> 1726fd1ead97444fd4b021d849010fe4cf9ce0b7
 		            } else {
 		                product.setImageUrl("/images/noimage.jpg");
 		            }
@@ -214,45 +209,6 @@ public class UserpController {
 		
 
 	// 상품,유통기한 페이지 / 
-	
-//
-//		    for (ProductVO product : newProducts) {
-//		        if (product.getImageUrl() != null && !product.getImageUrl().isEmpty()) {
-//		            product.setImageUrl("/images/" + product.getImageUrl());
-//		        } else {
-//		            String imageName = "product_" + product.getpNo() + ".jpg";
-//		            Path imagePath = Paths.get("src/main/resources/static/images/" + imageName);
-//		            if (Files.exists(imagePath)) {
-//		                product.setImageUrl("/images/" + imageName);
-//		            } else {
-//		                product.setImageUrl("/images/noimage.jpg");
-//		            }
-//		        }
-//		        // remainingDays는 이미 VO에서 계산되므로 여기서 별도로 계산할 필요 없음
-//		    }
-//
-//		    model.addAttribute("newProducts", newProducts);
-//		    model.addAttribute("totalProducts", newProducts.size());
-//		    model.addAttribute("pageTitle", "신규 상품 목록");
-//		    return "product/user/newproductlist";
-//		}
-////		
-//	// 상품 상세 페이지
-//	@GetMapping("/detailList/{pNo}")
-//	public String showProductDetail(@PathVariable("pNo") int pNo, Model model) {
-//		ProductVO product = pService.selectOne(pNo);
-//	    // imageUrl이 이미 설정되어 있다고 가정합니다.
-//	    // 만약 설정되어 있지 않다면, 여기서 설정할 수 있습니다.
-////	    if (product.getImageUrl() == null || product.getImageUrl().isEmpty()) {
-////	        product.setImageUrl("/images/" + product.getImageUrl() + ".jpg");
-////	    }
-//		product.setImageUrl("/images/product_" + product.getpNo() + ".jpg");
-//	    model.addAttribute("product", product);
-//	    return "product/user/detailList";
-//	    
-//	}
-
-	// 상품,유통기한 페이지 / 
 	@GetMapping("/list")
 	public String showProductListpage(Model model) {
 	    List<ProductVO> pList = pService.selecpagetList();
@@ -290,31 +246,4 @@ public class UserpController {
 	    return "product/user/list";
 	}
 
-	// 유통기한 카테고리 페이지	
-//	@GetMapping("/expiration")
-//	public String showExpirationList(Model model) {
-//		List<ProductVO> pList = pService.selecpagetList();
-//	    List<ProductVO> expriationList = pService.showExpirationList();
-//	    
-//	    for (ProductVO product : expriationList) {
-//	        if (product.getImageUrl() != null && !product.getImageUrl().isEmpty()) {
-//	            product.setImageUrl("/images/" + product.getImageUrl());
-//	        } else {
-//	            String imageName = "product_" + product.getpNo() + ".jpg";
-//	            Path imagePath = Paths.get("src/main/resources/static/images/" + imageName);
-//	            if (Files.exists(imagePath)) {
-//	                product.setImageUrl("/images/" + imageName);
-//	            } else {
-//	                product.setImageUrl("/images/noimage.jpg");
-//	            }
-//	        }
-//	    }
-//	    model.addAttribute("expriationList", expriationList);
-//	    model.addAttribute("pList", pList);
-//	    model.addAttribute("pageTitle", "유통기한 임박 상품");
-//	    return "product/user/list";
-	//}
-
-	
-	
 }

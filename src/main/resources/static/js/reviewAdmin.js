@@ -1,71 +1,208 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const selectAllCheckbox = document.getElementById('select-all-checkbox');
-    const reviewCheckboxes = document.querySelectorAll('.review-checkbox');
+    const reviewList = document.getElementById('review-list');
+    const deleteSelectedBtn = document.getElementById('delete-selected-btn');
+    let currentlyOpenReplyPanel = null;
+
+    fetchReviews();
+
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toISOString().split('T')[0];
+    }
+
+    function formatDateTime(dateString) {
+        const date = new Date(dateString);
+        const datePart = date.toISOString().split('T')[0];
+        const timePart = date.toTimeString().split(' ')[0];
+        return `${datePart} ${timePart}`;
+    }
+
+    function addReviewToTable(review) {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+            <td><input type="checkbox" class="review-checkbox" data-review-id="${review.reviewId}"></td>
+            <td>${review.reTitle}</td>
+            <td>${review.reContent.substring(0, 20)}...</td>
+            <td>${review.writerId}</td>
+            <td>${formatDate(review.reviewDate)}</td>
+            <td>${review.pname}</td>
+            <td>
+                <button class="btn-reply" onclick="toggleReplyPanel(this, ${review.reviewId})">답글</button>
+                <button class="btn-delete" onclick="deleteReview(${review.reviewId})">삭제</button>
+            </td>
+        `;
+        reviewList.appendChild(row);
+
+        const replyPanelRow = document.createElement('tr');
+        replyPanelRow.classList.add('reply-panel');
+        replyPanelRow.style.display = 'none';
+        replyPanelRow.innerHTML = `
+            <td colspan="7">
+                <div class="reply-content">
+                    <h4>리뷰 답글 등록 화면</h4>
+                    <p><strong>${review.reTitle}</strong></p>
+                    <p>${review.writerId} | ${formatDateTime(review.reviewDate)}</p>
+                    <p>${review.reContent}</p>
+                    <textarea placeholder="답글을 입력하세요..."></textarea>
+                    <button class="btn-submit-reply" onclick="submitReply(${review.reviewId})">답글 등록</button>
+                </div>
+            </td>
+        `;
+        reviewList.appendChild(replyPanelRow);
+    }
+
+    window.toggleReplyPanel = function (button, reviewId) {
+        const row = button.closest('tr');
+        const replyPanel = row.nextElementSibling;
+
+        if (currentlyOpenReplyPanel && currentlyOpenReplyPanel !== replyPanel) {
+            currentlyOpenReplyPanel.style.display = 'none';
+            currentlyOpenReplyPanel.previousElementSibling.querySelector('.btn-reply').textContent = '답글';
+        }
+
+        if (replyPanel.style.display === 'none') {
+            replyPanel.style.display = 'table-row';
+            button.textContent = '닫기';
+            currentlyOpenReplyPanel = replyPanel;
+        } else {
+            replyPanel.style.display = 'none';
+            button.textContent = '답글';
+            currentlyOpenReplyPanel = null;
+        }
+    };
+
+    window.submitReply = function (reviewId) {
+        const replyContent = currentlyOpenReplyPanel.querySelector('textarea').value;
+
+        if (replyContent.trim() === '') {
+            alert('답글 내용을 입력해주세요.');
+            return;
+        }
+
+        fetch(`/api/reviews/${reviewId}/reply`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(replyContent),
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert('답글이 성공적으로 등록되었습니다.');
+
+                    if (currentlyOpenReplyPanel) {
+                        currentlyOpenReplyPanel.style.display = 'none';
+                        currentlyOpenReplyPanel.previousElementSibling.querySelector('.btn-reply').textContent = '답글';
+                        currentlyOpenReplyPanel = null;
+                    }
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    };
+
+    window.deleteReview = function (reviewId) {
+        if (!confirm('정말 이 리뷰를 삭제하시겠습니까?')) return;
+
+        fetch(`/api/reviews/${reviewId}`, {
+            method: 'DELETE'
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert('리뷰가 삭제되었습니다.');
+                    location.reload();
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    };
+
+    deleteSelectedBtn.addEventListener('click', function () {
+        const selectedCheckboxes = document.querySelectorAll('.review-checkbox:checked');
+        const selectedReviewIds = Array.from(selectedCheckboxes).map(checkbox => checkbox.getAttribute('data-review-id'));
+
+        if (selectedReviewIds.length === 0) {
+            alert('삭제할 항목을 선택해주세요.');
+            return;
+        }
+
+        if (!confirm('정말 선택한 리뷰들을 삭제하시겠습니까?')) return;
+
+        fetch(`/api/reviews/bulk-delete`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ reviewIds: selectedReviewIds }),
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert('선택한 리뷰들이 삭제되었습니다.');
+                    location.reload();
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    });
 
     if (selectAllCheckbox) {
-        selectAllCheckbox.addEventListener('change', function() {
+        selectAllCheckbox.addEventListener('change', function () {
             const isChecked = this.checked;
-            reviewCheckboxes.forEach(checkbox => {
+            document.querySelectorAll('.review-checkbox').forEach(checkbox => {
                 checkbox.checked = isChecked;
             });
         });
     }
 
-    reviewCheckboxes.forEach(checkbox => {
-        checkbox.addEventListener('change', function() {
-            const allChecked = Array.from(reviewCheckboxes).every(cb => cb.checked);
-            if (selectAllCheckbox) {
-                selectAllCheckbox.checked = allChecked;
-            }
-        });
+    const searchButton = document.querySelector('.btn-search');
+    const searchTypeSelect = document.querySelector('#search-type');
+    const searchKeywordInput = document.querySelector('#search-keyword');
+
+    searchButton.addEventListener('click', function () {
+        const searchType = searchTypeSelect.value;
+        const searchKeyword = searchKeywordInput.value.trim();
+
+        if (!searchKeyword) {
+            alert('검색어를 입력해주세요.');
+            return;
+        }
+
+        fetchReviews(searchType, searchKeyword);
     });
-});
 
-function toggleReplyPanel(button) {
-    const row = button.closest('tr');
-    const replyPanel = row.nextElementSibling;
+    function fetchReviews(searchType = null, searchKeyword = null, page = 0) {
+        let url = `/api/reviews?page=${page}`;
 
-    if (replyPanel.style.display === 'none') {
-        replyPanel.style.display = 'table-row';
-        button.textContent = '닫기';
-    } else {
-        replyPanel.style.display = 'none';
-        button.textContent = '답글';
-    }
-}
-
-// 답글 등록 버튼 클릭 이벤트 처리
-document.addEventListener('click', function(e) {
-    if (e.target && e.target.classList.contains('btn-submit-reply')) {
-        const replyContent = e.target.previousElementSibling.value;
-        if (replyContent.trim() !== '') {
-            alert('답글이 등록되었습니다: ' + replyContent);
-            // 여기에 서버로 답글을 전송하는 코드를 추가할 수 있습니다.
-        } else {
-            alert('답글 내용을 입력해주세요.');
+        if (searchType && searchKeyword) {
+            url += `&searchType=${searchType}&searchKeyword=${searchKeyword}`;
         }
+
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                reviewList.innerHTML = '';
+
+                if (data.content && data.content.length > 0) {
+                    data.content.forEach(review => {
+                        addReviewToTable(review);
+                    });
+                }
+
+                const pagination = document.querySelector('.pagination');
+                pagination.innerHTML = '';
+                for (let i = 0; i < data.totalPages; i++) {
+                    const pageLink = document.createElement('a');
+                    pageLink.href = '#';
+                    pageLink.className = 'page-link';
+                    pageLink.textContent = i + 1;
+                    if (i === data.number) {
+                        pageLink.classList.add('active');
+                    }
+                    pageLink.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        fetchReviews(searchType, searchKeyword, i);
+                    });
+                    pagination.appendChild(pageLink);
+                }
+            })
+            .catch(error => console.error('Error:', error));
     }
 });
-
-// 삭제 버튼 클릭 이벤트 처리 (예시)
-document.addEventListener('click', function(e) {
-    if (e.target && e.target.classList.contains('btn-delete')) {
-        if (confirm('이 리뷰를 삭제하시겠습니까?')) {
-            // 여기에 서버로 삭제 요청을 보내는 코드를 추가할 수 있습니다.
-            alert('리뷰가 삭제되었습니다.');
-            e.target.closest('tr').remove();
-        }
-    }
-});
-
-// 검색 기능 (예시)
-document.querySelector('.btn-search').addEventListener('click', function() {
-    const searchType = document.querySelector('.search-bar select').value;
-    const searchTerm = document.querySelector('.search-bar input').value;
-
-    // 여기에 실제 검색 로직을 구현할 수 있습니다.
-    alert(`검색 유형: ${searchType}, 검색어: ${searchTerm}`);
-});
-
-// 페이지 로드 시 콘솔에 메시지 출력 (디버깅용)
-console.log('JavaScript 파일이 로드되었습니다.');

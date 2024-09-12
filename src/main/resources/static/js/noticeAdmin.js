@@ -1,50 +1,44 @@
 let currentPage = 1;
 let itemsPerPage = 6;
+let currentSearchType = '';
+let currentSearchKeyword = '';
 
-// 공지사항 목록 가져오기
 function fetchNotices(page = currentPage, size = itemsPerPage) {
-    fetch(`/api/notice/list?page=${page}&size=${size}`)
+    let url = `/api/notice/list?page=${page}&size=${size}`;
+    if (currentSearchType && currentSearchKeyword) {
+        url += `&searchType=${currentSearchType}&searchKeyword=${encodeURIComponent(currentSearchKeyword)}`;
+    }
+
+    fetch(url)
         .then(response => response.json())
         .then(data => {
-            console.log(data); // 데이터를 확인하는 콘솔 로그 추가
             const tbody = document.querySelector(".notice-list tbody");
             tbody.innerHTML = "";
+            const totalNotices = data.totalNotices;
 
-            data.notices.forEach(notice => {
+            data.notices.forEach((notice, index) => {
                 let newRow = document.createElement('tr');
+                newRow.setAttribute('data-notice-id', notice.noticeNo);
+
+                const displayNumber = totalNotices - (page - 1) * size - index;
+
                 newRow.innerHTML = `
-                    <td><input type="checkbox" class="notice-checkbox"></td>
-                    <td>${notice.noticeNo}</td>
+                    <td>
+                        <input type="checkbox" class="notice-pin-checkbox" 
+                               ${notice.noticePinned ? 'checked' : ''} 
+                               onchange="toggleNoticePinned(${notice.noticeNo}, this.checked)">
+                    </td>
+                    <td>${displayNumber}</td>
                     <td>${notice.noticeTitle}</td>
                     <td>${notice.noticeContent}</td>
                     <td>${notice.noticeWriter}</td>
                     <td>${new Date(notice.noticeDate).toLocaleDateString()}</td>
                     <td>
-                        <button class="btn-reply" onclick="toggleEditForm(this)">수정</button>
+                        <button class="btn-reply" onclick="toggleEditForm(${notice.noticeNo})">수정</button>
                         <button class="btn-delete" onclick="deleteNotice(${notice.noticeNo})">삭제</button>
                     </td>
                 `;
                 tbody.appendChild(newRow);
-
-                let editRow = document.createElement('tr');
-                editRow.className = "edit-row";
-                editRow.style.display = "none";
-                editRow.innerHTML = `
-                    <td colspan="7">
-                        <div class="edit-form">
-                            <h3>공지사항 수정</h3>
-                            <label>제목</label>
-                            <input type="text" name="title" value="${notice.noticeTitle}">
-                            <label>내용</label>
-                            <textarea name="content">${notice.noticeContent}</textarea>
-                            <div class="edit-form-buttons">
-                                <button class="btn-submit-reply" onclick="updateNotice(${notice.noticeNo}, this)">수정 완료</button>
-                                <button class="btn-close" onclick="toggleEditForm(this)">닫기</button>
-                            </div>
-                        </div>
-                    </td>
-                `;
-                tbody.appendChild(editRow);
             });
 
             updatePagination(data.currentPage, data.totalPages);
@@ -54,7 +48,6 @@ function fetchNotices(page = currentPage, size = itemsPerPage) {
         });
 }
 
-// 페이징 처리 함수
 function updatePagination(currentPage, totalPages) {
     const pagination = document.querySelector('.pagination');
     pagination.innerHTML = '';
@@ -62,6 +55,7 @@ function updatePagination(currentPage, totalPages) {
     if (currentPage > 1) {
         const prevButton = document.createElement('span');
         prevButton.textContent = '<<';
+        prevButton.classList.add('page-link');
         prevButton.addEventListener('click', () => fetchNotices(currentPage - 1, itemsPerPage));
         pagination.appendChild(prevButton);
     }
@@ -69,7 +63,7 @@ function updatePagination(currentPage, totalPages) {
     for (let i = 1; i <= totalPages; i++) {
         const pageLink = document.createElement('span');
         pageLink.textContent = i;
-        pageLink.classList.add('page-number');
+        pageLink.classList.add('page-number', 'page-link');
         if (i === currentPage) {
             pageLink.classList.add('active');
         }
@@ -80,50 +74,97 @@ function updatePagination(currentPage, totalPages) {
     if (currentPage < totalPages) {
         const nextButton = document.createElement('span');
         nextButton.textContent = '>>';
+        nextButton.classList.add('page-link');
         nextButton.addEventListener('click', () => fetchNotices(currentPage + 1, itemsPerPage));
         pagination.appendChild(nextButton);
     }
 }
 
-// 등록 함수
+function searchNotices() {
+    currentSearchType = document.getElementById('search-type').value;
+    currentSearchKeyword = document.getElementById('searchKeyword').value;
+    currentPage = 1;
+    fetchNotices();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    fetchNotices();
+
+    document.getElementById('items-per-page').addEventListener('change', function() {
+        itemsPerPage = parseInt(this.value);
+        fetchNotices(1, itemsPerPage);
+    });
+
+    document.querySelector('.btn-search').addEventListener('click', searchNotices);
+
+    document.getElementById('searchKeyword').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            searchNotices();
+        }
+    });
+
+    document.getElementById('noticeForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        createNotice();
+    });
+});
+
 function createNotice() {
-    const noticeTitle = document.getElementById("notice-title").value;
-    const noticeContent = document.getElementById("notice-content").value;
+    const title = document.getElementById('notice-title').value;
+    const content = document.getElementById('notice-content').value;
 
-    if (noticeTitle && noticeContent) {
-        fetch('/api/notice/create', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                noticeTitle: noticeTitle,
-                noticeContent: noticeContent,
-                noticeWriter: "관리자",
-                noticeDate: new Date().toISOString()
-            })
+    fetch('/api/notice/create', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            noticeTitle: title,
+            noticeContent: content,
+            noticeWriter: '관리자',
+            userId: 'admin',
+            noticePinned: 0
+        }),
+    })
+        .then(response => response.text())
+        .then(data => {
+            alert(data);
+            fetchNotices();
+            document.getElementById('notice-title').value = '';
+            document.getElementById('notice-content').value = '';
         })
-            .then(response => response.ok ? response.text() : Promise.reject(response.statusText))
-            .then(data => {
-                alert(data);
-                fetchNotices();
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('공지사항 등록 중 오류가 발생했습니다: ' + error);
-            });
+        .catch((error) => {
+            alert('공지사항 생성 중 오류가 발생했습니다: ' + error.message);
+        });
+}
 
-        document.getElementById('notice-title').value = '';
-        document.getElementById('notice-content').value = '';
+function toggleEditForm(noticeNo) {
+    const row = document.querySelector(`tr[data-notice-id="${noticeNo}"]`);
+    if (!row) return;
+
+    let editForm = row.nextElementSibling;
+    if (editForm && editForm.classList.contains('edit-form')) {
+        editForm.remove();
     } else {
-        alert('제목과 내용을 입력하세요.');
+        const title = row.querySelector('td:nth-child(3)').textContent;
+        const content = row.querySelector('td:nth-child(4)').textContent;
+
+        editForm = document.createElement('tr');
+        editForm.className = 'edit-form';
+        editForm.innerHTML = `
+            <td colspan="7">
+                <input type="text" id="editTitle_${noticeNo}" value="${title}">
+                <textarea id="editContent_${noticeNo}">${content}</textarea>
+                <button onclick="updateNotice(${noticeNo})">수정 완료</button>
+            </td>
+        `;
+        row.insertAdjacentElement('afterend', editForm);
     }
 }
 
-// 수정 함수
-function updateNotice(noticeNo, button) {
-    const titleInput = button.closest('tr').querySelector('input[name="title"]').value;
-    const contentTextarea = button.closest('tr').querySelector('textarea[name="content"]').value;
+function updateNotice(noticeNo) {
+    const title = document.getElementById(`editTitle_${noticeNo}`).value;
+    const content = document.getElementById(`editContent_${noticeNo}`).value;
 
     fetch(`/api/notice/update/${noticeNo}`, {
         method: 'PUT',
@@ -131,22 +172,20 @@ function updateNotice(noticeNo, button) {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-            noticeTitle: titleInput,
-            noticeContent: contentTextarea
-        })
+            noticeTitle: title,
+            noticeContent: content,
+        }),
     })
         .then(response => response.text())
         .then(data => {
             alert(data);
             fetchNotices();
         })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('공지사항 수정 중 오류가 발생했습니다: ' + error);
+        .catch((error) => {
+            alert('공지사항 수정 중 오류가 발생했습니다.');
         });
 }
 
-// 삭제 함수
 function deleteNotice(noticeNo) {
     if (confirm('정말로 이 공지사항을 삭제하시겠습니까?')) {
         fetch(`/api/notice/delete/${noticeNo}`, {
@@ -157,42 +196,37 @@ function deleteNotice(noticeNo) {
                 alert(data);
                 fetchNotices();
             })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('공지사항 삭제 중 오류가 발생했습니다: ' + error);
+            .catch((error) => {
+                alert('공지사항 삭제 중 오류가 발생했습니다.');
             });
     }
 }
 
-// 초기 로드
-document.addEventListener('DOMContentLoaded', () => {
-    fetchNotices();
-});
+function toggleNoticePinned(noticeNo, isPinned) {
+    const pinnedNotices = document.querySelectorAll('.notice-pin-checkbox:checked').length;
 
-// 검색 기능
-document.querySelector('.btn-search').addEventListener('click', function() {
-    const searchField = document.querySelector('.search-bar select').value;
-    const searchTerm = document.querySelector('.search-bar input').value.toLowerCase();
-    const rows = document.querySelectorAll('.notice-list tbody tr:not(.edit-row)');
+    if (isPinned && pinnedNotices > 3) {
+        alert('공지는 최대 3개까지만 체크됩니다.');
+        event.target.checked = false;
+        return;
+    }
 
-    rows.forEach(row => {
-        const title = row.children[2].textContent.toLowerCase();
-        const content = row.children[3].textContent.toLowerCase();
-        const author = row.children[4].textContent.toLowerCase();
-
-        let match = false;
-        if (searchField === '제목' && title.includes(searchTerm)) {
-            match = true;
-        } else if (searchField === '내용' && content.includes(searchTerm)) {
-            match = true;
-        } else if (searchField === '작성자' && author.includes(searchTerm)) {
-            match = true;
-        }
-
-        if (match) {
-            row.style.display = '';
-        } else {
-            row.style.display = 'none';
-        }
-    });
-});
+    fetch(`/api/notice/update/${noticeNo}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            noticePinned: isPinned ? 1 : 0
+        }),
+    })
+        .then(response => response.text())
+        .then(data => {
+            console.log(data);
+            fetchNotices();
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            alert('공지사항 고정 상태 변경 중 오류가 발생했습니다.');
+        });
+}
