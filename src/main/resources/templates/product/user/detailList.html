@@ -93,8 +93,7 @@
 							<div class="buy-options">
 								<input type="number" id="quantity" class="quantity" min="1"
 									value="1">
-								<a href="/cart/view"><button class="action-button buy-button" onclick="buyProduct()">구매하기</button></a>
-								<button class="action-button cart-button" onclick="addToCart()">장바구니</button>
+								<a th:href="@{/purchase/product/{pNo}(pNo=${product.pNo})}"><button class="action-button buy-button" onclick="buyProduct()">구매하기</button></a>								<button class="action-button cart-button" onclick="addToCart()">장바구니</button>
 								<!-- <button id="likeButton" class="action-button like-button"
 						onclick="toggleLike()">좋아요</button> -->
 							</div>
