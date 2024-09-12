@@ -27,9 +27,28 @@ header {
     align-items: center;
 }
 
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.header-left .logo-text {
+    margin-left: 20px; /* "관리자 페이지" 글자만 왼쪽으로 붙임 */
+    font-weight: bold;
+}
+
+.headerimage {
+    display: inline-block;
+    vertical-align: middle;
+    width: 250px;
+    height: 40px;
+}
 header .logo {
     font-weight: bold;
 }
+
+
+
 
 header nav ul {
     list-style-type: none;
@@ -231,6 +250,7 @@ footer {
     background-color: #f0f0f0;
     padding: 10px 0;
     text-align: center;
+    margin-left: 100px;
 }
 
 footer ul {
@@ -244,4 +264,62 @@ footer ul {
 footer ul li a {
     text-decoration: none;
     color: black;
+}
+
+.sidebar {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    background-color: #f1f1f1;
+    width: 200px;
+}
+
+.sidebar li a {
+    display: block;
+    color: #000;
+    padding: 8px 16px;
+    text-decoration: none;
+}
+
+.sidebar li a:hover {
+    background-color: #555;
+    color: white;
+}
+
+.dropdown {
+    position: relative;
+}
+
+.submenu {
+    display: none;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    background-color: #f9f9f9;
+    width: 100%;
+}
+
+.dropdown:hover .submenu {
+    display: block;
+}
+
+.submenu li a {
+    padding-left: 32px;
+}
+
+/* 링크 기본 스타일 */
+a {
+    text-decoration: none; /* 언더라인 없애기 */
+    color: black; /* 기본 색상 */
+}
+
+/* 링크를 클릭한 후에도 색상 변화 방지 */
+a:visited {
+    color: black; /* 클릭 후에도 보라색으로 바뀌지 않게 함 */
+}
+
+/* 호버 시 색상 변화 (필요 시 수정) */
+a:hover {
+    color: #007bff; /* 마우스 호버 시 색상 */
 }

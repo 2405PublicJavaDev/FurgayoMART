@@ -1,70 +1,97 @@
-body, html {
+/* 전체 레이아웃 */
+html, body {
+    height: 100%;
     margin: 0;
     padding: 0;
-    font-family: 'Roboto', sans-serif;
-    line-height: 1.6;
-    width: 100%;
-    min-height: 100vh;
 }
 
+body {
+    display: flex;
+    flex-direction: column;
+    font-family: Arial, sans-serif;
+}
+
+#scaler {
+    flex: 1 0 auto;
+}
+
+/* 헤더 스타일 */
 header {
-    background-color: #fff;
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 1000;
-    height: 60px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 10px 0;
 }
 
-nav {
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.header-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 100%;
-    margin-top: 10px;
 }
 
 .logo {
-    font-weight: bold;
-    text-decoration: none;
-    color: #333;
     font-size: 24px;
-    margin-left: 20px;
+    font-weight: bold;
+    color: #000;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
 }
 
-.menu-items {
-    margin-top: 40px;
+.headerimage {
+    width: 250px;
+    height: 40px;
+    object-fit: contain;
+}
+
+nav ul {
     display: flex;
     list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
     margin-right: 20px;
 }
 
-.menu-items li {
-    margin-left: 30px;
-}
-
-.menu-items li a {
+nav ul li a {
     text-decoration: none;
     color: #333;
-    font-size: 18px;
+    font-weight: normal;
 }
 
-main {
-    padding-top: 80px;
+.user-actions {
+    display: flex;
+    align-items: center;
 }
 
+.user-actions span {
+    margin-left: 15px;
+    font-size: 14px;
+    color: #333;
+}
+
+/* Hero Section */
 .hero {
-    background-color: #333;
+    background-color: rgba(0, 0, 0, 0.60);
     color: white;
     text-align: center;
-    padding: 100px 0;
+    padding: 60px 0;
 }
 
 .hero h1 {
-    font-size: 48px;
-    margin: 0;
+    font-size: 64px;
+    font-weight: 700;
+    margin-bottom: 24px;
 }
 
+/* 콘텐츠 스타일 */
 .content {
     display: flex;
     padding: 80px 40px;
@@ -109,20 +136,20 @@ button {
     margin: 60px 0;
 }
 
-#right-logo {
-    padding-right: 140px;
+#right-logo, #left-logo {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
+}
+
+#right-logo {
+    padding-right: 140px;
     padding-bottom: 110px;
 }
 
 #left-logo {
     padding-top: 380px;
     padding-right: 100px;
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
 }
 
 h3 {
@@ -140,57 +167,84 @@ li {
     margin-bottom: 20px;
 }
 
+/* Footer */
 footer {
-    background-color: #f0f0f0;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 70px;
-    margin-top: 100px;
-}
-
-footer ul {
-    list-style-type: none;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    gap: 60px;
-    margin: 0;
-}
-
-footer ul li a {
-    text-decoration: none;
-    color: #333;
-    font-size: 18px;
+    flex-shrink: 0;
+    background-color: #f8f8f8;
+    padding: 20px 0;
+    border-top: 1px solid #e7e7e7;
 }
 
 .footer-text {
-    margin-top: 20px;
-}
-
-body {
-    overflow-x: hidden;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
-    min-height: 100vh;
-    margin: 0;
+    list-style-type: none;
     padding: 0;
+    margin: 0;
 }
 
-#scaler {
-    width: 1440px;
-    transform-origin: top center;
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
+.footer-text li {
+    margin: 0 15px;
 }
 
+.footer-text a {
+    color: #333;
+    text-decoration: none;
+}
+
+/* Responsive Design */
 @media screen and (max-width: 1440px) {
-    #scaler {
-        transform: translateX(-50%) scale(calc(100vw / 1440));
-        height: calc(2403px * (100vw / 1440));  /* 2403px는 원래 디자인의 높이입니다. 필요에 따라 조정하세요. */
+    .content {
+        flex-direction: column;
     }
+
+    .left-column, .right-column {
+        width: 100%;
+        margin-left: 0;
+    }
+
+    .image-placeholder {
+        height: auto;
+    }
+
+    #right-logo, #left-logo {
+        padding: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+    }
+
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav ul li {
+        margin: 10px 0;
+    }
+
+    .user-actions {
+        margin-top: 20px;
+    }
+
+    .hero h1 {
+        font-size: 40px;
+    }
+
+    h2 {
+        font-size: 40px;
+    }
+
+    .description {
+        font-size: 20px;
+    }
+
+    .form-group label {
+        font-size: 24px;
+    }
+
+
 }

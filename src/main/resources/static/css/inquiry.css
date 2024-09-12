@@ -1,13 +1,96 @@
+/* 전체 레이아웃 */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    font-family: Arial, sans-serif;
+}
+
+#scaler {
+    flex: 1 0 auto;
+}
+
+/* 헤더 스타일 */
+header {
+    background-color: #ffffff;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 10px 0;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #000;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.headerimage {
+    width: 250px;
+    height: 40px;
+}
+
+nav ul {
+    display: flex;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li {
+    margin-right: 20px;
+}
+
+nav ul li a {
+    text-decoration: none;
+    color: #333;
+    font-weight: normal;
+}
+
+.user-actions {
+    display: flex;
+    align-items: center;
+}
+
+.user-actions span {
+    margin-left: 15px;
+    font-size: 14px;
+    color: #333;
+}
+
+/* Hero Section */
 .hero {
-    background-color: rgba(0, 0, 0, 0.6);
+    background-color: rgba(0, 0, 0, 0.60);
+    color: white;
+    text-align: center;
     padding: 60px 0;
 }
 
 .hero h1 {
     font-size: 64px;
-    color: white;
+    font-weight: 700;
+    margin-bottom: 24px;
 }
 
+/* Inquiry Form */
 .inquiry-container {
     display: flex;
     justify-content: space-between;
@@ -82,6 +165,32 @@ h2 {
     margin-top: 60px;
 }
 
+/* Footer */
+footer {
+    flex-shrink: 0;
+    background-color: #f8f8f8;
+    padding: 20px 0;
+    border-top: 1px solid #e7e7e7;
+}
+
+.footer-text {
+    display: flex;
+    justify-content: center;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-text li {
+    margin: 0 15px;
+}
+
+.footer-text a {
+    color: #333;
+    text-decoration: none;
+}
+
+/* Responsive Design */
 @media screen and (max-width: 1440px) {
     .inquiry-container {
         flex-direction: column;
@@ -95,5 +204,40 @@ h2 {
     .image-placeholder.right {
         margin-top: 40px;
         height: 300px;
+    }
+}
+
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+    }
+
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    nav ul li {
+        margin: 10px 0;
+    }
+
+    .user-actions {
+        margin-top: 20px;
+    }
+
+    .hero h1 {
+        font-size: 40px;
+    }
+
+    h2 {
+        font-size: 40px;
+    }
+
+    .description {
+        font-size: 20px;
+    }
+
+    .form-group label {
+        font-size: 24px;
     }
 }

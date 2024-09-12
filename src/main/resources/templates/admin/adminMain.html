@@ -8,29 +8,41 @@
 </head>
 <body>
 <header>
-    <div class="logo">관리자 페이지</div>
-    <nav>
-        <ul>
-            <li><a href="#">홈</a></li>
-            <li><a href="#">리뷰</a></li>
-            <li><a href="#">공지사항</a></li>
-            <li><a href="#">문의하기</a></li>
-        </ul>
-    </nav>
+    <div class="header-left">
+        <a href="/" class="logo">
+            <img src="/images/logo.png" alt="Fugayo's Mart Logo" class="headerimage">
+        </a>
+        <a href="/admin"> <div class="logo-text">관리자 페이지</div> </a><!-- 텍스트에 별도 클래스 추가 -->
+    </div>
+<!--    <nav>-->
+<!--        <ul>-->
+<!--            <li><a href="#">홈</a></li>-->
+<!--            <li><a href="#">리뷰</a></li>-->
+<!--            <li><a href="#">공지사항</a></li>-->
+<!--            <li><a href="#">문의하기</a></li>-->
+<!--        </ul>-->
+<!--    </nav>-->
     <div class="user-info">
-        <span>****** 님</span>
-        <a href="#">로그아웃</a>
+        <a href="/member/mypage"> <span>관리자 님</span> </a>
+        <a href="/member/login">로그아웃</a>
     </div>
 </header>
+
 
 <div class="container">
     <aside>
         <nav>
-            <ul>
-                <li><a href="#">공지사항 관리</a></li>
-                <li><a href="#">리뷰 관리</a></li>
-                <li><a href="#">회원 관리</a></li>
-                <li><a href="#" class="active">상품 관리</a></li>
+            <ul class="sidebar" style="font-weight: bold; font-size: 17px;">
+                <li><a href="/notice/admin">공지사항 관리</a></li>
+                <li><a href="/review/admin">리뷰 관리</a></li>
+<!--                <li><a href="#">회원 관리</a></li>-->
+                <li class="dropdown">
+                    <a href="/admin/product/list">상품 관리 ▾</a>
+                    <ul class="submenu">
+                        <li><a href="/admin/product/register">상품 등록</a></li>
+                        <li><a href="/admin/product/list">상품 조회</a></li>
+                    </ul>
+                </li>
             </ul>
         </nav>
     </aside>
@@ -106,15 +118,26 @@
     </main>
 </div>
 
-<footer>
-    <ul>
-        <li><a href="#">회사 소개</a></li>
-        <li><a href="#">공지사항</a></li>
-        <li><a href="#">고객센터</a></li>
-        <li><a href="#">운영 정책</a></li>
-    </ul>
-</footer>
+<!--<footer>-->
+<!--    <ul>-->
+<!--        <li><a href="#">회사 소개</a></li>-->
+<!--        <li><a href="#">공지사항</a></li>-->
+<!--        <li><a href="#">고객센터</a></li>-->
+<!--        <li><a href="#">운영 정책</a></li>-->
+<!--    </ul>-->
+<!--</footer>-->
 
-<script src="/js/adminMain.js"></script>
+<script src="/js/adminMain.js">
+    document.addEventListener('DOMContentLoaded', function() {
+        var dropdown = document.querySelector('.dropdown');
+        dropdown.addEventListener('click', function(e) {
+            if (e.target.tagName === 'A' && e.target.nextElementSibling) {
+                e.preventDefault();
+                this.querySelector('.submenu').style.display =
+                    this.querySelector('.submenu').style.display === 'block' ? 'none' : 'block';
+            }
+        });
+    });
+</script>
 </body>
 </html>

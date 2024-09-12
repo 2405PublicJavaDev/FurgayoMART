@@ -1,3 +1,4 @@
+
 document.addEventListener('DOMContentLoaded', function() {
     const contentGrids = document.querySelectorAll('.content-grid');
     const adminCards = document.querySelectorAll('.admin-card');
