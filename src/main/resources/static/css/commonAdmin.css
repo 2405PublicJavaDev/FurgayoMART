@@ -53,3 +53,46 @@ footer ul li a {
     margin-top: 20px;
 }
 
+/* 헤더 스타일 */
+header {
+    background-color: white;
+    border-bottom: 1px solid #e0e0e0;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.header-left .logo-text {
+    margin-left: 20px; /* "관리자 페이지" 글자만 왼쪽으로 붙임 */
+    font-weight: bold;
+}
+
+.headerimage {
+    display: inline-block;
+    vertical-align: middle;
+    width: 250px;
+    height: 40px;
+}
+header .logo {
+    font-weight: bold;
+}
+
+
+
+
+header nav ul {
+    list-style-type: none;
+    display: flex;
+    gap: 20px;
+}
+
+header nav ul li a, .user-info a {
+    text-decoration: none;
+    color: black;
+}
