@@ -1,8 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('registerForm');
-//    const sendVerificationBtn = document.getElementById('sendVerificationBtn');
-//    const verifyEmailBtn = document.getElementById('verifyEmailBtn');
-//    const submitBtn = document.getElementById('submitBtn');
+	const submitBtn = document.getElementById('submitBtn');
 
     form.addEventListener('submit', function(e) {
         const memberPhone = document.getElementById('memberPhone').value;
@@ -10,6 +8,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const memberPwConfirm = document.getElementById('memberPwConfirm').value;
         const memberEmail = document.getElementById('memberEmail').value;
 
+		submitBtn.addEventListener('click', () => {
+		           console.log('가입하기 버튼 클릭됨');
+		       });
+		
         if (!validatePhoneNumber(memberPhone)) {
             e.preventDefault();
             showMessage('유효한 휴대폰 번호를 입력해주세요.', 'error');
@@ -35,46 +37,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-//    sendVerificationBtn.addEventListener('click', function() {
-//        const email = document.getElementById('memberEmail').value;
-//        fetch('/send-verification', {
-//            method: 'POST',
-//            headers: {
-//                'Content-Type': 'application/x-www-form-urlencoded',
-//            },
-//            body: `email=${email}`
-//        })
-//        .then(response => response.text())
-//        .then(data => {
-//            showMessage(data);
-//        })
-//        .catch(error => {
-//            showMessage('인증 코드 발송 중 오류가 발생했습니다.');
-//        });
-//    });
-//
-//    verifyEmailBtn.addEventListener('click', function() {
-//        const email = document.getElementById('memberEmail').value;
-//        const code = document.getElementById('verificationCode').value;
-//        fetch('/verify-email', {
-//            method: 'POST',
-//            headers: {
-//                'Content-Type': 'application/x-www-form-urlencoded',
-//            },
-//            body: `email=${email}&code=${code}`
-//        })
-//        .then(response => response.text())
-//        .then(data => {
-//            showMessage(data);
-//            if (data === '이메일이 성공적으로 인증되었습니다.') {
-//                submitBtn.disabled = false;
-//            }
-//        })
-//        .catch(error => {
-//            showMessage('이메일 인증 중 오류가 발생했습니다.');
-//        });
-//    });
-
     function validatePhoneNumber(phone) {
         const regex = /^01[016789]-?\d{3,4}-?\d{4}$/;
         return regex.test(phone);
@@ -90,9 +52,9 @@ document.addEventListener('DOMContentLoaded', function() {
         return regex.test(email);
     }
 
-    function showMessage(message, type = '') {
-        const messageDiv = document.getElementById('message');
-        messageDiv.textContent = message;
-        messageDiv.className = type;  // 메시지 타입에 따른 스타일 적용을 위해 클래스 추가
-    }
+//    function showMessage(message, type = '') {
+//        const messageDiv = document.getElementById('message');
+//        messageDiv.textContent = message;
+//        messageDiv.className = type;  // 메시지 타입에 따른 스타일 적용을 위해 클래스 추가
+//    }
 });

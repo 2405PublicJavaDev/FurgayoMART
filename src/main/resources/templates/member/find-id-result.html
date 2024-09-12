@@ -8,6 +8,7 @@
     <title>아이디 찾기 결과</title>
 </head>
 <body>
+<<<<<<< HEAD
 	<!-- =========================== 헤더 사이드바 ================================== -->
 	<header>
 		<div class="container">
@@ -36,13 +37,16 @@
 				</div>
 			</div>
 		</header>
-	<main>
-   <h1>아이디(휴대폰 번호) 찾기 결과</h1>
-    <div th:if="${message}" th:text="${message}" style="color: green;"></div>
-    <div th:if="${error}" th:text="${error}" style="color: red;"></div>
-    <a href="/member/login">로그인 페이지로 이동</a>
-    </main>
-	<footer>
+    <div class="container">
+        <main>
+            <h1>아이디(휴대폰 번호) 찾기 결과</h1>
+            <div th:if="${message}" th:text="${message}" class="alert alert-success"></div>
+            <div th:if="${error}" th:text="${error}" class="alert alert-danger"></div>
+            <a href="/member/login" class="btn btn-primary">로그인 페이지로 이동</a>
+            <a href="/member/find-id" class="btn btn-primary">아이디찾기 재시도</a>
+        </main>
+    </div>
+<footer>
         <hr>
         <div class="footerclass">
             <a href="/introduce">회사소개</a>
