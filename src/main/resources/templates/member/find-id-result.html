@@ -8,43 +8,47 @@
     <title>아이디 찾기 결과</title>
 </head>
 <body>
-	<!-- =========================== 헤더 사이드바 ================================== -->
-	<header>
-		<div class="container">
-			<div class="header-content">
-				<a href="/"><img class="headerimage" src="/images/logo.png" alt="로고입니다만"> </a>
-				<nav>
-					<ul>
-						<li><a href="/">홈</a></li>
-						<li><a href="/productpage/list">상품</a></li>
-						<li><a href="/notice/user">공지사항</a></li>
-						<li><a href="/review/user">리뷰</a></li>
-					</ul>
-				</nav>
-				<div class="user-actions">
-					<span th:if="${session.loggedInMember != null}"> <a
-						href="/member/mypage" th:text="${session.loggedInMember + '님'}"></a>
-					</span>
-					 <span th:unless="${session.loggedInMember != null}">로그인 후
-						이용하세요</span> <span th:if="${session.loggedInMember != null}"> <a
-						href="/member/logout">로그아웃</a>
-					</span> 
-					<span th:unless="${session.loggedInMember != null}"> <a
-						href="/member/login">로그인</a>
-					</span> 
-					 <span>QR</span>
-				</div>
-			</div>
-		</header>
-	<main>
-   <h1>아이디(휴대폰 번호) 찾기 결과</h1>
-    <div th:if="${message}" th:text="${message}" style="color: green;"></div>
-    <div th:if="${error}" th:text="${error}" style="color: red;"></div>
-    <a href="/member/login">로그인 페이지로 이동</a>
-    </main>
-	<footer>
-		<hr>
-		<div class="footerclass">회사소개 공지사항 문의하기 운영정책</div>
-	</footer>
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="/"><img class="headerimage" src="/images/logo.png" alt="로고입니다만"></a>
+                <nav>
+                    <ul>
+                        <li><a href="/">홈</a></li>
+                        <li><a href="/productpage/list">상품</a></li>
+                        <li><a href="/notice/user">공지사항</a></li>
+                        <li><a href="/review/user">리뷰</a></li>
+                    </ul>
+                </nav>
+                <div class="user-actions">
+                    <span th:if="${session.loggedInMember != null}">
+                        <a href="/member/mypage" th:text="${session.loggedInMember + '님'}"></a>
+                    </span>
+                    <span th:unless="${session.loggedInMember != null}">로그인 후 이용하세요</span>
+                    <span th:if="${session.loggedInMember != null}">
+                        <a href="/member/logout">로그아웃</a>
+                    </span>
+                    <span th:unless="${session.loggedInMember != null}">
+                        <a href="/member/login">로그인</a>
+                    </span>
+                    <span>QR</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <main>
+            <h1>아이디(휴대폰 번호) 찾기 결과</h1>
+            <div th:if="${message}" th:text="${message}" class="alert alert-success"></div>
+            <div th:if="${error}" th:text="${error}" class="alert alert-danger"></div>
+            <a href="/member/login" class="btn btn-primary">로그인 페이지로 이동</a>
+            <a href="/member/find-id" class="btn btn-primary">아이디찾기 재시도</a>
+        </main>
+    </div>
+
+    <footer>
+        <div class="footerclass">회사소개 공지사항 문의하기 운영정책</div>
+    </footer>
 </body>
 </html>

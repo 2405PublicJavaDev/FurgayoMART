@@ -55,21 +55,4 @@ public interface MemberService {
 	 * @return String
 	 */
 	String findPwByEmailAndPhoneAndName(String email, String phone, String name);
-
-
-	
-//	/**
-//	 * 지정된 이메일 주소로 인증 코드를 발송
-//	 * @param email
-//	 * @return String (생성된 인증코드)
-//	 */
-//	String sendVerificationEmail(String email);
-//	
-//	/**
-//	 * 이메일 주소와 인증 코드의 유효성을 검증
-//	 * @param email 검증할 이메일 주소
-//	 * @param code 사용자가 입력한 인증코드
-//	 * @return 인증 성공여부(성공 시 true, 실패 시 false)
-//	 */
-//	boolean verifyEmail(String email, String code);
 }

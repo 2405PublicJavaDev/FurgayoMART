@@ -32,7 +32,7 @@
 		WHERE MEMBER_PHONE = #{memberPhone}
 	</update>
 	<delete id="deleteMember">
-		DELETE FROM MEMBER WHERE MEMBER_PHONE =
+		DELETE FROM MEMBER WHERE MEMBER_NO =
 		#{memberPhone}
 	</delete>
 	<select id="checkMemberLogin" resultMap="memberResultMap">
