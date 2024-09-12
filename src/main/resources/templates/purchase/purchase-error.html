@@ -20,8 +20,7 @@
 				</nav>
 				<div class="user-actions">
 					<span th:if="${session.loggedInMember != null}"> <a
-						href="/member/mypage"
-						th:text="${session.loggedInMember + '****님'}"></a>
+						href="/member/mypage" th:text="${session.loggedInMember + '님'}"></a>
 					</span> <span th:unless="${session.loggedInMember != null}">로그인 후
 						이용하세요</span> <span th:if="${session.loggedInMember != null}"> <a
 						href="/member/logout">로그아웃</a>
@@ -30,6 +29,8 @@
 					</span> <span>🛒</span> <span>QR</span>
 				</div>
 			</div>
+		</div>
+	</header>			</div>
 		</div>
 	</header>
 	<main>

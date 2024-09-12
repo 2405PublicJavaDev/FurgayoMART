@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 public class PurchaseVO {
 	private int purchaseNo;
 	private int pNo;
+	private String pName;
 	private Long memberNo;
 	private int quantity;
 	private int totalAmount;
@@ -60,10 +61,16 @@ public class PurchaseVO {
 	public void setPurchaseDate(LocalDateTime purchaseDate) {
 		this.purchaseDate = purchaseDate;
 	}
+	public String getpName() {
+		return pName;
+	}
+	public void setpName(String pName) {
+		this.pName = pName;
+	}
 	@Override
 	public String toString() {
-		return "PurchaseVO [purchaseNo=" + purchaseNo + ", pNo=" + pNo + ", memberNo=" + memberNo + ", quantity="
-				+ quantity + ", totalAmount=" + totalAmount + ", paymentMethod=" + paymentMethod + ", purchaseStatus="
-				+ purchaseStatus + ", purchaseDate=" + purchaseDate + "]";
+		return "PurchaseVO [purchaseNo=" + purchaseNo + ", pNo=" + pNo + ", pName=" + pName + ", memberNo=" + memberNo
+				+ ", quantity=" + quantity + ", totalAmount=" + totalAmount + ", paymentMethod=" + paymentMethod
+				+ ", purchaseStatus=" + purchaseStatus + ", purchaseDate=" + purchaseDate + "]";
 	}
 }

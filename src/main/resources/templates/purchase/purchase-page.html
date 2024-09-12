@@ -21,7 +21,7 @@
 				</nav>
 				<div class="user-actions">
 					<span th:if="${session.loggedInMember != null}"> <a
-						href="/member/mypage" th:text="${session.loggedInMember + '****님'}"></a>
+						href="/member/mypage" th:text="${session.loggedInMember + '님'}"></a>
 					</span> <span th:unless="${session.loggedInMember != null}">로그인 후
 						이용하세요</span> <span th:if="${session.loggedInMember != null}"> <a
 						href="/member/logout">로그아웃</a>
@@ -46,7 +46,7 @@
 
     <form th:action="@{/purchase/complete}" method="post" id="purchaseForm">
       <input type="hidden" name="pNo" th:value="${product.pNo}">
-      
+      <input type="hidden" name="pName" th:value="${product.pName}">
       <div class="product-details">
         <h2 th:text="${product.pName}">상품명</h2>
         <div class="product-info">

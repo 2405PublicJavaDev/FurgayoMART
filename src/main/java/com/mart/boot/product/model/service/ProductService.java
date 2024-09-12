@@ -150,6 +150,13 @@ public interface ProductService {
 	 * @return
 	 */
 	List<ProductVO> mainNewProducts();
+	
+	/**
+	 * 구매완료페이지 상품명 조회
+	 * @param getpName
+	 * @return ProductVO
+	 */
+	ProductVO getProductByPname(String getpName);
 
 }
 

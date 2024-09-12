@@ -1,5 +1,8 @@
 package com.mart.boot.purchase.controller;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,12 +35,24 @@ public class PurchaseController {
 	public String showPurchasePage(@PathVariable int pNo
 			, Model model) {
 		ProductVO product = pService.getProductByPNo(pNo);
+        if (product.getImageUrl() != null && !product.getImageUrl().isEmpty()) {
+            product.setImageUrl("/images/" + product.getImageUrl());
+        } else {
+            String imageName = "product_" + product.getpNo() + ".jpg";
+            Path imagePath = Paths.get("src/main/resources/static/images/" + imageName);
+            if (Files.exists(imagePath)) {
+                product.setImageUrl("/images/" + imageName);
+            } else {
+                product.setImageUrl("/images/noimage.jpg");
+            }
+        }
 			model.addAttribute("product", product);
 		return "purchase/purchase-page";
 	}
 	
 	@PostMapping("/complete")
 	public String completePurchase(@ModelAttribute PurchaseVO purchaseVO
+			, ProductVO productVO
 			, HttpSession session
 			, Model model) {
 		Long memberNo = (Long) session.getAttribute("memberNo");
@@ -47,7 +62,7 @@ public class PurchaseController {
 		
         try {
             String bankInfo = pService.processPurchase(purchaseVO);
-            ProductVO product = new ProductVO();
+            ProductVO product = productService.getProductByPname(productVO.getpName());
             model.addAttribute("bankInfo", bankInfo);
             model.addAttribute("purchase", purchaseVO);
             model.addAttribute("product", product);

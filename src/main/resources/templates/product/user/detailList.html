@@ -1,74 +1,74 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>상품 상세 페이지</title>
-    <link rel="stylesheet" href="/css/header-footer.css">
-    <link rel="stylesheet" href="/css/productdetailpage.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>상품 상세 페이지</title>
+<link rel="stylesheet" href="/css/header-footer.css">
+<link rel="stylesheet" href="/css/productdetailpage.css">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
-    <header>
-        <div class="container">
-            <div class="header-content">
-                <a href="./mainpage.html"><h1 class="logo">Fugayo's Mart</h1></a>
-                <nav>
-                    <ul>
-                        <li><a href="/">홈</a></li>
-                        <li><a href="/productpage/list">상품</a></li>
-                        <li><a href="#">공지사항</a></li>
-                        <li><a href="#">리뷰</a></li>
-                        
-                    </ul>
-                </nav>
-                <div class="user-actions">
-                    <span>****님</span>
-                    <span>로그인</span>
-                    <span>🛒</span>
-                    <span>QR</span>
-                </div>
-            </div>
-        </div>
-    </header>
-    <div class="container">
-        <aside class="sidebar">
-            <div class="dropdown">
-                <button onclick="toggleDropdown()" class="dropdown-btn">상품목록 ▼</button>
-                <div id="myDropdown" class="dropdown-content">
-                    <a href="#">신규상품</a>
-                    <a href="./popularproducts.html">인기상품</a>
-                    <a href="#">한식</a>
-                    <a href="#">중식</a>
-                    <a href="#">양식</a>
-                    <a href="#">유통기한 임박 상품</a>
-                </div>
-            </div>
-        </aside>
-        <main>
-            <div class="product-detail" >
-                <div class="product-image">
-                    	<img th:src="@{${product.imageUrl}}" th:alt="${product.pName}" /><!-- 상품이미지  -->
-                   	</div> 
-                <div class="product-info">
-			     	 <h1 class="product-title" th:text="${product.pName}">상품명</h1>
-					<p class="product-description">상품에 대한 간단한 설명</p>                   
-					<div class="buy-options">
-                        <input type="number" id="quantity" class="quantity" min="1" value="1">
-                        <button class="action-button buy-button" onclick="buyProduct()">구매하기</button>
-                        <button class="action-button cart-button" onclick="addToCart()">장바구니</button>
-                        <button id="likeButton" class="action-button like-button" onclick="toggleLike()">좋아요</button>
-                    </div>
-                </div>
-            </div>
-            <div class="product-details">
-                상품 상세 설명
-            </div>
-        </main>
-    </div>
-    
-    <div id="notification"></div>
+	<header>
+		<div class="container">
+			<div class="header-content">
+				<a href="./mainpage.html"><h1 class="logo">Fugayo's Mart</h1></a>
+				<nav>
+					<ul>
+						<li><a href="/">홈</a></li>
+						<li><a href="/productpage/list">상품</a></li>
+						<li><a href="#">공지사항</a></li>
+						<li><a href="#">리뷰</a></li>
 
-    <script>
+					</ul>
+				</nav>
+				<div class="user-actions">
+					<span>****님</span> <span>로그인</span> <span>🛒</span> <span>QR</span>
+				</div>
+			</div>
+		</div>
+	</header>
+	<div class="container">
+		<aside class="sidebar">
+			<div class="dropdown">
+				<button onclick="toggleDropdown()" class="dropdown-btn">상품목록
+					▼</button>
+				<div id="myDropdown" class="dropdown-content">
+					<a href="#">신규상품</a> <a href="./popularproducts.html">인기상품</a> <a
+						href="#">한식</a> <a href="#">중식</a> <a href="#">양식</a> <a href="#">유통기한
+						임박 상품</a>
+				</div>
+			</div>
+		</aside>
+		<main>
+			<div class="product-detail">
+				<div class="product-image">
+					<!-- 상품이미지  -->
+					<img th:src="@{${product.imageUrl}}" th:alt="${product.pName}" />
+				</div>
+				<div class="product-info">
+					<h1 class="product-title" th:text="${product.pName}">상품명</h1>
+					<p class="product-description">상품에 대한 간단한 설명</p>
+					<div class="buy-options">
+						<input type="number" id="quantity" class="quantity" min="1"
+							value="1">
+						<button class="action-button buy-button" onclick="buyProduct()">구매하기</button>
+						<button class="action-button cart-button" onclick="addToCart()">장바구니</button>
+						<button id="likeButton" class="action-button like-button"
+							onclick="toggleLike()">좋아요</button>
+					</div>
+				</div>
+			</div>
+			<div class="product-details">상품 상세 설명</div>
+		</main>
+	</div>
+
+	<div id="notification"></div>
+
+	<script th:inline="javascript">
+    /*<![CDATA[*/
+    const pNo = /*[[${product.pNo}]]*/ null;
+/*]]>*/
         function toggleDropdown() {
             document.getElementById("myDropdown").classList.toggle("show");
         }
@@ -103,11 +103,37 @@
         }
 
         function addToCart() {
-            const quantity = document.getElementById('quantity').value;
+            const quantity = $('#quantity').val();
             showNotification(`${quantity}개의 상품을 장바구니에 담았습니다.`);
+            
+            $.ajax({
+            	url : "/cart/add",
+            	data : {
+            		pNo: pNo,
+            		quantity: quantity
+            	},
+            	type: "POST",
+            	success: function(response) {
+            		if(response === 'success') {
+            			  showNotification('상품이 장바구니에 추가되었습니다.');
+                    } else if (response === 'login_required') {
+                        showNotification('로그인이 필요합니다.');
+                        window.location.href = 'member/login';
+                    } else {
+                        showNotification('상품을 장바구니에 추가하는데 실패했습니다.');
+            		}
+            	},
+            	error: function() {
+            		showNotification('오류가 발생했습니다. 다시 시도해 주세요.');
+            	}
+            });
             // 여기에 실제 장바구니 추가 로직을 구현할 수 있습니다.
         }
 
+        function showNotification(message) {
+        	$('#notification').text(message).show().delay(3000).fadeOut();
+        }
+        
         function toggleLike() {
             const likeButton = document.getElementById('likeButton');
             isLiked = !isLiked;

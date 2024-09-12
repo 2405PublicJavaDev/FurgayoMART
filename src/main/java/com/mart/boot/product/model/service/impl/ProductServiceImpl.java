@@ -236,5 +236,11 @@ public class ProductServiceImpl implements ProductService {
 		return pList;
 	}
 
+	@Override
+	public ProductVO getProductByPname(String getpName) {
+		ProductVO product = pMapper.getProductByPname(getpName);
+		return product;
+	}
+
 }
 

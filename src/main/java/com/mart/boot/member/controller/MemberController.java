@@ -91,7 +91,7 @@ public class MemberController {
 			member = mService.checkMemberLogin(member);
 			if (member != null) {
 				session.setAttribute("memberNo", member.getMemberNo());
-				session.setAttribute("loggedInMember", member.getMemberNo());
+				session.setAttribute("loggedInMember", member.getMemberName());
 				return "redirect:/";
 			} else {
 				redirectAttributes.addFlashAttribute("error", "아이디 또는 비밀번호가 올바르지 않습니다.");
@@ -123,7 +123,7 @@ public class MemberController {
 	// 마이페이지 페이지
 	@GetMapping("/mypage")
 	public String showMypage(Model model, HttpSession session, RedirectAttributes redirectAttributes) {
-		Long memberNo = (Long) session.getAttribute("loggedInMember");
+		Long memberNo = (Long) session.getAttribute("memberNo");
 		if (memberNo == null) {
 			redirectAttributes.addFlashAttribute("msg", "로그인이 필요한 서비스입니다.");
 			return "redirect:/member/login";
@@ -148,7 +148,7 @@ public class MemberController {
 	 // 회원정보 수정 페이지
     @GetMapping("/update")
     public String showUpdateForm(Model model, HttpSession session, RedirectAttributes redirectAttributes) {
-        Long memberNo = (Long) session.getAttribute("loggedInMember");
+        Long memberNo = (Long) session.getAttribute("memberNo");
         if (memberNo == null) {
             redirectAttributes.addFlashAttribute("msg", "로그인이 필요한 서비스입니다.");
             return "redirect:/member/login";
@@ -174,7 +174,7 @@ public class MemberController {
     public String updateMember(@ModelAttribute MemberVO member, 
                                HttpSession session,
                                RedirectAttributes redirectAttributes) {
-        Long memberNo = (Long) session.getAttribute("loggedInMember");
+        Long memberNo = (Long) session.getAttribute("memberNo");
         if (memberNo == null) {
             redirectAttributes.addFlashAttribute("msg", "잘못된 접근입니다.");
             return "redirect:/";
@@ -287,21 +287,4 @@ public class MemberController {
 		}
 		return "member/find-pw-result";
 	}
-    
-//	// 이메일 인증코드 발송
-//	@PostMapping("/send-verification")
-//	@ResponseBody
-//	public String sendVerificationEmail(@RequestParam String email) {
-//		emailService.sendVerificationEmail(email);
-//		return "인증 이메일이 발송되었습니다.";
-//	}
-//	
-//	// 이메일 인증코드 유효성 검사
-//	@PostMapping("/verify-email")
-//	@ResponseBody
-//	public String verifyEmail(@RequestParam String email, @RequestParam String code) {
-//		boolean isVerified = emailService.verifyEmail(email, code);
-//		return isVerified ? "이메일이 성공적으로 인증되었습니다." : "인증 코드가 올바르지 않습니다.";
-//	}
-//}
 }
