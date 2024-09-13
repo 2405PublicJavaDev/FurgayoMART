@@ -27,7 +27,7 @@
 
 <h1>팀 소개 및 팀원 소개</h1>
 <h3>FURGAYO'S MART(퍼가요스 마트)</h3>
-![image](https://github.com/user-attachments/assets/0df625d4-fe9e-417d-acaa-f3dc3b27bbc8)
+![플로우차트](https://raw.githubusercontent.com/FurgayoMART/img/main/플로우차트.PNG)
 <p>&nbsp;&nbsp;&nbsp;&nbsp;</p> 
 
 
