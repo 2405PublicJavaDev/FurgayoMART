@@ -85,7 +85,6 @@
    - 상품평 리스트와 상세 내역을 관리할 수 있습니다.
    - 부적절한 리뷰를 삭제할 수 있는 권한이 있습니다.
    - 리뷰에 대한 답글을 달 수 있습니다.
-```
 
 ### 메인페이지
 ![image](https://github.com/user-attachments/assets/145ca2a5-0fca-41c3-a352-0d7ded80a13f)
