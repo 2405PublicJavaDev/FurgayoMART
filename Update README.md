@@ -22,12 +22,16 @@
 <h4>2024.08.19 ~ 2024.09.13</h4>
 <p>&nbsp;&nbsp;&nbsp;&nbsp;</p> 
 
-<h1>개발 환경</h1>
-![image](https://github.com/user-attachments/assets/67165f36-1838-4b01-9c51-8aad0263421a)
+# 개발 환경
 
-<h1>팀 소개 및 팀원 소개</h1>
-<h3>FURGAYO'S MART(퍼가요스 마트)</h3>
-![플로우차트](https://raw.githubusercontent.com/FurgayoMART/img/main/플로우차트.PNG)
+![개발 환경](https://github.com/user-attachments/assets/67165f36-1838-4b01-9c51-8aad0263421a)
+
+# 팀 소개 및 팀원 소개
+
+### FURGAYO'S MART(퍼가요스 마트)
+
+![플로우차트](https://github.com/user-attachments/assets/9f876858-446e-489e-9509-f103b8d2173a)
+
 <p>&nbsp;&nbsp;&nbsp;&nbsp;</p> 
 <p>&nbsp;&nbsp;&nbsp;&nbsp;</p> 
 
@@ -77,3 +81,14 @@
 
 ### 일식 페이지
 ![image](https://github.com/user-attachments/assets/7978ad17-2d6f-44c9-9ec1-d0cd6e13c6f4)
+
+
+
+### 상품 수정 페이지
+![5ffd27c86f9d0bf6](https://github.com/user-attachments/assets/8c66da76-9c11-46e7-ae83-caa533a1358c)
+
+### 상품 조회 페이지
+![b63d5ccbc1838444](https://github.com/user-attachments/assets/3db4f205-f598-4a73-b72f-d47243c964a4)
+
+### 상품 등록 페이지
+![d5ebd07fc24b8e02](https://github.com/user-attachments/assets/10ed24dd-45d6-4355-884f-8cc1d4b21752)
