@@ -17,35 +17,36 @@ body {
 
 /* 헤더 스타일 */
 header {
-    background-color: #ffffff;
-    border-bottom: 1px solid #e0e0e0;
-    padding: 10px 0;
-}
-
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 15px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
 }
 
 .header-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 10px 20px;
+    max-width: 1800px; /* 최대 너비 증가 */
+    margin: 0 auto; /* 중앙 정렬 */
 }
 
 .logo {
-    font-size: 24px;
-    font-weight: bold;
-    color: #000;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
+    flex: 0 0 auto; /* 로고 크기 고정 */
 }
 
 .headerimage {
     width: 250px;
     height: 40px;
+}
+
+nav {
+    flex: 1; /* 네비게이션에 여분의 공간 할당 */
+    display: flex;
+    justify-content: center; /* 중앙 정렬 */
 }
 
 nav ul {
@@ -56,24 +57,32 @@ nav ul {
 }
 
 nav ul li {
-    margin-right: 20px;
+    margin: 0 20px; /* 좌우 여백 증가 */
 }
 
 nav ul li a {
     text-decoration: none;
     color: #333;
-    font-weight: normal;
+    font-weight: bold;
+    font-size: 16px; /* 글꼴 크기 증가 */
 }
 
 .user-actions {
+    flex: 0 0 auto; /* 사용자 액션 영역 크기 고정 */
     display: flex;
     align-items: center;
+    white-space: nowrap;
 }
 
 .user-actions span {
-    margin-left: 15px;
+    margin-left: 30px; /* 간격 증가 */
     font-size: 14px;
     color: #333;
+}
+
+.header-content nav {
+    margin-left: auto;
+    margin-right: 40px; /* 네비게이션과 사용자 액션 사이 간격 증가 */
 }
 
 /* Hero Section */

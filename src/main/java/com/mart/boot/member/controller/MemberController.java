@@ -86,7 +86,7 @@ public class MemberController {
 				session.setAttribute("memberNo", member.getMemberNo());
 				session.setAttribute("loggedInMember", member.getMemberName());
 
-				if (member.getMemberNo() == 24) {
+				if (member.getMemberNo() == 64) {
 					return "redirect:/admin";
 				}
 				return "redirect:/";

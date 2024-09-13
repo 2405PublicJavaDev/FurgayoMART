@@ -10,31 +10,6 @@
 </head>
 <body>
 <div id="scaler">
-   <!--  <div class="header-content">
-				<a href="/"><img class="headerimage" src="/images/logo.png" alt="로고입니다만"> </a>
-				<nav class="harderlinks">
-					<ul>
-						<li><a href="/">홈</a></li>
-						<li><a href="/productpage/list">상품</a></li>
-						<li><a href="/notice/user">공지사항</a></li>
-						<li><a href="/review/user">리뷰</a></li>
-					</ul>
-				</nav>
-				<div class="user-actions">
-					<span th:if="${session.loggedInMember != null}"> <a
-						href="/member/mypage" th:text="${session.loggedInMember + '님'}"></a>
-					</span>
-					 <span th:unless="${session.loggedInMember != null}">로그인 후
-						이용하세요</span> <span th:if="${session.loggedInMember != null}"> <a
-						href="/member/logout">로그아웃</a>
-					</span> 
-					<span th:unless="${session.loggedInMember != null}"> <a
-						href="/member/login">로그인</a>
-					</span> 
-					 <span>QR</span>
-				</div>
-			</div>
-        </header> -->
     <header>
         <div class="container">
             <div class="header-content">
@@ -50,21 +25,17 @@
                     </ul>
                 </nav>
                 <div class="user-actions">
-                    <!-- <span>관리자 님</span>
-                    <span>로그인</span>
-                    <span>QR</span> -->
-                    					<span th:if="${session.loggedInMember != null}"> <a
-						href="/member/mypage" th:text="${session.loggedInMember + '님'}"></a>
-					</span>
-					 <span th:unless="${session.loggedInMember != null}">로그인 후
-						이용하세요</span> <span th:if="${session.loggedInMember != null}"> <a
-						href="/member/logout">로그아웃</a>
-					</span> 
-					<span th:unless="${session.loggedInMember != null}"> <a
-						href="/member/login">로그인</a>
-					</span> 
-					 <span>QR</span>
-                    
+                    <span th:if="${session.loggedInMember != null}"> 
+                        <href="/member/mypage" th:text="${session.loggedInMember + '님'}"></a>
+                    </span>
+                     <span th:unless="${session.loggedInMember != null}">로그인 후
+                        이용하세요</span> <span th:if="${session.loggedInMember != null}"> 
+                        <href="/member/logout">로그아웃</a>
+                    </span> 
+                    <span th:unless="${session.loggedInMember != null}"> 
+                        <href="/member/login">로그인</a>
+                    </span> 
+                     <span>QR</span>
                 </div>
             </div>
         </div>
@@ -82,12 +53,12 @@
                     <a href="/member/register"> <button>회원가입</button> </a>
 
                     <div class="image-placeholder">
-                        <img src="/images/furgayo_logo2.jpeg" alt="Description" id="left-logo">
+                        <img src="/images/furgayo_logo2.jpeg" alt="Description" id="left-logo" class="logo-image">
                     </div>
                 </div>
                 <div class="right-column">
                     <div class="image-placeholder">
-                        <img src="/images/furgayo_logo.jpeg" alt="Description" id="right-logo">
+                        <img src="/images/furgayo_logo.jpeg" alt="Description" id="right-logo" class="logo-image">
                     </div>
                     <h3>왜 Furgayo's MART인가?</h3>
                     <ul>

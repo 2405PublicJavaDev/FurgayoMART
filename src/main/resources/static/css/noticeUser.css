@@ -1,41 +1,46 @@
-/* 헤더 스타일 */
-header {
-    background-color: #ffffff;
-    border-bottom: 1px solid #e0e0e0;
-    padding: 10px 0;
+@charset "UTF-8";
+
+/* ============================== 헤더 =========================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 15px;
+header {
+    background-color: #fff;
+    /*box-shadow: 0 2px 5px rgba(0,0,0,0.1);*/
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .header-content {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 20px 0;
+    width: 1470px;
+}
+
+.header-content a {
+    text-decoration: none;
+    color: black;
 }
 
 .logo {
     font-size: 24px;
     font-weight: bold;
-    color: #000;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-}
-
-.headerimage {
-    width: 250px;
-    height: 40px;
+    color: var(--primary-color);
 }
 
 nav ul {
     display: flex;
     list-style-type: none;
-    margin: 0;
-    padding: 0;
 }
 
 nav ul li {
@@ -44,19 +49,14 @@ nav ul li {
 
 nav ul li a {
     text-decoration: none;
-    color: #333;
-    font-weight: normal;
+    color: var(--text-color);
+    font-weight: bold;
+    transition: color 0.3s ease;
 }
 
-.user-actions {
-    display: flex;
-    align-items: center;
-}
-
-.user-actions span {
-    margin-left: 15px;
-    font-size: 14px;
-    color: #333;
+.headerimage {
+    width: 250px;
+    height: 40px;
 }
 
 /* 기존 스타일 */
@@ -242,7 +242,6 @@ select {
     font-size: 14px;
 }
 
-
 /* 링크 기본 스타일 */
 a {
     text-decoration: none; /* 언더라인 없애기 */
@@ -257,4 +256,73 @@ a:visited {
 /* 호버 시 색상 변화 (필요 시 수정) */
 a:hover {
     color: #007bff; /* 마우스 호버 시 색상 */
+}
+
+/* ================================== 카테고리 ================================== */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.main-content {
+    display: flex;
+    margin-top: 20px;
+}
+
+.departments {
+    position: relative;
+    width: 200px;
+}
+
+.departments-btn {
+    background-color: #7fad39;
+    color: white;
+    padding: 10px 20px;
+    width: 100%;
+    height: 50px;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+}
+
+.departments-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.departments-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.departments-content a:hover {
+    background-color: #f1f1f1;
+}
+
+.show {
+    display: block;
+}
+
+/* =========================== 발바닥 ================================ */
+.footerclass {
+    text-align: center;
+    word-spacing: 40px;
+    padding: 40px;
+    margin-top: 20px;
+}
+
+.footerclass a {
+    text-decoration: none;
+    color: black;
+}
+
+.footerclass a:hover {
+    color: gray;
 }
