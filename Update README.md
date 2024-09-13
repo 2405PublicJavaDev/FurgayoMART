@@ -123,5 +123,28 @@
 ![d5ebd07fc24b8e02](https://github.com/user-attachments/assets/10ed24dd-45d6-4355-884f-8cc1d4b21752)
 
 
-
+### 공지사항 유저 페이지
 ![스크린샷 2024-09-13 170847](https://github.com/user-attachments/assets/837d5879-fbdd-4e9b-8307-4d349b393f10)
+
+### 리뷰 유저 페이지
+![image](https://github.com/user-attachments/assets/d2cb6353-a488-4ee7-9a06-4b87f6b355f3)
+
+### 관리자 메인 페이지
+![image](https://github.com/user-attachments/assets/b1ca8210-3b37-4d6e-a227-15da61ce9825)
+
+### 공지사항 관리 페이지
+![image](https://github.com/user-attachments/assets/65eef9d5-0f4e-4aad-82cb-89839e1a71ec)
+
+### 리뷰 관리 페이지
+![image](https://github.com/user-attachments/assets/f30a9deb-be02-4b4a-baa7-96322b191903)
+
+### 회사 소개 페이지 
+![image](https://github.com/user-attachments/assets/9abfcd4c-45cb-4b89-98dd-27cefe050e7b)
+
+### 문의하기 페이지 
+![image](https://github.com/user-attachments/assets/0c4e70f0-15cf-4f1b-8461-b0caff78b202)
+
+### 운영정책 페이지 
+![image](https://github.com/user-attachments/assets/8a4721a7-5e05-4b21-86ed-ca4342a6d39c)
+
+
